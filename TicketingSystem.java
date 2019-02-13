@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.awt.Toolkit;
 
 public class TicketingSystem extends JFrame{
     private String eventName;
@@ -44,6 +45,11 @@ public class TicketingSystem extends JFrame{
     }
 
     TicketingSystem() {
+     super("Prom Ticketing System");
+     this.setVisible(true);
+     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+     
 
     }
 }
