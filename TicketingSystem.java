@@ -11,6 +11,7 @@ public class TicketingSystem extends JFrame{
     private ArrayList<Student> masterListOfStudents;
     private MainScreen mainScreen;
     private StudentForm studentForm;
+    private StartScreen startScreen;
 
     public int getNumberOfTables() {
         return numberOfTables;
@@ -54,7 +55,7 @@ public class TicketingSystem extends JFrame{
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
      init();
-     setScreen("MainScreen");
+     setScreen("StartScreen");
 
     }
 
@@ -65,7 +66,7 @@ public class TicketingSystem extends JFrame{
         } else if (screen.equals("MainScreen")) {
             getContentPane().add(mainScreen);
         } else if (screen.equals("StartScreen")) {
-            //build it
+            getContentPane().add(startScreen);
         } else if (screen.equals("Search")) {
             //build it
         }
@@ -74,9 +75,43 @@ public class TicketingSystem extends JFrame{
     private void init() {
         mainScreen = new MainScreen();
         studentForm = new StudentForm();
+        startScreen = new StartScreen();
     }
 
 
+    private class StartScreen extends JPanel{
+      JButton openExistingPlan;
+      JButton openNewPlan;
+      JButton okButton;
+      JButton backButton;
+      JTextField eventNameTextField;
+      JTextField numTablesTextField;
+      JTextField peopleTablesTextField;
+      JLabel eventNameLabel;
+      JLabel numTablesLabel;
+      JLabel peopleTablesLabel;       
+      
+      StartScreen(){
+        super();
+        openExistingPlan = new JButton("Open Existing Plan");
+        openExistingPlan.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+            //Open existing plan
+          }
+        });
+        openNewPlan = new JButton ("Start New Plan");
+        openNewPlan.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+            //Make new JPanel to prompt info
+          }
+        });
+        add(openExistingPlan);
+        add(openNewPlan);
+      }
+    }
+    
     private class MainScreen extends JPanel {
         JButton addStudentButton;
         JButton searchButton;
