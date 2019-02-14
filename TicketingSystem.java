@@ -1,3 +1,10 @@
+/* TicketingSystem.java
+ * Purpose: User interface that gets information from the reader
+ * Creators: Shi Han Qin and Feng Guo
+ * Date: 2019-02-14
+ */
+
+//Imports
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,6 +12,7 @@ import java.util.ArrayList;
 //import java.awt.Toolkit;
 
 public class TicketingSystem extends JFrame{
+    //Variable declaration
     private String eventName;
     private int numberOfTables;
     private int peoplePerTable;
@@ -13,42 +21,84 @@ public class TicketingSystem extends JFrame{
     private StudentForm studentForm;
     private StartScreen startScreen;
 
+    /** 
+     * getNumberOfTables
+     * Gets the number of tables user enters 
+     * @return numberOfTables the number of tables for the venue
+     */
     public int getNumberOfTables() {
         return numberOfTables;
     }
 
+    /** 
+     * setNumberOfTables
+     * Set number of tables for the venue
+     * @param numberOfTables number of tables for the venue
+     */
     public void setNumberOfTables(int numberOfTables) {
         this.numberOfTables = numberOfTables;
     }
 
+    /** 
+     * getPeoplePerTable
+     * Gets the number of people per table
+     * @return peoplePerTable amount of people per table
+     */
     public int getPeoplePerTable() {
         return peoplePerTable;
     }
 
+    /** 
+     * setPeoplePerTable
+     * Sets the number of people per table
+     * @param peoplePerTable amount of people per table
+     */
     public void setPeoplePerTable(int peoplePerTable) {
         this.peoplePerTable = peoplePerTable;
     }
 
+    /** 
+     * getMasterListOfStudents
+     * Gets the masterlist of students
+     * @return masterListOfStudents the arraylist of students for masterlist
+     */
     public ArrayList<Student> getMasterListOfStudents() {
         return masterListOfStudents;
     }
 
+    /** 
+     * setMasterListOfStudents
+     * Sets the list of students
+     * @param masterListOfStudents arraylist of students for masterlist
+     */
     public void setMasterListOfStudents(ArrayList<Student> masterListOfStudents) {
         this.masterListOfStudents = masterListOfStudents;
     }
 
+    /** 
+     * getEventName
+     * Gets the event name 
+     * @return eventName name of the event
+     */
     public String getEventName() {
         return eventName;
     }
 
+    /** 
+     * setEventName
+     * Sets the event name for the plan
+     * @param eventName the name for the event
+     */
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
 
+    //Main
     public static void main(String[] args) {
         TicketingSystem ticketingSystem = new TicketingSystem();
     }
 
+    //Constructor
     TicketingSystem() {
      super("Prom Ticketing System");
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
