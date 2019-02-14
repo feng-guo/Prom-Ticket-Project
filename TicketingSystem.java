@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.Toolkit;
+//import java.awt.Toolkit;
 
 public class TicketingSystem extends JFrame{
     private String eventName;
@@ -51,15 +51,20 @@ public class TicketingSystem extends JFrame{
 
     TicketingSystem() {
      super("Prom Ticketing System");
-     this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+     this.setSize(1000, 1000);
      init();
-     setScreen("StartScreen");
-
+     setScreen("MainScreen");
+     setVisible(true);
+     masterListOfStudents = new ArrayList<Student>();
     }
 
     private void setScreen(String screen) {
+      repaint();
+      remove(studentForm);
+        remove(mainScreen);
+        remove(startScreen);
+        //paint(g);
         getContentPane().removeAll();
         if (screen.equals("StudentForm")) {
             getContentPane().add(studentForm);
@@ -70,6 +75,7 @@ public class TicketingSystem extends JFrame{
         } else if (screen.equals("Search")) {
             //build it
         }
+        setVisible(true);
     }
 
     private void init() {
@@ -149,10 +155,16 @@ public class TicketingSystem extends JFrame{
         JLabel studentNumberLabel;
         JLabel allergiesLabel;
         JLabel friendPreferencesLabel;
+        JLabel[] listOfAllergies = new JLabel[6];
+        JCheckBox[] checkOfAllergies = new JCheckBox[6];
         JTextField firstNameTextField;
         JTextField lastNameTextField;
         JTextField studentNumberTextField;
         JTextField[] friendsTextField = new JTextField[9];
+        
+        JButton saveButton;
+        JButton addAnotherButton;
+        JButton backButton;
 
         StudentForm() {
             firstNameLabel = new JLabel("First Name");
@@ -160,14 +172,64 @@ public class TicketingSystem extends JFrame{
             studentNumberLabel = new JLabel("Student Number");
             allergiesLabel = new JLabel("Allergies");
             friendPreferencesLabel = new JLabel("Friend Student Numbers");
-            firstNameTextField = new JTextField();
-            lastNameTextField = new JTextField();
-            studentNumberTextField = new JTextField();
+            firstNameTextField = new JTextField(10);
+            lastNameTextField = new JTextField(10);
+            studentNumberTextField = new JTextField(10);
             //JTextField[] friendsTextField = new JTextField[9];
+            listOfAllergies[0] = new JLabel("Vegetarian");
+            listOfAllergies[1] = new JLabel("Vegan");
+            listOfAllergies[2] = new JLabel("Lactose Intolerant");
+            listOfAllergies[3] = new JLabel("Gluten-Free");
+            listOfAllergies[4] = new JLabel("Halal");
+            listOfAllergies[5] = new JLabel("Kosher");
+            firstNameTextField.setText(null);
+            lastNameTextField.setText(null);
+            studentNumberTextField.setText(null);
             add(firstNameLabel);
             add(firstNameTextField);
             add(lastNameLabel);
             add(lastNameTextField);
+            add(studentNumberLabel);
+            add(studentNumberTextField);
+            for (int i=0;i<6;i++) {
+              checkOfAllergies[i] = new JCheckBox();
+              add(checkOfAllergies[i]);
+              add(listOfAllergies[i]);
+            }
+            add(friendPreferencesLabel);
+            for (int i=0;i<9;i++) {
+              friendsTextField[i] = new JTextField(9);
+              add(friendsTextField[i]);
+            }
+            saveButton = new JButton("Save");
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                  saveStudent();  
+                  setScreen("MainScreen");
+                }
+            });
+            add(saveButton);
+        }
+        
+        private void saveStudent() {
+          String firstName = "";
+          if (!firstNameTextField.getText().equals("")) {
+             firstName = firstNameTextField.getText();
+          } else {
+            System.out.println("Frick you");
+          }
+          String lastName = lastNameTextField.getText();
+          String studentNumber = studentNumberTextField.getText();
+          ArrayList<String> dietaryRestrictions = new ArrayList();
+          for (int i=0;i<6;i++) {
+            dietaryRestrictions.add("Vegan");
+          }
+          ArrayList<String> friendStudentNumbers = new ArrayList();
+          for (int i=0;i<9;i++) {
+            dietaryRestrictions.add("200000");
+          }
+          masterListOfStudents.add(new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers));
         }
     }
 }
