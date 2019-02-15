@@ -270,9 +270,6 @@ public class TicketingSystem extends JFrame{
             listOfAllergies[3] = new JLabel("Gluten-Free");
             listOfAllergies[4] = new JLabel("Halal");
             listOfAllergies[5] = new JLabel("Kosher");
-            firstNameTextField.setText(null);
-            lastNameTextField.setText(null);
-            studentNumberTextField.setText(null);
             add(firstNameLabel);
             add(firstNameTextField);
             add(lastNameLabel);
@@ -287,6 +284,7 @@ public class TicketingSystem extends JFrame{
             add(friendPreferencesLabel);
             for (int i=0;i<9;i++) {
                 friendsTextField[i] = new JTextField(9);
+                friendsTextField[i].setText("");
                 add(friendsTextField[i]);
             }
             saveButton = new JButton("Save");
@@ -295,29 +293,60 @@ public class TicketingSystem extends JFrame{
                 public void actionPerformed(ActionEvent actionEvent) {
                     saveStudent();
                     setScreen("MainScreen");
+                    resetInteractions();
                 }
             });
             add(saveButton);
+            addAnotherButton = new JButton("Add Another Student");
+            addAnotherButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    saveStudent();
+                    resetInteractions();
+                }
+            });
+            add(addAnotherButton);
+            backButton = new JButton("Back");
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    resetInteractions();
+                    setScreen("MainScreen");
+                }
+            });
+            add(backButton);
         }
 
         private void saveStudent() {
-            String firstName = "";
-            if (!firstNameTextField.getText().equals("")) {
-                firstName = firstNameTextField.getText();
-            } else {
-                System.out.println("Frick you");
-            }
+          try {
+            String firstName = firstNameTextField.getText();
+            System.out.println(firstNameTextField.getText());
             String lastName = lastNameTextField.getText();
             String studentNumber = studentNumberTextField.getText();
-            ArrayList<String> dietaryRestrictions = new ArrayList();
-            for (int i=0;i<6;i++) {
-                dietaryRestrictions.add("Vegan");
+            ArrayList<String> dietaryRestrictions = new ArrayList<String>();
+            if (checkOfAllergies[0].isSelected()) {
+              dietaryRestrictions.add("");
             }
             ArrayList<String> friendStudentNumbers = new ArrayList();
             for (int i=0;i<9;i++) {
                 dietaryRestrictions.add("200000");
             }
             masterListOfStudents.add(new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers));
+          } catch (NullPointerException e) {
+            System.out.println("You left something blank");
+          }
+        }
+        
+        private void resetInteractions() {
+            firstNameTextField.setText(null);
+            lastNameTextField.setText(null);
+            studentNumberTextField.setText(null);
+            for (int i=0;i<6;i++) {
+              checkOfAllergies[i].setSelected(false);
+            }
+            for (int i=0;i<9;i++) {
+              friendsTextField[i].setText("");
+            }
         }
     }
 }

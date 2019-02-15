@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 /* TicketingSystem.java
  * Purpose: User interface that gets information from the reader
  * Creators: Shi Han Qin and Feng Guo
@@ -8,8 +5,8 @@
  */
 
 //Imports
->>>>>>> a1fd8ef3259fe720f662cd0ac29850114f69b24d
 import javax.swing.*;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -107,14 +104,16 @@ public class TicketingSystem extends JFrame{
      super("Prom Ticketing System");
      this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+     this.setSize(1000,1000);
      init();
-     setScreen("StartScreen");
-
+     masterListOfStudents = new ArrayList<Student>();
+     setScreen("MainScreen");
     }
 
     private void setScreen(String screen) {
-        getContentPane().removeAll();
+        remove(studentForm);
+        remove(mainScreen);
+        remove(startScreen);
         if (screen.equals("StudentForm")) {
             getContentPane().add(studentForm);
         } else if (screen.equals("MainScreen")) {
@@ -124,6 +123,8 @@ public class TicketingSystem extends JFrame{
         } else if (screen.equals("Search")) {
             //build it
         }
+        repaint();
+        setVisible(true);
     }
 
     private void init() {
@@ -131,8 +132,7 @@ public class TicketingSystem extends JFrame{
         studentForm = new StudentForm();
         startScreen = new StartScreen();
     }
-
-
+    
     private class StartScreen extends JPanel{
       JButton openExistingPlan;
       JButton openNewPlan;
@@ -145,8 +145,47 @@ public class TicketingSystem extends JFrame{
       JLabel numTablesLabel;
       JLabel peopleTablesLabel;       
       
+      private void clickedStartPlan(){          
+        //Done button
+        JButton doneButton = new JButton("Submit");
+        
+        //Remove start buttons
+        remove(openExistingPlan);
+        remove(openNewPlan);
+        
+        //Create fields and labels
+        eventNameTextField = new JTextField(20);
+        numTablesTextField = new JTextField(20);
+        peopleTablesTextField = new JTextField(20);
+        eventNameLabel = new JLabel();
+        numTablesLabel = new JLabel();
+        peopleTablesLabel = new JLabel(); 
+      
+        //Add components to panel
+        add(eventNameTextField);
+        add(eventNameLabel);
+        add(numTablesTextField);
+        add(numTablesLabel);
+        add(peopleTablesTextField);
+        add(peopleTablesLabel);
+        add(doneButton);
+        
+        //After user enters info
+        doneButton.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+            //Store user inputs
+            eventName = eventNameTextField.getText();
+            numberOfTables = Integer.parseInt(numTablesTextField.getText());
+            peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
+            setScreen("MainScreen");
+          }
+        });
+        repaint();
+      }
+      
       StartScreen(){
-        super();
+        //super(LayoutManager GridLayout);
         openExistingPlan = new JButton("Open Existing Plan");
         openExistingPlan.addActionListener(new ActionListener() {
           @Override
@@ -158,7 +197,8 @@ public class TicketingSystem extends JFrame{
         openNewPlan.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent actionEvent) {
-            //Make new JPanel to prompt info
+            clickedStartPlan();
+            repaint();
           }
         });
         add(openExistingPlan);
@@ -203,10 +243,16 @@ public class TicketingSystem extends JFrame{
         JLabel studentNumberLabel;
         JLabel allergiesLabel;
         JLabel friendPreferencesLabel;
+        JLabel[] listOfAllergies = new JLabel[6];
+        JCheckBox[] checkOfAllergies = new JCheckBox[6];
         JTextField firstNameTextField;
         JTextField lastNameTextField;
         JTextField studentNumberTextField;
         JTextField[] friendsTextField = new JTextField[9];
+
+        JButton saveButton;
+        JButton addAnotherButton;
+        JButton backButton;
 
         StudentForm() {
             firstNameLabel = new JLabel("First Name");
@@ -214,188 +260,64 @@ public class TicketingSystem extends JFrame{
             studentNumberLabel = new JLabel("Student Number");
             allergiesLabel = new JLabel("Allergies");
             friendPreferencesLabel = new JLabel("Friend Student Numbers");
-            firstNameTextField = new JTextField();
-            lastNameTextField = new JTextField();
-            studentNumberTextField = new JTextField();
-            //JTextField[] friendsTextField = new JTextField[9];
+            firstNameTextField = new JTextField(10);
+            lastNameTextField = new JTextField(10);
+            studentNumberTextField = new JTextField(10);
+            JTextField[] friendsTextField = new JTextField[9];
+            listOfAllergies[0] = new JLabel("Vegetarian");
+            listOfAllergies[1] = new JLabel("Vegan");
+            listOfAllergies[2] = new JLabel("Lactose Intolerant");
+            listOfAllergies[3] = new JLabel("Gluten-Free");
+            listOfAllergies[4] = new JLabel("Halal");
+            listOfAllergies[5] = new JLabel("Kosher");
+            firstNameTextField.setText(null);
+            lastNameTextField.setText(null);
+            studentNumberTextField.setText(null);
             add(firstNameLabel);
             add(firstNameTextField);
             add(lastNameLabel);
             add(lastNameTextField);
-        }
-    }
-=======
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.Toolkit;
-
-public class TicketingSystem extends JFrame{
-    private String eventName;
-    private int numberOfTables;
-    private int peoplePerTable;
-    private ArrayList<Student> masterListOfStudents;
-    private MainScreen mainScreen;
-    private StudentForm studentForm;
-    private StartScreen startScreen;
-
-    public int getNumberOfTables() {
-        return numberOfTables;
-    }
-
-    public void setNumberOfTables(int numberOfTables) {
-        this.numberOfTables = numberOfTables;
-    }
-
-    public int getPeoplePerTable() {
-        return peoplePerTable;
-    }
-
-    public void setPeoplePerTable(int peoplePerTable) {
-        this.peoplePerTable = peoplePerTable;
-    }
-
-    public ArrayList<Student> getMasterListOfStudents() {
-        return masterListOfStudents;
-    }
-
-    public void setMasterListOfStudents(ArrayList<Student> masterListOfStudents) {
-        this.masterListOfStudents = masterListOfStudents;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public static void main(String[] args) {
-        TicketingSystem ticketingSystem = new TicketingSystem();
-    }
-
-    TicketingSystem() {
-     super("Prom Ticketing System");
-     this.setVisible(true);
-     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-     init();
-     setScreen("StartScreen");
-
-    }
-
-    private void setScreen(String screen) {
-        getContentPane().removeAll();
-        if (screen.equals("StudentForm")) {
-            getContentPane().add(studentForm);
-        } else if (screen.equals("MainScreen")) {
-            getContentPane().add(mainScreen);
-        } else if (screen.equals("StartScreen")) {
-            getContentPane().add(startScreen);
-        } else if (screen.equals("Search")) {
-            //build it
-        }
-    }
-
-    private void init() {
-        mainScreen = new MainScreen();
-        studentForm = new StudentForm();
-        startScreen = new StartScreen();
-    }
-
-
-    private class StartScreen extends JPanel{
-      JButton openExistingPlan;
-      JButton openNewPlan;
-      JButton okButton;
-      JButton backButton;
-      JTextField eventNameTextField;
-      JTextField numTablesTextField;
-      JTextField peopleTablesTextField;
-      JLabel eventNameLabel;
-      JLabel numTablesLabel;
-      JLabel peopleTablesLabel;       
-      
-      StartScreen(){
-        super();
-        openExistingPlan = new JButton("Open Existing Plan");
-        openExistingPlan.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
-            //Open existing plan
-          }
-        });
-        openNewPlan = new JButton ("Start New Plan");
-        openNewPlan.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
-            //Make new JPanel to prompt info
-          }
-        });
-        add(openExistingPlan);
-        add(openNewPlan);
-      }
-    }
-    
-    private class MainScreen extends JPanel {
-        JButton addStudentButton;
-        JButton searchButton;
-        JButton arrangeTablesButton;
-        JButton saveButton;
-        JButton backButton;
-        JButton displayTablesButton;
-
-        MainScreen() {
-            super();
-            addStudentButton = new JButton("Add Student");
-            addStudentButton.addActionListener(new ActionListener() {
+            add(studentNumberLabel);
+            add(studentNumberTextField);
+            for (int i=0;i<6;i++) {
+                checkOfAllergies[i] = new JCheckBox();
+                add(checkOfAllergies[i]);
+                add(listOfAllergies[i]);
+            }
+            add(friendPreferencesLabel);
+            for (int i=0;i<9;i++) {
+                friendsTextField[i] = new JTextField(9);
+                add(friendsTextField[i]);
+            }
+            saveButton = new JButton("Save");
+            saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    setScreen("StudentForm");
+                    saveStudent();
+                    setScreen("MainScreen");
                 }
             });
-            searchButton = new JButton("Search");
-            arrangeTablesButton = new JButton("Arrange Tables");
-            saveButton = new JButton("Save");
-            backButton = new JButton("Back");
-            displayTablesButton = new JButton("Display Tables");
-            add(addStudentButton);
-            add(searchButton);
-            add(arrangeTablesButton);
             add(saveButton);
-            add(backButton);
-            add(displayTablesButton);
+        }
+
+        private void saveStudent() {
+            String firstName = "";
+            if (!firstNameTextField.getText().equals("")) {
+                firstName = firstNameTextField.getText();
+            } else {
+                System.out.println("Frick you");
+            }
+            String lastName = lastNameTextField.getText();
+            String studentNumber = studentNumberTextField.getText();
+            ArrayList<String> dietaryRestrictions = new ArrayList();
+            for (int i=0;i<6;i++) {
+                dietaryRestrictions.add("Vegan");
+            }
+            ArrayList<String> friendStudentNumbers = new ArrayList();
+            for (int i=0;i<9;i++) {
+                dietaryRestrictions.add("200000");
+            }
+            masterListOfStudents.add(new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers));
         }
     }
-
-    private class StudentForm extends JPanel {
-        JLabel firstNameLabel;
-        JLabel lastNameLabel;
-        JLabel studentNumberLabel;
-        JLabel allergiesLabel;
-        JLabel friendPreferencesLabel;
-        JTextField firstNameTextField;
-        JTextField lastNameTextField;
-        JTextField studentNumberTextField;
-        JTextField[] friendsTextField = new JTextField[9];
-
-        StudentForm() {
-            firstNameLabel = new JLabel("First Name");
-            lastNameLabel = new JLabel("Last Name");
-            studentNumberLabel = new JLabel("Student Number");
-            allergiesLabel = new JLabel("Allergies");
-            friendPreferencesLabel = new JLabel("Friend Student Numbers");
-            firstNameTextField = new JTextField();
-            lastNameTextField = new JTextField();
-            studentNumberTextField = new JTextField();
-            //JTextField[] friendsTextField = new JTextField[9];
-            add(firstNameLabel);
-            add(firstNameTextField);
-            add(lastNameLabel);
-            add(lastNameTextField);
-        }
-    }
->>>>>>> 944859ea0a655fa336b875253e5b8c625815f481
 }
