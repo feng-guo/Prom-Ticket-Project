@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.awt.Toolkit;
+import java.util.Scanner;
 
 public class TicketingSystem extends JFrame{
     //Variable declaration
@@ -24,6 +25,7 @@ public class TicketingSystem extends JFrame{
     private MainScreen mainScreen;
     private StudentForm studentForm;
     private StartScreen startScreen;
+    private SearchScreen searchScreen;
 
     /** 
      * getNumberOfTables
@@ -124,7 +126,7 @@ public class TicketingSystem extends JFrame{
         } else if (screen.equals("StartScreen")) {
             getContentPane().add(startScreen);
         } else if (screen.equals("Search")) {
-            //build it
+            getContentPane().add(searchScreen);
         }
         repaint();
         setVisible(true);
@@ -134,6 +136,12 @@ public class TicketingSystem extends JFrame{
         mainScreen = new MainScreen();
         studentForm = new StudentForm();
         startScreen = new StartScreen();
+        searchScreen = new SearchScreen();
+    }
+
+    private void repaintFrame() {
+        repaint();
+        setVisible(true);
     }
     
     private class StartScreen extends JPanel{
@@ -193,7 +201,7 @@ public class TicketingSystem extends JFrame{
         openExistingPlan.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent actionEvent) {
-            //Open existing plan
+            openExistingPlan();
           }
         });
         openNewPlan = new JButton ("Start New Plan");
@@ -206,6 +214,69 @@ public class TicketingSystem extends JFrame{
         });
         add(openExistingPlan);
         add(openNewPlan);
+      }
+
+      private void openExistingPlan() {
+          //Stuff to setup the new plan
+          String givenName = "feng.txt"; //want the name of the file
+          parsePlanFile(givenName);
+      }
+
+      private void parsePlanFile(String fileName) {
+          try {
+              File parsedFile = new File(fileName);
+              Scanner fileReader = new Scanner(parsedFile);
+              String stage = "Start";
+              while (fileReader.hasNext()) {
+                  if (stage.equals("Start")) {
+                      if (fileReader.nextLine().equals("#")) {
+                          stage = "Event details";
+                      }
+                  } else if (stage.equals("Event details")) {
+                      eventName = fileReader.nextLine();
+                      numberOfTables = fileReader.nextInt();
+                      fileReader.nextLine();
+                      peoplePerTable = fileReader.nextInt();
+                      fileReader.nextLine();
+                      stage = "Students";
+                  } else if (stage.equals("Students")) {
+                      if (fileReader.nextLine().equals("##")) {
+                          stage = "Student";
+                      }
+                  } else if (stage.equals("Student")) {
+                      String firstName, lastName, studentNumber;
+                      String tempRestrictions, tempFriends;
+                      ArrayList<String> friends, restrictions = new ArrayList<>();
+                      firstName = fileReader.nextLine();
+                      lastName = fileReader.nextLine();
+                      studentNumber = fileReader.nextLine();
+                      tempRestrictions = fileReader.nextLine();
+                      tempFriends = fileReader.nextLine();
+                      tempFriends = tempFriends.substring(1,tempFriends.length()-1);
+                      tempRestrictions = tempFriends.substring(1, tempRestrictions.length()-1);
+                      String add="";
+                      for (int i=0;i<tempRestrictions.length();i++) {
+                          if (!tempRestrictions.substring(i,i+1).equals(",")){
+                              add = add + tempRestrictions.substring(i,i+1);
+                          } else {
+                              restrictions.add(add);
+                              add = "";
+                          }
+                      }
+                      add="";
+                      for (int i=0;i<tempFriends.length();i++) {
+                          if (!tempFriends.substring(i,i+1).equals(",")){
+                              add = add + tempFriends.substring(i,i+1);
+                          } else {
+                              restrictions.add(add);
+                              add = "";
+                          }
+                      }
+                  }
+              }
+          } catch (FileNotFoundException e){
+              //who cares
+          }
       }
     }
     
@@ -227,6 +298,12 @@ public class TicketingSystem extends JFrame{
                 }
             });
             searchButton = new JButton("Search");
+            searchButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setScreen("Search");
+                }
+            });
             arrangeTablesButton = new JButton("Arrange Tables");
             saveButton = new JButton("Save");
             saveButton.addActionListener(new ActionListener() {
@@ -236,6 +313,12 @@ public class TicketingSystem extends JFrame{
                 }
             });
             backButton = new JButton("Back");
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setScreen("StartScreen");
+                }
+            });
             displayTablesButton = new JButton("Display Tables");
             add(addStudentButton);
             add(searchButton);
@@ -410,6 +493,72 @@ public class TicketingSystem extends JFrame{
             }
             for (int i=0;i<9;i++) {
                 this.friendsTextField[i].setText(null);
+            }
+        }
+    }
+
+    private class SearchScreen extends JPanel {
+        ArrayList<Student> listOfResults;
+        //ArrayList<JButton> listOfButtons;
+        JLabel search,results;
+        JTextField searchField;
+        JButton searchButton;
+
+        SearchScreen(){
+            search = new JLabel("Search by Name or Student Number");
+            results = new JLabel("Results");
+            searchField = new JTextField(10);
+            searchButton = new JButton("Search");
+            searchButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    search();
+                    display();
+                }
+            });
+            add(search);
+            add(searchField);
+            add(searchButton);
+            listOfResults = new ArrayList<>();
+            //listOfButtons = new ArrayList<>();
+        }
+
+        private void search() {
+            String searchQuery = searchField.getText();
+            if (searchQuery.substring(searchQuery.length()-1, searchQuery.length()).equals(" ")){
+                searchQuery = searchQuery.substring(0, searchQuery.length()-1);
+            }
+            if (!searchQuery.equals("")){
+                for (int i=0; i<masterListOfStudents.size();i++){
+                    if (masterListOfStudents.get(i).getFirstName().equalsIgnoreCase(searchQuery)){
+                        listOfResults.add(masterListOfStudents.get(i));
+                    } else if (masterListOfStudents.get(i).getLastName().equalsIgnoreCase(searchQuery)){
+                        listOfResults.add(masterListOfStudents.get(i));
+                    } else if (masterListOfStudents.get(i).getStudentNumber().equalsIgnoreCase(searchQuery)){
+                        listOfResults.add(masterListOfStudents.get(i));
+                    }
+                }
+            }
+        }
+
+        private void display() {
+            for(int i=0;i<listOfResults.size();i++) {
+                JLabel firstNameLabel = new JLabel(listOfResults.get(i).getFirstName());
+                JLabel lastNameLabel = new JLabel(listOfResults.get(i).getLastName());
+                JLabel studentNumberLabel = new JLabel(listOfResults.get(i).getStudentNumber());
+                JButton modifyThisStudentButton = new JButton("Modify Information");
+                add(firstNameLabel);
+                add(lastNameLabel);
+                add(studentNumberLabel);
+                add(modifyThisStudentButton);
+            }
+            repaintFrame();
+        }
+
+        private void resetInteractions() {
+            for (int i=0; i<listOfResults.size();i++){
+                //remove() remove the necessary shit from the panel
+                listOfResults.remove(i);
             }
         }
     }
