@@ -5,6 +5,8 @@
  */
 
 //Imports
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
+
 import javax.swing.*;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ public class TicketingSystem extends JFrame{
     private StudentForm studentForm;
     private StartScreen startScreen;
     private SearchScreen searchScreen;
+    private InformationScreen informationScreen;
 
     /** 
      * getNumberOfTables
@@ -112,13 +115,23 @@ public class TicketingSystem extends JFrame{
      this.setSize(1000,1000);
      init();
      masterListOfStudents = new ArrayList<Student>();
-     setScreen("MainScreen");
+     setScreen("StartScreen");
     }
 
+    private void resetInformation() {
+        eventName = "";
+        numberOfTables = 0;
+        peoplePerTable = 0;
+        for (int i=0;i<masterListOfStudents.size();i++){
+            masterListOfStudents.remove(i);
+        }
+    }
     private void setScreen(String screen) {
         remove(studentForm);
         remove(mainScreen);
         remove(startScreen);
+        remove(informationScreen);
+        remove(searchScreen);
         if (screen.equals("StudentForm")) {
             getContentPane().add(studentForm);
         } else if (screen.equals("MainScreen")) {
@@ -127,6 +140,9 @@ public class TicketingSystem extends JFrame{
             getContentPane().add(startScreen);
         } else if (screen.equals("Search")) {
             getContentPane().add(searchScreen);
+        } else if (screen.equals("DisplayInformation")) {
+            informationScreen.displayInformation();
+            getContentPane().add(informationScreen);
         }
         repaint();
         setVisible(true);
@@ -137,11 +153,16 @@ public class TicketingSystem extends JFrame{
         studentForm = new StudentForm();
         startScreen = new StartScreen();
         searchScreen = new SearchScreen();
+        informationScreen = new InformationScreen();
     }
 
     private void repaintFrame() {
         repaint();
         setVisible(true);
+    }
+
+    private void modifyStudent(int arrayIndex, Student student){
+        studentForm.modifyStudent(arrayIndex, student);
     }
     
     private class StartScreen extends JPanel{
@@ -170,7 +191,16 @@ public class TicketingSystem extends JFrame{
         peopleTablesTextField = new JTextField(20);
         eventNameLabel = new JLabel();
         numTablesLabel = new JLabel();
-        peopleTablesLabel = new JLabel(); 
+        peopleTablesLabel = new JLabel();
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                resetInformation();
+                setScreen("StartScreen");
+            }
+        });
       
         //Add components to panel
         add(eventNameTextField);
@@ -187,9 +217,17 @@ public class TicketingSystem extends JFrame{
           public void actionPerformed(ActionEvent actionEvent) {
             //Store user inputs
             eventName = eventNameTextField.getText();
-            numberOfTables = Integer.parseInt(numTablesTextField.getText());
-            peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
-            setScreen("MainScreen");
+            try {
+                numberOfTables = Integer.parseInt(numTablesTextField.getText());
+                peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
+            } catch (NumberFormatException e) {
+                System.out.println("stop yourself");
+            }
+            if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
+                setScreen("MainScreen");
+            } else {
+                System.out.println("Frick you");
+            }
           }
         });
         repaint();
@@ -210,16 +248,58 @@ public class TicketingSystem extends JFrame{
           public void actionPerformed(ActionEvent actionEvent) {
             clickedStartPlan();
             repaint();
+            repaintFrame();
           }
         });
         add(openExistingPlan);
         add(openNewPlan);
       }
 
+      private void startStartScreen() {
+          removeAll();
+          add(openExistingPlan);
+          add(openNewPlan);
+          repaintFrame();
+      }
+
       private void openExistingPlan() {
           //Stuff to setup the new plan
-          String givenName = "feng.txt"; //want the name of the file
-          parsePlanFile(givenName);
+          removeAll();
+          repaintFrame();
+          JLabel planNamePrompt = new JLabel("What is the name of your file?");
+          JTextField planNameTextField = new JTextField(9);
+          JButton backButton = new JButton("Back");
+          JButton okayButton = new JButton("Load");
+          backButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                  resetInformation();
+                  startStartScreen();
+              }
+          });
+
+          add(planNamePrompt);
+          add(planNameTextField);
+          okayButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                  String nameOfFile = planNameTextField.getText();
+                  if (nameOfFile.length()>4) {
+                      if (!nameOfFile.substring(nameOfFile.length()-4, nameOfFile.length()).equals(".txt")){
+                          nameOfFile = nameOfFile + ".txt";
+                      }
+                  }
+                  if (!nameOfFile.equals("")) {
+                      parsePlanFile(nameOfFile);
+                      setScreen("MainScreen");
+                  } else {
+                      System.out.println("Frick you");
+                  }
+              }
+          });
+          add(okayButton);
+          add(backButton);
+          repaintFrame();
       }
 
       private void parsePlanFile(String fileName) {
@@ -246,14 +326,22 @@ public class TicketingSystem extends JFrame{
                   } else if (stage.equals("Student")) {
                       String firstName, lastName, studentNumber;
                       String tempRestrictions, tempFriends;
-                      ArrayList<String> friends, restrictions = new ArrayList<>();
+                      ArrayList<String> friends = new ArrayList<>(), restrictions = new ArrayList<>();
                       firstName = fileReader.nextLine();
                       lastName = fileReader.nextLine();
                       studentNumber = fileReader.nextLine();
                       tempRestrictions = fileReader.nextLine();
                       tempFriends = fileReader.nextLine();
-                      tempFriends = tempFriends.substring(1,tempFriends.length()-1);
-                      tempRestrictions = tempFriends.substring(1, tempRestrictions.length()-1);
+                      if (tempFriends.length() > 2) {
+                          tempFriends = tempFriends.substring(1, tempFriends.length() - 1);
+                      } else {
+                          tempFriends = "";
+                      }
+                      if (tempRestrictions.length() > 2) {
+                          tempRestrictions = tempRestrictions.substring(1, tempRestrictions.length() - 1);
+                      } else {
+                          tempRestrictions = "";
+                      }
                       String add="";
                       for (int i=0;i<tempRestrictions.length();i++) {
                           if (!tempRestrictions.substring(i,i+1).equals(",")){
@@ -268,14 +356,15 @@ public class TicketingSystem extends JFrame{
                           if (!tempFriends.substring(i,i+1).equals(",")){
                               add = add + tempFriends.substring(i,i+1);
                           } else {
-                              restrictions.add(add);
+                              friends.add(add);
                               add = "";
                           }
                       }
+                      masterListOfStudents.add(new Student(firstName, lastName, studentNumber, restrictions, friends));
                   }
               }
           } catch (FileNotFoundException e){
-              //who cares
+              System.out.println("Oopsies Owu. we did a fucky wucky!!");
           }
       }
     }
@@ -284,6 +373,7 @@ public class TicketingSystem extends JFrame{
         JButton addStudentButton;
         JButton searchButton;
         JButton arrangeTablesButton;
+        JButton displayInformationButton;
         JButton saveButton;
         JButton backButton;
         JButton displayTablesButton;
@@ -305,6 +395,13 @@ public class TicketingSystem extends JFrame{
                 }
             });
             arrangeTablesButton = new JButton("Arrange Tables");
+            displayInformationButton = new JButton("Display Event Information");
+            displayInformationButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setScreen("DisplayInformation");
+                }
+            });
             saveButton = new JButton("Save");
             saveButton.addActionListener(new ActionListener() {
                 @Override
@@ -323,6 +420,7 @@ public class TicketingSystem extends JFrame{
             add(addStudentButton);
             add(searchButton);
             add(arrangeTablesButton);
+            add(displayInformationButton);
             add(saveButton);
             add(backButton);
             add(displayTablesButton);
@@ -330,27 +428,35 @@ public class TicketingSystem extends JFrame{
 
         private void saveData() {
             try {
-                File saveFile = new File("Goodeventname.txt");
+                File saveFile = new File(eventName + ".txt");
                 PrintWriter fileWriter = new PrintWriter(saveFile);
-//                fileWriter.println("#");
-//                fileWriter.println(eventName);
-//                fileWriter.println(numberOfTables);
-//                fileWriter.println(peoplePerTable);
+                fileWriter.println("#");
+                fileWriter.println(eventName);
+                fileWriter.println(numberOfTables);
+                fileWriter.println(peoplePerTable);
                 fileWriter.println("##");
                 for (int i = 0; i < masterListOfStudents.size(); i++) {
                     fileWriter.println(masterListOfStudents.get(i).getFirstName());
                     fileWriter.println(masterListOfStudents.get(i).getLastName());
                     fileWriter.println(masterListOfStudents.get(i).getStudentNumber());
-                    fileWriter.print("{");
-                    for (int j = 0; j < masterListOfStudents.get(i).getDietaryRestrictions().size() - 1; j++) {
-                        fileWriter.print(masterListOfStudents.get(i).getDietaryRestrictions().get(j) + ",");
+                    if (masterListOfStudents.get(i).getDietaryRestrictions().size()>0) {
+                        fileWriter.print("{");
+                        for (int j = 0; j < masterListOfStudents.get(i).getDietaryRestrictions().size() - 1; j++) {
+                            fileWriter.print(masterListOfStudents.get(i).getDietaryRestrictions().get(j) + ",");
+                        }
+                        fileWriter.println(masterListOfStudents.get(i).getDietaryRestrictions().get(masterListOfStudents.get(i).getDietaryRestrictions().size() - 1) + "}");
+                    } else {
+                        fileWriter.println("{}");
                     }
-                    fileWriter.println(masterListOfStudents.get(i).getDietaryRestrictions().get(masterListOfStudents.get(i).getDietaryRestrictions().size()-1) + "}");
-                    fileWriter.print("{");
-                    for (int j = 0; j < masterListOfStudents.get(i).getFriendStudentNumbers().size() - 1; j++) {
-                        fileWriter.print(masterListOfStudents.get(i).getFriendStudentNumbers().get(j) + ",");
+                    if (masterListOfStudents.get(i).getFriendStudentNumbers().size()>0) {
+                        fileWriter.print("{");
+                        for (int j = 0; j < masterListOfStudents.get(i).getFriendStudentNumbers().size() - 1; j++) {
+                            fileWriter.print(masterListOfStudents.get(i).getFriendStudentNumbers().get(j) + ",");
+                        }
+                        fileWriter.println(masterListOfStudents.get(i).getFriendStudentNumbers().get(masterListOfStudents.get(i).getFriendStudentNumbers().size() - 1) + "}");
+                    } else {
+                        fileWriter.println("{}");
                     }
-                    fileWriter.println(masterListOfStudents.get(i).getFriendStudentNumbers().get(masterListOfStudents.get(i).getFriendStudentNumbers().size()-1) + "}");
 
                 }
                 fileWriter.close();
@@ -372,6 +478,8 @@ public class TicketingSystem extends JFrame{
         JTextField lastNameTextField;
         JTextField studentNumberTextField;
         JTextField[] friendsTextField = new JTextField[9];
+        ActionListener newStudent;
+        ActionListener updateStudent;
 
         JButton saveButton;
         JButton addAnotherButton;
@@ -412,7 +520,7 @@ public class TicketingSystem extends JFrame{
                 friendsTextField[i].getText();
             }
             saveButton = new JButton("Save");
-            saveButton.addActionListener(new ActionListener() {
+            newStudent = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     boolean completed = saveStudent();
@@ -421,7 +529,8 @@ public class TicketingSystem extends JFrame{
                         resetInteractions();
                     }
                 }
-            });
+            };
+            saveButton.addActionListener(newStudent);
             add(saveButton);
             addAnotherButton = new JButton("Add Another Student");
             addAnotherButton.addActionListener(new ActionListener() {
@@ -465,8 +574,14 @@ public class TicketingSystem extends JFrame{
             if (checkOfAllergies[4].isSelected()) {
                 dietaryRestrictions.add("Halal");
             }
-            if (checkOfAllergies[6].isSelected()) {
+            if (checkOfAllergies[5].isSelected()) {
                 dietaryRestrictions.add("Kosher");
+            }
+            if (checkOfAllergies[6].isSelected()) {
+                dietaryRestrictions.add("Nut Allergy");
+            }
+            if (checkOfAllergies[7].isSelected()) {
+                dietaryRestrictions.add("Peanut Allergy");
             }
             ArrayList<String> friendStudentNumbers = new ArrayList<>();
             for (int i = 0; i < 9; i++) {
@@ -495,16 +610,108 @@ public class TicketingSystem extends JFrame{
                 this.friendsTextField[i].setText(null);
             }
         }
+
+        public void modifyStudent(int arrayIndex, Student student) {
+            resetInteractions();
+            firstNameTextField.setText(student.getFirstName());
+            lastNameTextField.setText(student.getLastName());
+            studentNumberTextField.setText(student.getStudentNumber());
+            for (int i=0;i<student.getDietaryRestrictions().size();i++) {
+                if (student.getDietaryRestrictions().get(i).equals("Vegetarian")) {
+                    checkOfAllergies[0].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Vegan")) {
+                    checkOfAllergies[1].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Lactose Intolerant")) {
+                checkOfAllergies[2].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Gluten-Free")) {
+                    checkOfAllergies[3].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Halal")) {
+                    checkOfAllergies[4].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Kosher")) {
+                    checkOfAllergies[5].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Nut Allergy")) {
+                    checkOfAllergies[6].setSelected(true);
+                } else if (student.getDietaryRestrictions().get(i).equals("Peanut Allergy")) {
+                    checkOfAllergies[7].setSelected(true);
+                }
+            }
+            for (int i=0; i<student.getFriendStudentNumbers().size();i++) {
+                friendsTextField[i].setText(student.getFriendStudentNumbers().get(i));
+            }
+            saveButton.removeActionListener(newStudent);
+            updateStudent = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    searchScreen.updateStudent(arrayIndex, makeStudent());
+                    resetInteractions();
+                    setScreen("MainScreen");
+                }
+            };
+            saveButton.addActionListener(updateStudent);
+        }
+
+        private Student makeStudent() {
+            String firstName = firstNameTextField.getText();
+            String lastName = lastNameTextField.getText();
+            String studentNumber = studentNumberTextField.getText();
+            ArrayList<String> dietaryRestrictions = new ArrayList<>();
+            if (checkOfAllergies[0].isSelected()) {
+                dietaryRestrictions.add("Vegetarian");
+            }
+            if (checkOfAllergies[1].isSelected()) {
+                dietaryRestrictions.add("Vegan");
+            }
+            if (checkOfAllergies[2].isSelected()) {
+                dietaryRestrictions.add("Lactose Intolerant");
+            }
+            if (checkOfAllergies[3].isSelected()) {
+                dietaryRestrictions.add("Gluten-Free");
+            }
+            if (checkOfAllergies[4].isSelected()) {
+                dietaryRestrictions.add("Halal");
+            }
+            if (checkOfAllergies[5].isSelected()) {
+                dietaryRestrictions.add("Kosher");
+            }
+            if (checkOfAllergies[6].isSelected()) {
+                dietaryRestrictions.add("Nut Allergy");
+            }
+            if (checkOfAllergies[7].isSelected()) {
+                dietaryRestrictions.add("Peanut Allergy");
+            }
+            ArrayList<String> friendStudentNumbers = new ArrayList<>();
+            for (int i = 0; i < 9; i++) {
+                if (!friendsTextField[i].getText().equals("")) {
+                    friendStudentNumbers.add(friendsTextField[i].getText());
+                }
+            }
+            if (!firstName.equals("") || !lastName.equals("") && !studentNumber.equals("")) {
+                return new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers);
+            } else {
+                //Change this to a proper label later
+                System.out.println("You left something blank");
+                return null;
+            }
+        }
     }
 
     private class SearchScreen extends JPanel {
         ArrayList<Student> listOfResults;
-        //ArrayList<JButton> listOfButtons;
+        ArrayList<Integer> masterListIndex;
         JLabel search,results;
         JTextField searchField;
         JButton searchButton;
+        JButton backButton;
 
         SearchScreen(){
+            backButton = new JButton("Back");
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setScreen("MainScreen");
+                }
+            });
+            add(backButton);
             search = new JLabel("Search by Name or Student Number");
             results = new JLabel("Results");
             searchField = new JTextField(10);
@@ -520,6 +727,7 @@ public class TicketingSystem extends JFrame{
             add(searchField);
             add(searchButton);
             listOfResults = new ArrayList<>();
+            masterListIndex = new ArrayList<>();
             //listOfButtons = new ArrayList<>();
         }
 
@@ -532,10 +740,13 @@ public class TicketingSystem extends JFrame{
                 for (int i=0; i<masterListOfStudents.size();i++){
                     if (masterListOfStudents.get(i).getFirstName().equalsIgnoreCase(searchQuery)){
                         listOfResults.add(masterListOfStudents.get(i));
+                        masterListIndex.add(i);
                     } else if (masterListOfStudents.get(i).getLastName().equalsIgnoreCase(searchQuery)){
                         listOfResults.add(masterListOfStudents.get(i));
+                        masterListIndex.add(i);
                     } else if (masterListOfStudents.get(i).getStudentNumber().equalsIgnoreCase(searchQuery)){
                         listOfResults.add(masterListOfStudents.get(i));
+                        masterListIndex.add(i);
                     }
                 }
             }
@@ -547,6 +758,15 @@ public class TicketingSystem extends JFrame{
                 JLabel lastNameLabel = new JLabel(listOfResults.get(i).getLastName());
                 JLabel studentNumberLabel = new JLabel(listOfResults.get(i).getStudentNumber());
                 JButton modifyThisStudentButton = new JButton("Modify Information");
+                Student referencedStudent = listOfResults.get(i);
+                int arrayIndex = masterListIndex.get(i);
+                modifyThisStudentButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        setScreen("StudentForm");
+                        modifyStudent(arrayIndex, referencedStudent);
+                    }
+                });
                 add(firstNameLabel);
                 add(lastNameLabel);
                 add(studentNumberLabel);
@@ -554,12 +774,63 @@ public class TicketingSystem extends JFrame{
             }
             repaintFrame();
         }
-
+        public void updateStudent(int arrayIndex, Student updatedStudent){
+            masterListOfStudents.set(arrayIndex, updatedStudent);
+        }
         private void resetInteractions() {
             for (int i=0; i<listOfResults.size();i++){
                 //remove() remove the necessary shit from the panel
                 listOfResults.remove(i);
+                masterListIndex.remove(i);
             }
+        }
+    }
+
+    private class InformationScreen extends JPanel {
+        JButton backButton;
+        InformationScreen() {
+            backButton = new JButton("Back");
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    setScreen("MainScreen");
+                }
+            });
+        }
+
+        private void displayInformation() {
+            resetScreen();
+            add(backButton);
+            JLabel eventNameLabel, numberOfPeoplePerTableLabel, numberOfTablesLabel;
+            eventNameLabel = new JLabel("Event Name: " + eventName);
+            numberOfPeoplePerTableLabel = new JLabel("Number of people per table: " + Integer.toString(numberOfTables));
+            numberOfTablesLabel = new JLabel("Number of tables: " + Integer.toString(peoplePerTable));
+            add(eventNameLabel);
+            add(numberOfPeoplePerTableLabel);
+            add(numberOfTablesLabel);
+            for (int i=0; i<masterListOfStudents.size(); i++) {
+                JLabel firstNameLabel = new JLabel(masterListOfStudents.get(i).getFirstName());
+                JLabel lastNameLabel = new JLabel(masterListOfStudents.get(i).getLastName());
+                JLabel studentNumberLabel = new JLabel(masterListOfStudents.get(i).getStudentNumber());
+                JButton modifyThisStudentButton = new JButton("Modify Information");
+                int arrayIndex = i;
+                Student referencedStudent = masterListOfStudents.get(i);
+                modifyThisStudentButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        setScreen("StudentForm");
+                        modifyStudent(arrayIndex, referencedStudent);
+                    }
+                });
+                add(firstNameLabel);
+                add(lastNameLabel);
+                add(studentNumberLabel);
+                add(modifyThisStudentButton);
+            }
+        }
+
+        private void resetScreen() {
+            removeAll();
         }
     }
 }
