@@ -324,10 +324,11 @@ public class TicketingSystem extends JFrame{
             remove(openNewPlan);
             remove(welcomeMessage);
             //Stuff to setup the new plan
+            System.out.println("Why");
             JLabel planNamePrompt = new JLabel("What is the name of your file?");
             JTextField planNameTextField = new JTextField(9);
             JButton backButton = new JButton("Back");
-            JButton okayButton = new JButton("Load");
+            JButton loadButton = new JButton("Load");
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -337,7 +338,7 @@ public class TicketingSystem extends JFrame{
 
             add(planNamePrompt);
             add(planNameTextField);
-            okayButton.addActionListener(new ActionListener() {
+            loadButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     String nameOfFile = planNameTextField.getText();
@@ -354,9 +355,10 @@ public class TicketingSystem extends JFrame{
                     }
                 }
             });
-            add(okayButton);
+            add(loadButton);
             add(backButton);
             repaintFrame();
+            setVisible(true);
             repaint();
         }
 
