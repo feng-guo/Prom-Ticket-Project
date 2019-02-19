@@ -275,6 +275,7 @@ public class TicketingSystem extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                   setScreen("StartScreen");
+                  //resetInformation();
                 }
             });
             repaint();
@@ -325,9 +326,21 @@ public class TicketingSystem extends JFrame{
             remove(welcomeMessage);
             //Stuff to setup the new plan
             JLabel planNamePrompt = new JLabel("What is the name of your file?");
-            JTextField planNameTextField = new JTextField(9);
+            planNamePrompt.setFont(generalButtonFont);
+            planNamePrompt.setForeground(Color.WHITE);
+            planNamePrompt.setBounds((int)(screenSize.getWidth()/2-planNamePrompt.getPreferredSize().width/2),100,planNamePrompt.getPreferredSize().width,planNamePrompt.getPreferredSize().height);
+            JTextField planNameTextField = new JTextField();
+            planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
             JButton backButton = new JButton("Back");
+            backButton.setFont(generalButtonFont);
+            backButton.setForeground(Color.WHITE);
+            backButton.setBackground(new Color(0,77,13));
+            backButton.setBounds((int)(screenSize.getWidth()/2-100),200,100,50);
             JButton okayButton = new JButton("Load");
+            okayButton.setFont(generalButtonFont);
+            okayButton.setForeground(Color.WHITE);
+            okayButton.setBackground(new Color(0,77,13));
+            okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -495,8 +508,8 @@ public class TicketingSystem extends JFrame{
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    setScreen("StartScreen");
-                    resetInformation();
+                  setScreen("StartScreen");
+                  resetInformation();
                 }
             });
             displayTablesButton = new JButton("Display Tables");
