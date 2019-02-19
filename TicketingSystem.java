@@ -198,10 +198,16 @@ public class TicketingSystem extends JFrame{
         private void clickedStartPlan() {
             //Done button
             JButton doneButton = new JButton("Submit");
-            doneButton.setBounds((int) (screenSize.getWidth() / 2 - 75), 700, 150, 50);
+            doneButton.setBounds((int) (screenSize.getWidth() / 2 - 75), 650, 150, 50);
             doneButton.setFont(generalButtonFont);
             doneButton.setForeground(Color.WHITE);
             doneButton.setBackground(new Color(38, 77, 0));
+            //Back to start screen
+            JButton backToStartButton = new JButton("Back");
+            backToStartButton.setBounds((int) (screenSize.getWidth() / 2 - 75), 725, 150, 50);
+            backToStartButton.setFont(generalButtonFont);
+            backToStartButton.setForeground(Color.WHITE);
+            backToStartButton.setBackground(new Color(38, 77, 0));
 
             //Remove start buttons
             remove(openExistingPlan);
@@ -238,6 +244,7 @@ public class TicketingSystem extends JFrame{
             add(peopleTablesTextField);
             add(peopleTablesLabel);
             add(doneButton);
+            add(backToStartButton);
 
             //After user enters info //Add more error checking
             doneButton.addActionListener(new ActionListener() {
@@ -262,6 +269,12 @@ public class TicketingSystem extends JFrame{
                     } else {
                         System.out.println("Frick you");
                     }
+                }
+            });
+            backToStartButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                  setScreen("StartScreen");
                 }
             });
             repaint();
@@ -424,9 +437,23 @@ public class TicketingSystem extends JFrame{
         JButton searchButton;
         JButton displayTablesButton;
 
+        //Background image
+        Image mainScreenBackground = Toolkit.getDefaultToolkit().createImage("MainScreen.jpg");
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(mainScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
+        }
+        
         MainScreen() {
             super();
+            this.setLayout(null);
             addStudentButton = new JButton("Add Student");
+            addStudentButton.setForeground(Color.WHITE);
+            addStudentButton.setBackground(new Color(68,102,0));
+            addStudentButton.setFont(generalButtonFont);
+            addStudentButton.setBounds((int)(screenSize.getWidth()-350),200,300,50);
             addStudentButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -434,6 +461,10 @@ public class TicketingSystem extends JFrame{
                 }
             });
             searchButton = new JButton("Search");
+            searchButton.setForeground(Color.WHITE);
+            searchButton.setBackground(new Color(68,102,0));
+            searchButton.setFont(generalButtonFont);
+            searchButton.setBounds((int)(screenSize.getWidth()-350),260,300,50);
             searchButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -441,7 +472,15 @@ public class TicketingSystem extends JFrame{
                 }
             });
             arrangeTablesButton = new JButton("Arrange Tables");
+            arrangeTablesButton.setForeground(Color.WHITE);
+            arrangeTablesButton.setBackground(new Color(68,102,0));
+            arrangeTablesButton.setFont(generalButtonFont);
+            arrangeTablesButton.setBounds((int)(screenSize.getWidth()-350),320,300,50);
             saveButton = new JButton("Save");
+            saveButton.setForeground(Color.WHITE);
+            saveButton.setBackground(new Color(68,102,0));
+            saveButton.setFont(generalButtonFont);
+            saveButton.setBounds((int)(screenSize.getWidth()-350),500,300,50);
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -449,6 +488,10 @@ public class TicketingSystem extends JFrame{
                 }
             });
             backButton = new JButton("Back");
+            backButton.setForeground(Color.WHITE);
+            backButton.setBackground(new Color(68,102,0));
+            backButton.setFont(generalButtonFont);
+            backButton.setBounds((int)(screenSize.getWidth()-350),560,300,50);
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -457,7 +500,15 @@ public class TicketingSystem extends JFrame{
                 }
             });
             displayTablesButton = new JButton("Display Tables");
+            displayTablesButton.setForeground(Color.WHITE);
+            displayTablesButton.setBackground(new Color(68,102,0));
+            displayTablesButton.setFont(generalButtonFont);
+            displayTablesButton.setBounds((int)(screenSize.getWidth()-350),440,300,50);
             displayInformationButton = new JButton("Display Event Information");
+            displayInformationButton.setForeground(Color.WHITE);
+            displayInformationButton.setBackground(new Color(68,102,0));
+            displayInformationButton.setFont(generalButtonFont);
+            displayInformationButton.setBounds((int)(screenSize.getWidth()-350),380,300,50);
             displayInformationButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -895,6 +946,13 @@ public class TicketingSystem extends JFrame{
 
     private class InformationScreen extends JPanel {
         JButton backButton;
+        //Background image
+        Image infoScreenBackground = Toolkit.getDefaultToolkit().createImage("InfoScreen.jpg");
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(infoScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
+        }
         InformationScreen() {
             backButton = new JButton("Back");
             backButton.addActionListener(new ActionListener() {
