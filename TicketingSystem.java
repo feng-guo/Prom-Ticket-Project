@@ -332,9 +332,7 @@ public class TicketingSystem extends JFrame{
             JTextField planNameTextField = new JTextField();
             planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
             JButton backButton = new JButton("Back");
-<<<<<<< HEAD
             JButton loadButton = new JButton("Load");
-=======
             backButton.setFont(generalButtonFont);
             backButton.setForeground(Color.WHITE);
             backButton.setBackground(new Color(0,77,13));
@@ -344,7 +342,6 @@ public class TicketingSystem extends JFrame{
             okayButton.setForeground(Color.WHITE);
             okayButton.setBackground(new Color(0,77,13));
             okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
->>>>>>> cae5421c2320229159c40ed659b74e11a0810ca0
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
