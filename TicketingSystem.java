@@ -118,7 +118,7 @@ public class TicketingSystem extends JFrame{
      super("Prom Ticketing System");
      this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     this.setSize(1000,1000);
+     this.setSize(screenSize().width,screenSize().height);
      init();
      masterListOfStudents = new ArrayList<>();
      setScreen("StartScreen");
