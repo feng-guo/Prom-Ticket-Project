@@ -175,8 +175,6 @@ public class TicketingSystem extends JFrame{
     private class StartScreen extends JPanel {
         JButton openExistingPlan;
         JButton openNewPlan;
-        JButton okButton;
-        JButton backButton;
         JTextField eventNameTextField;
         JTextField numTablesTextField;
         JTextField peopleTablesTextField;
@@ -299,6 +297,7 @@ public class TicketingSystem extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     openExistingPlan();
+                    System.out.println("Clicked");
                     repaintFrame();
                 }
             });
