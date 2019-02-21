@@ -498,8 +498,8 @@ public class TicketingSystem extends JFrame{
             arrangeTablesButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
-                    floorPlan.generateFloorPlan(listOfTables);
+                  listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+                  floorPlan.generateFloorPlan(listOfTables);
                 }
             });
             saveButton = new JButton("Save");
@@ -533,7 +533,7 @@ public class TicketingSystem extends JFrame{
             displayTablesButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    floorPlan.displayFloorPlan(listOfTables);
+                  floorPlan.displayFloorPlan(listOfTables);
                 }
             });
             displayInformationButton = new JButton("Display Event Information");
