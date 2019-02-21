@@ -118,7 +118,7 @@ public class TicketingSystem extends JFrame{
      super("Prom Ticketing System");
      this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     this.setSize(1000,1000);
+     this.setSize((int)(screenSize.getWidth()),(int)(screenSize.getHeight()));
      init();
      masterListOfStudents = new ArrayList<>();
      setScreen("StartScreen");
@@ -175,8 +175,6 @@ public class TicketingSystem extends JFrame{
     private class StartScreen extends JPanel {
         JButton openExistingPlan;
         JButton openNewPlan;
-        JButton okButton;
-        JButton backButton;
         JTextField eventNameTextField;
         JTextField numTablesTextField;
         JTextField peopleTablesTextField;
@@ -216,15 +214,15 @@ public class TicketingSystem extends JFrame{
 
             //Create labels
             eventNameLabel = new JLabel("Please enter the name of the event below:");
-            eventNameLabel.setBounds((int) (screenSize.getWidth() / 2 - eventNameLabel.getPreferredSize().width / 2), 200, eventNameLabel.getPreferredSize().width, eventNameLabel.getPreferredSize().height);
+            eventNameLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 200,400,eventNameLabel.getPreferredSize().height);
             eventNameLabel.setFont(generalButtonFont);
             eventNameLabel.setForeground(Color.WHITE);
             numTablesLabel = new JLabel("How many tables are at the event venue?");
-            numTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - numTablesLabel.getPreferredSize().width / 2), 350, numTablesLabel.getPreferredSize().width, numTablesLabel.getPreferredSize().height);
+            numTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 350,400,numTablesLabel.getPreferredSize().height);
             numTablesLabel.setFont(generalButtonFont);
             numTablesLabel.setForeground(Color.WHITE);
             peopleTablesLabel = new JLabel("How many seats are available at each table?");
-            peopleTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - peopleTablesLabel.getPreferredSize().width / 2), 500, peopleTablesLabel.getPreferredSize().width, peopleTablesLabel.getPreferredSize().height);
+            peopleTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 500,400,peopleTablesLabel.getPreferredSize().height);
             peopleTablesLabel.setFont(generalButtonFont);
             peopleTablesLabel.setForeground(Color.WHITE);
 
@@ -288,7 +286,7 @@ public class TicketingSystem extends JFrame{
             //Welcome message
             welcomeMessage = new JLabel("Prom Ticketing System");
             welcomeMessage.setFont(welcomeMessageFont);
-            welcomeMessage.setBounds((int) (screenSize.getWidth() / 2 - welcomeMessage.getPreferredSize().width / 2), 10, welcomeMessage.getPreferredSize().width, welcomeMessage.getPreferredSize().width);
+            welcomeMessage.setBounds((int) (screenSize.getWidth() / 2 - welcomeMessage.getPreferredSize().width / 2), 350, welcomeMessage.getPreferredSize().width, welcomeMessage.getPreferredSize().height);
             welcomeMessage.setForeground(new Color(238, 255, 230));
             //openExistingPlanButton
             openExistingPlan = new JButton("Open Existing Plan");
@@ -300,6 +298,7 @@ public class TicketingSystem extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     openExistingPlan();
+                    System.out.println("Clicked");
                     repaintFrame();
                 }
             });
@@ -334,8 +333,9 @@ public class TicketingSystem extends JFrame{
             planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
             JButton backButton = new JButton("Back");
 <<<<<<< HEAD
-            JButton loadButton = new JButton("Load");
 =======
+            JButton loadButton = new JButton("Load");
+>>>>>>> 8d240cab762f2d864b176747f6f92a60efc0618c
             backButton.setFont(generalButtonFont);
             backButton.setForeground(Color.WHITE);
             backButton.setBackground(new Color(0,77,13));
@@ -345,7 +345,6 @@ public class TicketingSystem extends JFrame{
             okayButton.setForeground(Color.WHITE);
             okayButton.setBackground(new Color(0,77,13));
             okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
->>>>>>> cae5421c2320229159c40ed659b74e11a0810ca0
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -355,7 +354,7 @@ public class TicketingSystem extends JFrame{
 
             add(planNamePrompt);
             add(planNameTextField);
-            loadButton.addActionListener(new ActionListener() {
+            okayButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     String nameOfFile = planNameTextField.getText();
@@ -372,7 +371,7 @@ public class TicketingSystem extends JFrame{
                     }
                 }
             });
-            add(loadButton);
+            add(okayButton);
             add(backButton);
             repaintFrame();
             setVisible(true);
@@ -676,8 +675,7 @@ public class TicketingSystem extends JFrame{
           int yheight = 150;
           for (int i=0;i<9;i++) {
             friendsTextField[i] = new JTextField();
-            friendsTextField[i].setFont(generalButtonFont);
-            friendsTextField[i].setForeground(Color.WHITE);
+            //friendsTextField[i].setFont(generalButtonFont);
             friendsTextField[i].setBounds(((int)(screenSize.getWidth())/5)*3,yheight, 300,25);
             add(friendsTextField[i]);
             friendsTextField[i].getText();
@@ -879,33 +877,58 @@ public class TicketingSystem extends JFrame{
         JTextField searchField;
         JButton searchButton;
         JButton backButton;
+        
+        //Background image
+        Image searchScreenBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(searchScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
+        }
 
         SearchScreen(){
-            backButton = new JButton("Back");
-            backButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    setScreen("MainScreen");
-                }
-            });
-            add(backButton);
-            search = new JLabel("Search by Name or Student Number");
-            results = new JLabel("Results");
-            searchField = new JTextField(10);
-            searchButton = new JButton("Search");
-            searchButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    search();
-                    display();
-                }
-            });
-            add(search);
-            add(searchField);
-            add(searchButton);
-            listOfResults = new ArrayList<>();
-            masterListIndex = new ArrayList<>();
-            //listOfButtons = new ArrayList<>();
+          super();
+          this.setLayout(null);
+          backButton = new JButton("Back");
+          backButton.setFont(generalButtonFont);
+          backButton.setForeground(Color.WHITE);
+          backButton.setBackground(new Color(13,77,0));
+          backButton.setBounds((int)(screenSize.getWidth()/2-100),150,100,50);
+          backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              setScreen("MainScreen");
+            }
+          });
+          add(backButton);
+          search = new JLabel("Search by Name or Student Number");
+          search.setFont(generalButtonFont);
+          search.setForeground(Color.WHITE);
+          search.setBackground(new Color(13,77,0));
+          search.setBounds((int)(screenSize.getWidth()/2-search.getPreferredSize().width/2),50,search.getPreferredSize().width,search.getPreferredSize().height);
+          results = new JLabel("Results");
+          searchField = new JTextField();
+          searchField.setFont(generalButtonFont);
+          searchField.setBounds((int)(screenSize.getWidth()/2-150),100,300,25);
+          searchButton = new JButton("Search");
+          searchButton.setFont(generalButtonFont);
+          searchButton.setForeground(Color.WHITE);
+          searchButton.setBackground(new Color(13,77,0));
+          searchButton.setBounds((int)(screenSize.getWidth()/2),150,100,50);
+          searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              search();
+              display();
+            }
+          });
+          add(search);
+          add(searchField);
+          add(searchButton);
+          listOfResults = new ArrayList<>();
+          masterListIndex = new ArrayList<>();
+          //listOfButtons = new ArrayList<>();
         }
 
         private void search() {
@@ -966,14 +989,20 @@ public class TicketingSystem extends JFrame{
     private class InformationScreen extends JPanel {
         JButton backButton;
         //Background image
-        Image infoScreenBackground = Toolkit.getDefaultToolkit().createImage("InfoScreen.jpg");
+        Image infoScreenBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(infoScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
         }
         InformationScreen() {
+            super();
+            this.setLayout(null);
             backButton = new JButton("Back");
+            backButton.setFont(generalButtonFont);
+            backButton.setForeground(Color.WHITE);
+            backButton.setBackground(new Color(13,77,0));
+            backButton.setBounds((int)(screenSize.getWidth()/2-50),150,100,50);
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
