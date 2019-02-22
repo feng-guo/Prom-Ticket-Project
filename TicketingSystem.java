@@ -309,6 +309,7 @@ public class TicketingSystem extends JFrame{
       openExistingPlan.setFont(generalButtonFont);
       openExistingPlan.setBackground(new Color(38, 77, 0));
       openExistingPlan.setForeground(new Color(255, 255, 255));
+      //Opens an existing plan when the "Open Existing Plan" button is clicked
       openExistingPlan.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -339,32 +340,37 @@ public class TicketingSystem extends JFrame{
       remove(openNewPlan);
       remove(welcomeMessage);
       //Setup the new plan
-      System.out.println("Why");
+      System.out.println("Why");//??????
+      //Prompt
       JLabel planNamePrompt = new JLabel("What is the name of your file?");
       planNamePrompt.setFont(generalButtonFont);
       planNamePrompt.setForeground(Color.WHITE);
       planNamePrompt.setBounds((int)(screenSize.getWidth()/2-planNamePrompt.getPreferredSize().width/2),100,planNamePrompt.getPreferredSize().width,planNamePrompt.getPreferredSize().height);
+      //Text field for user to enter name of file
       JTextField planNameTextField = new JTextField();
       planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
+      //Button for user to advance back to starting screen
       JButton backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
       backButton.setBackground(new Color(0,77,13));
       backButton.setBounds((int)(screenSize.getWidth()/2-100),200,100,50);
-      JButton okayButton = new JButton("Load");
+      JButton okayButton = new JButton("Load"); //What is this for?
       okayButton.setFont(generalButtonFont);
       okayButton.setForeground(Color.WHITE);
       okayButton.setBackground(new Color(0,77,13));
       okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
+      //Brings back to starting screen
       backButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           resetInformation();
         }
       });
-      
+      //Add to panel
       add(planNamePrompt);
       add(planNameTextField);
+      //Loads file
       okayButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -454,10 +460,11 @@ public class TicketingSystem extends JFrame{
         System.out.println("Oopsies Owu. we did a fucky wucky!!");
       }
     }
-  }
+  }//End of start screen class
   
-  
+  //Main screen of the program
   private class MainScreen extends JPanel {
+    //Initialize buttons for panel
     JButton addStudentButton;
     JButton arrangeTablesButton;
     JButton saveButton;
@@ -486,6 +493,7 @@ public class TicketingSystem extends JFrame{
       addStudentButton.setBackground(new Color(68,102,0));
       addStudentButton.setFont(generalButtonFont);
       addStudentButton.setBounds((int)(screenSize.getWidth()-350),200,300,50);
+      //Adds a new student to the plan
       addStudentButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -497,6 +505,7 @@ public class TicketingSystem extends JFrame{
       searchButton.setBackground(new Color(68,102,0));
       searchButton.setFont(generalButtonFont);
       searchButton.setBounds((int)(screenSize.getWidth()-350),260,300,50);
+      //Searches for student
       searchButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -508,6 +517,7 @@ public class TicketingSystem extends JFrame{
       arrangeTablesButton.setBackground(new Color(68,102,0));
       arrangeTablesButton.setFont(generalButtonFont);
       arrangeTablesButton.setBounds((int)(screenSize.getWidth()-350),320,300,50);
+      //Arranges tables
       arrangeTablesButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -606,7 +616,7 @@ public class TicketingSystem extends JFrame{
         
       }
     }
-  }
+  }//End of main screen class
   
   private class StudentForm extends JPanel {
     JLabel firstNameLabel;
@@ -899,7 +909,7 @@ public class TicketingSystem extends JFrame{
         return null;
       }
     }
-  }
+  }//End of student form class
   
   private class SearchScreen extends JPanel {
     ArrayList<Student> listOfResults;
@@ -1018,7 +1028,7 @@ public class TicketingSystem extends JFrame{
         masterListIndex.remove(i);
       }
     }
-  }
+  }//End of search screen class
   
   private class InformationScreen extends JPanel {
     JButton backButton;
@@ -1089,9 +1099,8 @@ public class TicketingSystem extends JFrame{
         add(modifyThisStudentButton);
       }
     }
-    
     private void resetScreen() {
       removeAll();
     }
-  }
-}
+  }//End of info screen class
+}//End of class
