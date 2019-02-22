@@ -116,10 +116,7 @@ public class TicketingSystem extends JFrame{
         TicketingSystem ticketingSystem = new TicketingSystem();
     }
 
-    /** 
-     * TicketSystem
-     * Sets up constructor
-     */
+    //Constructor
     TicketingSystem() {
      super("Prom Ticketing System");
      SeatingAlg alg = new SeatingAlg();
@@ -193,6 +190,7 @@ public class TicketingSystem extends JFrame{
 
         //Background image
         Image startScreenBackground = Toolkit.getDefaultToolkit().createImage("StartScreen.png");
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -251,7 +249,7 @@ public class TicketingSystem extends JFrame{
             add(doneButton);
             add(backToStartButton);
 
-            //After user enters info
+            //After user enters info //Add more error checking
             doneButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -281,11 +279,7 @@ public class TicketingSystem extends JFrame{
             });
             repaint();
         }
-        
-        /** 
-         * StartScreen
-         * Sets up start screen
-         */
+
         StartScreen() {
             super();
             this.setLayout(null);
@@ -295,6 +289,7 @@ public class TicketingSystem extends JFrame{
             welcomeMessage.setFont(welcomeMessageFont);
             welcomeMessage.setBounds((int) (screenSize.getWidth() / 2 - welcomeMessage.getPreferredSize().width / 2), 350, welcomeMessage.getPreferredSize().width, welcomeMessage.getPreferredSize().height);
             welcomeMessage.setForeground(new Color(238, 255, 230));
+            
             //openExistingPlanButton
             openExistingPlan = new JButton("Open Existing Plan");
             openExistingPlan.setBounds((int) (screenSize.getWidth() / 2 - 225), (int) (screenSize.getHeight() / 2 + 25), 200, 50);
@@ -309,6 +304,8 @@ public class TicketingSystem extends JFrame{
                     repaintFrame();
                 }
             });
+            
+            //openNewPlanButton
             openNewPlan = new JButton("Start New Plan");
             openNewPlan.setBounds((int) (screenSize.getWidth() / 2 + 25), (int) (screenSize.getHeight() / 2 + 25), 200, 50);
             openNewPlan.setFont(generalButtonFont);
@@ -321,23 +318,30 @@ public class TicketingSystem extends JFrame{
                     repaint();
                 }
             });
+            
+            //Adds the messages and plans to the JPanel
             add(openExistingPlan);
             add(openNewPlan);
             add(welcomeMessage);
         }
 
         private void openExistingPlan() {
+          //Removes whatever was previously on the screen
             remove(openExistingPlan);
             remove(openNewPlan);
             remove(welcomeMessage);
-            //Setup the new plan
-            System.out.println("Why");
+            
+            //Label for message
             JLabel planNamePrompt = new JLabel("What is the name of your file?");
             planNamePrompt.setFont(generalButtonFont);
             planNamePrompt.setForeground(Color.WHITE);
             planNamePrompt.setBounds((int)(screenSize.getWidth()/2-planNamePrompt.getPreferredSize().width/2),100,planNamePrompt.getPreferredSize().width,planNamePrompt.getPreferredSize().height);
+            
+            //Textfield for the name of the plan
             JTextField planNameTextField = new JTextField();
             planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
+            
+            //Buttons
             JButton backButton = new JButton("Back");
             backButton.setFont(generalButtonFont);
             backButton.setForeground(Color.WHITE);
@@ -354,7 +358,8 @@ public class TicketingSystem extends JFrame{
                     resetInformation();
                 }
             });
-
+            
+            //Adds the fields and textfields to the form
             add(planNamePrompt);
             add(planNameTextField);
             okayButton.addActionListener(new ActionListener() {
@@ -374,13 +379,21 @@ public class TicketingSystem extends JFrame{
                     }
                 }
             });
+            
+            //Adds the buttons to the JPanel
             add(okayButton);
             add(backButton);
+            
+            //Updates the frame
             repaintFrame();
-            setVisible(true);
-            repaint();
         }
 
+        /*
+         * parsePlanFile
+         * Takes the name of the file and parses it, saving the information on the file
+         * @param fileName The name of the textfield
+         * @return void
+         */
         private void parsePlanFile(String fileName) {
             try {
                 File parsedFile = new File(fileName);
@@ -443,7 +456,7 @@ public class TicketingSystem extends JFrame{
                     }
                 }
             } catch (FileNotFoundException e) {
-                System.out.println("Oopsies Owu. we did a fucky wucky!!");
+                System.out.println("Oopsies Owu. we did a fucky wucky!!"); //Change this to an actual prompt
             }
         }
     }
@@ -460,16 +473,13 @@ public class TicketingSystem extends JFrame{
 
         //Background image
         Image mainScreenBackground = Toolkit.getDefaultToolkit().createImage("MainScreen.jpg");
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(mainScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
         }
         
-        /** 
-         * MainScreen
-         * Sets up main screen
-         */
         MainScreen() {
             super();
             this.setLayout(null);
@@ -626,10 +636,6 @@ public class TicketingSystem extends JFrame{
           g.drawImage(studentFormBackground, 0,0,this.getWidth(),this.getHeight()+100,this);
         }
         
-        /** 
-         * StudentForm
-         * Sets up student form panel
-         */
         StudentForm() {
           super();  
           this.setLayout(null);
@@ -903,16 +909,13 @@ public class TicketingSystem extends JFrame{
         
         //Background image
         Image searchScreenBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(searchScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
         }
-        
-        /** 
-         * SearchScreen
-         * Sets up search screen panel
-         */
+
         SearchScreen(){
           super();
           this.setLayout(null);
@@ -1021,11 +1024,6 @@ public class TicketingSystem extends JFrame{
             super.paintComponent(g);
             g.drawImage(infoScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
         }
-        
-        /** 
-         * InformationScreen
-         * Sets up info screen panel
-         */
         InformationScreen() {
             super();
             this.setLayout(null);

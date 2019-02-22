@@ -24,6 +24,7 @@ public class Student {
         this.friendStudentNumbers = friendStudentNumbers;
     }
     
+    //Constructor that follows UML
     Student(String fullName, String studentNumber, ArrayList<String> dietaryRestrictions, ArrayList<String> friendStudentNumbers) {
         String[] name = fullName.split(" ");
         this.fullName = fullName;
