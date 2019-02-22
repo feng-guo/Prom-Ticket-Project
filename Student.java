@@ -23,6 +23,17 @@ public class Student {
         this.dietaryRestrictions = dietaryRestrictions;
         this.friendStudentNumbers = friendStudentNumbers;
     }
+    
+    Student(String fullName, String studentNumber, ArrayList<String> dietaryRestrictions, ArrayList<String> friendStudentNumbers) {
+        String[] name = fullName.splice(" ");
+        this.fullName = fullName;
+        this.firstName = name[0];
+        this.lastName = name[1];
+        this.studentNumber = studentNumber;
+        this.fullName = fixName(firstName, lastName);
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.friendStudentNumbers = friendStudentNumbers;
+    }
 
     /** 
      * fixName
