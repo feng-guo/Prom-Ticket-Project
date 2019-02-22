@@ -6,6 +6,6 @@ public class FloorPlan {
   public void generateFloorPlan(ArrayList<Table> tables) {
   }
   
-  public void displayFloorPlan(ArrayList<Table> tables){
+  public void displayFloorPlan(){
   }
 }

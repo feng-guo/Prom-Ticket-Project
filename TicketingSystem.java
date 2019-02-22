@@ -120,7 +120,7 @@ public class TicketingSystem extends JFrame{
     TicketingSystem() {
      super("Prom Ticketing System");
      SeatingAlg alg = new SeatingAlg();
-     FloorPlan floorPlan = new floorPlan();
+     FloorPlan floorPlan = new FloorPlan();
      this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      this.setSize((int)(screenSize.getWidth()),(int)(screenSize.getHeight()));
@@ -253,13 +253,7 @@ public class TicketingSystem extends JFrame{
             doneButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-//            if(eventNameTextField.getText()==null || numTablesTextField.getText()==null || peopleTablesTextField.getText()==null){
-//              JLabel errorMessage = new JLabel ("Please fill out all fields");
-//              errorMessage.setFont(generalButtonFont);
-//              errorMessage.setForeground(Color.WHITE);
-//              errorMessage.setBounds((int)(screenSize.getWidth()/2-errorMessage.getPreferredSize().width/2),650,errorMessage.getPreferredSize().width,errorMessage.getPreferredSize().height);
-//            }else{}
-                    //Store user inputs
+
                     try {
                         eventName = eventNameTextField.getText();
                         numberOfTables = Integer.parseInt(numTablesTextField.getText());
@@ -274,11 +268,13 @@ public class TicketingSystem extends JFrame{
                     }
                 }
             });
+            /***************DOES NOT WORK***********/
             backToStartButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                  setScreen("StartScreen");
-                  //resetInformation();
+                  setScreen("StartScreen");  
+                  //resetInteractions();
+                  //repaint();
                 }
             });
             repaint();
@@ -1016,7 +1012,7 @@ public class TicketingSystem extends JFrame{
             backButton.setFont(generalButtonFont);
             backButton.setForeground(Color.WHITE);
             backButton.setBackground(new Color(13,77,0));
-            backButton.setBounds((int)(screenSize.getWidth()/2-50),150,100,50);
+            backButton.setBounds((int)(screenSize.getWidth()/2-50),170,100,50);
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -1030,8 +1026,17 @@ public class TicketingSystem extends JFrame{
             add(backButton);
             JLabel eventNameLabel, numberOfPeoplePerTableLabel, numberOfTablesLabel;
             eventNameLabel = new JLabel("Event Name: " + eventName);
+            eventNameLabel.setFont(generalButtonFont);
+            eventNameLabel.setForeground(Color.WHITE);
+            eventNameLabel.setBounds((int)(screenSize.getWidth()/2-eventNameLabel.getPreferredSize().width/2),50,eventNameLabel.getPreferredSize().width,eventNameLabel.getPreferredSize().height);
             numberOfPeoplePerTableLabel = new JLabel("Number of people per table: " + Integer.toString(numberOfTables));
+            numberOfPeoplePerTableLabel.setFont(generalButtonFont);
+            numberOfPeoplePerTableLabel.setForeground(Color.WHITE);
+            numberOfPeoplePerTableLabel.setBounds((int)(screenSize.getWidth()/2-numberOfPeoplePerTableLabel.getPreferredSize().width/2),90,numberOfPeoplePerTableLabel.getPreferredSize().width,numberOfPeoplePerTableLabel.getPreferredSize().height);
             numberOfTablesLabel = new JLabel("Number of tables: " + Integer.toString(peoplePerTable));
+            numberOfTablesLabel.setFont(generalButtonFont);
+            numberOfTablesLabel.setForeground(Color.WHITE);
+            numberOfTablesLabel.setBounds((int)(screenSize.getWidth()/2-numberOfTablesLabel.getPreferredSize().width/2),130,numberOfTablesLabel.getPreferredSize().width,numberOfTablesLabel.getPreferredSize().height);
             add(eventNameLabel);
             add(numberOfPeoplePerTableLabel);
             add(numberOfTablesLabel);

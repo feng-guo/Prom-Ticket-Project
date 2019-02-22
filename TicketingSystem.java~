@@ -35,6 +35,9 @@ public class TicketingSystem extends JFrame{
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private Font welcomeMessageFont = new Font("Vivaldi",Font.PLAIN,100);
     private Font generalButtonFont = new Font ("Bahnschrift", Font.PLAIN,20);
+    private SeatingAlg alg;
+    private ArrayList<Table> listOfTables;
+    private FloorPlan floorPlan;
 
     /** 
      * getNumberOfTables
@@ -116,6 +119,8 @@ public class TicketingSystem extends JFrame{
     //Constructor
     TicketingSystem() {
      super("Prom Ticketing System");
+     SeatingAlg alg = new SeatingAlg();
+     FloorPlan floorPlan = new floorPlan();
      this.setVisible(true);
      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
      this.setSize((int)(screenSize.getWidth()),(int)(screenSize.getHeight()));
@@ -332,10 +337,6 @@ public class TicketingSystem extends JFrame{
             JTextField planNameTextField = new JTextField();
             planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
             JButton backButton = new JButton("Back");
-<<<<<<< HEAD
-=======
-            JButton loadButton = new JButton("Load");
->>>>>>> 8d240cab762f2d864b176747f6f92a60efc0618c
             backButton.setFont(generalButtonFont);
             backButton.setForeground(Color.WHITE);
             backButton.setBackground(new Color(0,77,13));
@@ -494,6 +495,13 @@ public class TicketingSystem extends JFrame{
             arrangeTablesButton.setBackground(new Color(68,102,0));
             arrangeTablesButton.setFont(generalButtonFont);
             arrangeTablesButton.setBounds((int)(screenSize.getWidth()-350),320,300,50);
+            arrangeTablesButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                  listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+                  floorPlan.generateFloorPlan(listOfTables);
+                }
+            });
             saveButton = new JButton("Save");
             saveButton.setForeground(Color.WHITE);
             saveButton.setBackground(new Color(68,102,0));
@@ -522,6 +530,12 @@ public class TicketingSystem extends JFrame{
             displayTablesButton.setBackground(new Color(68,102,0));
             displayTablesButton.setFont(generalButtonFont);
             displayTablesButton.setBounds((int)(screenSize.getWidth()-350),440,300,50);
+            displayTablesButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                  floorPlan.displayFloorPlan(listOfTables);
+                }
+            });
             displayInformationButton = new JButton("Display Event Information");
             displayInformationButton.setForeground(Color.WHITE);
             displayInformationButton.setBackground(new Color(68,102,0));
