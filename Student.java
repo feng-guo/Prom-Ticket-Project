@@ -25,7 +25,7 @@ public class Student {
     }
     
     Student(String fullName, String studentNumber, ArrayList<String> dietaryRestrictions, ArrayList<String> friendStudentNumbers) {
-        String[] name = fullName.splice(" ");
+        String[] name = fullName.split(" ");
         this.fullName = fullName;
         this.firstName = name[0];
         this.lastName = name[1];
