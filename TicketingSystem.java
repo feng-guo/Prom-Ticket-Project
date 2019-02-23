@@ -164,6 +164,8 @@ public class TicketingSystem extends JFrame{
     startScreen = new StartScreen();
     informationScreen = new InformationScreen();
     searchScreen = new SearchScreen();
+    FloorPlan floorPlan = new FloorPlan();
+    SeatingAlg alg = new SeatingAlg();
   }
   
   //Clears information
