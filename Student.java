@@ -106,12 +106,21 @@ public class Student {
     }
 
     /** 
-     * getFullName
-     * Gets the full name of the student
-     * @return fullName the full name of the student
+     * getName
+     * Gets the name of the student
+     * @return name the full name of the student
      */
-    public String getFullName() {
+    public String getName() {
         return fullName;
+    }
+
+    /**
+     * setName
+     * Gets the full name of the student
+     * @param name the full name of the student
+     */
+    public void setName(String name) {
+        this.fullName = name;
     }
 
     /** 
