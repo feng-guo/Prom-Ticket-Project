@@ -381,6 +381,8 @@ public class TicketingSystem extends JFrame{
             if (!nameOfFile.substring(nameOfFile.length() - 4, nameOfFile.length()).equals(".txt")) {
               nameOfFile = nameOfFile + ".txt";
             }
+          } else {
+            nameOfFile = nameOfFile + ".txt";
           }
           if (!nameOfFile.equals("")) {
             parsePlanFile(nameOfFile);
