@@ -124,8 +124,6 @@ public class TicketingSystem extends JFrame{
    */
   TicketingSystem() {
     super("Prom Ticketing System");
-    SeatingAlg alg = new SeatingAlg();
-    FloorPlan floorPlan = new FloorPlan();
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize((int)(screenSize.getWidth()),(int)(screenSize.getHeight()));
@@ -166,9 +164,10 @@ public class TicketingSystem extends JFrame{
     startScreen = new StartScreen();
     informationScreen = new InformationScreen();
     searchScreen = new SearchScreen();
-    FloorPlan floorPlan = new FloorPlan();
-    SeatingAlg alg = new SeatingAlg();
+    floorPlan = new FloorPlan();
+    alg = new SeatingAlg();
     warningBox = new JFrame();
+    listOfTables = new ArrayList();
   }
   
   //Clears information
@@ -272,16 +271,16 @@ public class TicketingSystem extends JFrame{
             eventName = eventNameTextField.getText();
             numberOfTables = Integer.parseInt(numTablesTextField.getText());
             peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
-          } catch (NumberFormatException e) {
-            warningBox.setSize(100, 200);
-            JOptionPane.showMessageDialog(warningBox, "Numbers were not entered properly!", "Error!", JOptionPane.ERROR_MESSAGE);
-          }
-          if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
+            if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
             setScreen("MainScreen");
           } else {
             warningBox.setSize(100,200);
             JOptionPane.showMessageDialog(warningBox, "Not all of the fields were filled!", "Error!", JOptionPane.ERROR_MESSAGE);
           }
+          } catch (NumberFormatException e) {
+            warningBox.setSize(100, 200);
+            JOptionPane.showMessageDialog(warningBox, "Numbers were not entered properly!", "Error!", JOptionPane.ERROR_MESSAGE);
+          }  
         }
       });
       //Action when back button is clicked
@@ -400,8 +399,10 @@ public class TicketingSystem extends JFrame{
 
           //Sends file name to parse the file
           if (!nameOfFile.equals("") && !nameOfFile.equals(".txt")) {
-            parsePlanFile(nameOfFile);
-            setScreen("MainScreen");
+            boolean successful = parsePlanFile(nameOfFile);
+            if (successful) {
+              setScreen("MainScreen");
+            }
           } else {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Not a valid file!", "Error!", JOptionPane.ERROR_MESSAGE);
@@ -415,7 +416,7 @@ public class TicketingSystem extends JFrame{
       repaintFrame();
     }
     
-    private void parsePlanFile(String fileName) {
+    private boolean parsePlanFile(String fileName) {
       try {
         //Reads the file and adds the information to the TicketingSystem class
         File parsedFile = new File(fileName);
@@ -477,11 +478,13 @@ public class TicketingSystem extends JFrame{
             masterListOfStudents.add(new Student(firstName, lastName, studentNumber, restrictions, friends));
           }
         }
+        return true;
       } catch (FileNotFoundException e) {
         //Occurs when the file is not found
         warningBox.setSize(100,200);
         warningBox.setTitle("Error!");
         JOptionPane.showMessageDialog(warningBox, "File was not found!", "Error!", JOptionPane.ERROR_MESSAGE);
+        return false;
       }
     }
 
@@ -560,7 +563,6 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
-          floorPlan.generateFloorPlan(listOfTables);
         }
       });
 
@@ -602,7 +604,8 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            floorPlan.displayFloorPlan(listOfTables);
+            floorPlan.generateFloorPlan(listOfTables);
+            //floorPlan.displayFloorPlan();
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Arrangement of tables not done!", "Error!", JOptionPane.ERROR_MESSAGE);
