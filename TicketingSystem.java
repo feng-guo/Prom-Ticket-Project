@@ -605,7 +605,7 @@ public class TicketingSystem extends JFrame{
         public void actionPerformed(ActionEvent actionEvent) {
           try {
             floorPlan.generateFloorPlan(listOfTables);
-            //floorPlan.displayFloorPlan();
+            floorPlan.displayFloorPlan();
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Arrangement of tables not done!", "Error!", JOptionPane.ERROR_MESSAGE);
