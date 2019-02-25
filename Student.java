@@ -45,7 +45,7 @@ public class Student {
     private String fixName(String firstName, String lastName) {
         //Fix method later
         String newName;
-        newName = firstName + lastName;
+        newName = firstName + " " + lastName;
         return newName;
     }
 

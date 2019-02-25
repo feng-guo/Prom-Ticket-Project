@@ -5,7 +5,13 @@
  */
 
 //Imports
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -167,7 +173,7 @@ public class TicketingSystem extends JFrame{
     floorPlan = new FloorPlan();
     alg = new SeatingAlg();
     warningBox = new JFrame();
-    listOfTables = new ArrayList();
+    listOfTables = new ArrayList(); //Hi
   }
   
   //Clears information
@@ -374,7 +380,8 @@ public class TicketingSystem extends JFrame{
       backButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          resetInformation();
+          setScreen("StartScreen");  
+          resetInteractions();
           repaintFrame();
         }
       });
@@ -563,6 +570,7 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+          floorPlan.generateFloorPlan(listOfTables);
         }
       });
 
@@ -604,7 +612,6 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            floorPlan.generateFloorPlan(listOfTables);
             floorPlan.displayFloorPlan();
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
