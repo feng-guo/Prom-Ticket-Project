@@ -62,12 +62,36 @@ public class Student {
      * @return fullName the new full name
      */
     private String fixName(String firstName, String lastName) {
-        //Fix method later
         String newName;
         newName = firstName + lastName;
         return newName;
     }
 
+    /** 
+     * fixName
+     * Concatenates the changed name into the first and last names
+     * @param fullName
+     */
+    private void fixName(String name) {
+        String[] nameArray = name.split(" ");
+        if (nameArray.length == 1) {
+          this.firstName = nameArray[0];
+          this.lastName = "";
+        } else if (nameArray.length == 2) {
+          this.firstName = nameArray[0];
+          this.lastName = nameArray[1];
+        } else {
+          firstName = "";
+          for (int i=0; i<nameArray.length-1; i++) {
+            if (i == nameArray.length-2) {
+              firstName = firstName + nameArray[i];
+            } else {
+              firstName = firstName + nameArray[i] + " ";
+            }
+          }
+        }
+    }
+    
     /** 
      * getFirstName
      * Gets the first name of the student
@@ -125,6 +149,28 @@ public class Student {
     }
 
     /** 
+<<<<<<< HEAD
+=======
+     * getName
+     * Gets the name of the student
+     * @return name the full name of the student
+     */
+    public String getName() {
+        return fullName;
+    }
+
+    /**
+     * setName
+     * Gets the full name of the student
+     * @param name the full name of the student
+     */
+    public void setName(String name) {
+        this.fullName = name;
+        fixName(name);
+    }
+
+    /** 
+>>>>>>> 72e894b71d286e4ef329ade0a4e0681c94878001
      * getDietaryRestrictions 
      * Gets all the dietary restrictions of the student
      * @return dietaryRestrictions a string arraylist of dietary restrictions
