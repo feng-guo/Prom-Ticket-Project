@@ -167,7 +167,7 @@ public class TicketingSystem extends JFrame{
     floorPlan = new FloorPlan();
     alg = new SeatingAlg();
     warningBox = new JFrame();
-    listOfTables = new ArrayList();
+    listOfTables = new ArrayList(); //Hi
   }
   
   //Clears information

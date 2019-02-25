@@ -5,7 +5,13 @@
  */
 
 //Imports
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -374,7 +380,8 @@ public class TicketingSystem extends JFrame{
       backButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          resetInformation();
+          setScreen("StartScreen");  
+          resetInteractions();
           repaintFrame();
         }
       });
