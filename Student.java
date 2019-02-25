@@ -33,7 +33,6 @@ public class Student {
         }
         this.fullName = fullName;
         this.studentNumber = studentNumber;
-        this.fullName = fixName(firstName, lastName);
         this.dietaryRestrictions = dietaryRestrictions;
         this.friendStudentNumbers = friendStudentNumbers;
     }
@@ -47,7 +46,7 @@ public class Student {
      */
     private String fixName(String firstName, String lastName) {
         String newName;
-        newName = firstName + lastName;
+        newName = firstName + " " + lastName;
         return newName;
     }
 
