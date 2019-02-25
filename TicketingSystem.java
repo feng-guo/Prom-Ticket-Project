@@ -570,6 +570,7 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+          floorPlan.generateFloorPlan(listOfTables);
         }
       });
 
@@ -611,7 +612,6 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            floorPlan.generateFloorPlan(listOfTables);
             floorPlan.displayFloorPlan();
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
