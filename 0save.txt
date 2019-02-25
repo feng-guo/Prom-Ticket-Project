@@ -1,8 +1,5 @@
-1
+0
 20.0
 20.0
 1000.0
 1000.0
-0.0
-0.0
-073271215:Feng Guo:Vegetarian,Vegan|123:Feng Two Guo:Halal|1234:Shi Han Qin:Vegetarian,Vegan|

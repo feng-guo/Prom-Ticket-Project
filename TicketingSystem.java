@@ -1167,7 +1167,7 @@ public class TicketingSystem extends JFrame{
       nextPage.setFont(generalButtonFont);
       nextPage.setForeground(Color.WHITE);
       nextPage.setBackground(new Color(13,77,0));
-      nextPage.setBounds((int)(screenSize.getWidth()/2-105),800,100,50);
+      nextPage.setBounds((int)(screenSize.getWidth()/2-105),(int)(screenSize.getHeight()-100),100,50);
 //      nextPage.addActionListener(new ActionListener() {
 //        @Override
 //        public void actionPerformed(ActionEvent actionEvent) {
@@ -1179,7 +1179,7 @@ public class TicketingSystem extends JFrame{
       backPage.setFont(generalButtonFont);
       backPage.setForeground(Color.WHITE);
       backPage.setBackground(new Color(13,77,0));
-      backPage.setBounds((int)(screenSize.getWidth()/2+5),800,100,50);
+      backPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),100,50);
 //      backPage.addActionListener(new ActionListener() {
 //        @Override
 //        public void actionPerformed(ActionEvent actionEvent) {
@@ -1187,7 +1187,9 @@ public class TicketingSystem extends JFrame{
 //          upperBound-=10;
 //          }
 //        }); 
-      int displayHeight = 300;
+      add(nextPage);
+      add(backPage);
+      int displayHeight = 250;
       for (int i=0; i<masterListOfStudents.size(); i++) {
         JLabel firstNameLabel = new JLabel(masterListOfStudents.get(i).getFirstName());
         JLabel lastNameLabel = new JLabel(masterListOfStudents.get(i).getLastName());
@@ -1208,6 +1210,9 @@ public class TicketingSystem extends JFrame{
         modifyThisStudentButton.setBackground(new Color(13,77,0));
         modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
         displayHeight+=100;
+        if (displayHeight>750){
+          displayHeight = 250;
+        }
         int arrayIndex = i;
         Student referencedStudent = masterListOfStudents.get(i);
         modifyThisStudentButton.addActionListener(new ActionListener() {
@@ -1236,8 +1241,6 @@ public class TicketingSystem extends JFrame{
         add(lastNameLabel);
         add(studentNumberLabel);
         add(modifyThisStudentButton);
-        add(nextPage);
-        add(backPage);
       }
     }
     private void resetScreen() {
