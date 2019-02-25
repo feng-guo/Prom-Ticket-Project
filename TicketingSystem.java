@@ -1158,12 +1158,56 @@ public class TicketingSystem extends JFrame{
       add(numberOfPeoplePerTableLabel);
       add(numberOfTablesLabel);
 
-
+      //Adding student info for display
+      int numPagesOfStudents = masterListOfStudents.size()/10+1;
+      int lowerBound = 0;
+      int upperBound = 9;
+      
+      JButton nextPage = new JButton("Next");
+      nextPage.setFont(generalButtonFont);
+      nextPage.setForeground(Color.WHITE);
+      nextPage.setBackground(new Color(13,77,0));
+      nextPage.setBounds((int)(screenSize.getWidth()/2-105),800,100,50);
+//      nextPage.addActionListener(new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent actionEvent) {
+//          lowerBound+=10;
+//          upperBound+=10;
+//        }
+//      });
+      JButton backPage = new JButton("Back");
+      backPage.setFont(generalButtonFont);
+      backPage.setForeground(Color.WHITE);
+      backPage.setBackground(new Color(13,77,0));
+      backPage.setBounds((int)(screenSize.getWidth()/2+5),800,100,50);
+//      backPage.addActionListener(new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent actionEvent) {
+//          lowerBound-=10;
+//          upperBound-=10;
+//          }
+//        }); 
+      int displayHeight = 300;
       for (int i=0; i<masterListOfStudents.size(); i++) {
         JLabel firstNameLabel = new JLabel(masterListOfStudents.get(i).getFirstName());
         JLabel lastNameLabel = new JLabel(masterListOfStudents.get(i).getLastName());
         JLabel studentNumberLabel = new JLabel(masterListOfStudents.get(i).getStudentNumber());
-        JButton modifyThisStudentButton = new JButton("Modify Information");
+        JButton modifyThisStudentButton = new JButton("Modify");
+        //Format
+        firstNameLabel.setFont(generalButtonFont);
+        firstNameLabel.setForeground(Color.WHITE);
+        firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+        lastNameLabel.setFont(generalButtonFont);
+        lastNameLabel.setForeground(Color.WHITE);
+        lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+        studentNumberLabel.setFont(generalButtonFont);
+        studentNumberLabel.setForeground(Color.WHITE);
+        studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+        modifyThisStudentButton.setFont(generalButtonFont);
+        modifyThisStudentButton.setForeground(Color.WHITE);
+        modifyThisStudentButton.setBackground(new Color(13,77,0));
+        modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
+        displayHeight+=100;
         int arrayIndex = i;
         Student referencedStudent = masterListOfStudents.get(i);
         modifyThisStudentButton.addActionListener(new ActionListener() {
@@ -1173,10 +1217,27 @@ public class TicketingSystem extends JFrame{
             modifyStudent(arrayIndex, referencedStudent);
           }
         });
+        
+//      for (int i=0; i<masterListOfStudents.size(); i++) {
+//        JLabel firstNameLabel = new JLabel(masterListOfStudents.get(i).getFirstName());
+//        JLabel lastNameLabel = new JLabel(masterListOfStudents.get(i).getLastName());
+//        JLabel studentNumberLabel = new JLabel(masterListOfStudents.get(i).getStudentNumber());
+//        JButton modifyThisStudentButton = new JButton("Modify Information");
+//        int arrayIndex = i;
+//        Student referencedStudent = masterListOfStudents.get(i);
+//        modifyThisStudentButton.addActionListener(new ActionListener() {
+//          @Override
+//          public void actionPerformed(ActionEvent actionEvent) {
+//            setScreen("StudentForm");
+//            modifyStudent(arrayIndex, referencedStudent);
+//          }
+//        });
         add(firstNameLabel);
         add(lastNameLabel);
         add(studentNumberLabel);
         add(modifyThisStudentButton);
+        add(nextPage);
+        add(backPage);
       }
     }
     private void resetScreen() {
