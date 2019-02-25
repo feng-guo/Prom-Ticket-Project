@@ -381,7 +381,6 @@ public class TicketingSystem extends JFrame{
             repaint();
         }
 
-<<<<<<< HEAD
         private void parsePlanFile(String fileName) {
             try {
                 File parsedFile = new File(fileName);
@@ -446,24 +445,6 @@ public class TicketingSystem extends JFrame{
             } catch (FileNotFoundException e) {
                 System.out.println("Oopsies Owu. we did a fucky wucky!!");
             }
-=======
-      //displayTables button
-      displayTablesButton = new JButton("Display Tables");
-      displayTablesButton.setForeground(Color.WHITE);
-      displayTablesButton.setBackground(new Color(68,102,0));
-      displayTablesButton.setFont(generalButtonFont);
-      displayTablesButton.setBounds((int)(screenSize.getWidth()-350),440,300,50);
-      displayTablesButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-          try {
-            floorPlan.generateFloorPlan(listOfTables);
-            //floorPlan.displayFloorPlan();
-          } catch (NullPointerException e) {
-            warningBox.setSize(100, 200);
-            JOptionPane.showMessageDialog(warningBox, "Arrangement of tables not done!", "Error!", JOptionPane.ERROR_MESSAGE);
-          }
->>>>>>> parent of 72e894b... Merge pull request #4 from feng-guo/feng-testing
         }
     }
 
