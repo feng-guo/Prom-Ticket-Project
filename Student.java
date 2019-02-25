@@ -37,24 +37,6 @@ public class Student {
     }
 
     /** 
-     * getFullName
-     * Gets the last name of the student
-     * @return lastName the last name of the student
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /** 
-     * setFullName
-     * Sets the last name of the student
-     * @param lastName the last name of the student
-     */
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    
-    /** 
      * fixName
      * Concatenates the changed first and last name
      * @param firstName the new first name of the student
@@ -122,6 +104,15 @@ public class Student {
      */
     public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    /** 
+     * getFullName
+     * Gets the full name of the student
+     * @return fullName the full name of the student
+     */
+    public String getFullName() {
+        return fullName;
     }
 
     /** 
