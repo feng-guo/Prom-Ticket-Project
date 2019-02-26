@@ -45,7 +45,7 @@ public class TicketingSystem extends JFrame{
   private ArrayList<Table> listOfTables;
   private FloorPlan floorPlan;
   private JFrame warningBox;
-
+  
   
   /** 
    * getNumberOfTables
@@ -279,11 +279,11 @@ public class TicketingSystem extends JFrame{
             numberOfTables = Integer.parseInt(numTablesTextField.getText());
             peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
             if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
-            setScreen("MainScreen");
-          } else {
-            warningBox.setSize(100,200);
-            JOptionPane.showMessageDialog(warningBox, "Not all of the fields were filled!", "Error!", JOptionPane.ERROR_MESSAGE);
-          }
+              setScreen("MainScreen");
+            } else {
+              warningBox.setSize(100,200);
+              JOptionPane.showMessageDialog(warningBox, "Not all of the fields were filled!", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
           } catch (NumberFormatException e) {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Numbers were not entered properly!", "Error!", JOptionPane.ERROR_MESSAGE);
@@ -342,7 +342,7 @@ public class TicketingSystem extends JFrame{
           repaintFrame();
         }
       });
-
+      
       //Add components to the frame
       add(openExistingPlan);
       add(openNewPlan);
@@ -354,17 +354,17 @@ public class TicketingSystem extends JFrame{
       remove(openExistingPlan);
       remove(openNewPlan);
       remove(welcomeMessage);
-
+      
       //Prompt
       JLabel planNamePrompt = new JLabel("What is the name of your file?");
       planNamePrompt.setFont(generalButtonFont);
       planNamePrompt.setForeground(Color.WHITE);
       planNamePrompt.setBounds((int)(screenSize.getWidth()/2-planNamePrompt.getPreferredSize().width/2),100,planNamePrompt.getPreferredSize().width,planNamePrompt.getPreferredSize().height);
-
+      
       //Text field for user to enter name of file
       JTextField planNameTextField = new JTextField();
       planNameTextField.setBounds((int)(screenSize.getWidth()/2-150),150,300,25);
-
+      
       //Button for user to advance back to starting screen
       JButton backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
@@ -376,7 +376,7 @@ public class TicketingSystem extends JFrame{
       okayButton.setForeground(Color.WHITE);
       okayButton.setBackground(new Color(0,77,13));
       okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
-
+      
       //Brings back to starting screen
       backButton.addActionListener(new ActionListener() {
         @Override
@@ -386,11 +386,11 @@ public class TicketingSystem extends JFrame{
           repaintFrame();
         }
       });
-
+      
       //Add to panel
       add(planNamePrompt);
       add(planNameTextField);
-
+      
       //Loads name of the file to be parsed
       okayButton.addActionListener(new ActionListener() {
         @Override
@@ -404,7 +404,7 @@ public class TicketingSystem extends JFrame{
           } else {
             nameOfFile = nameOfFile + ".txt";
           }
-
+          
           //Sends file name to parse the file
           if (!nameOfFile.equals("") && !nameOfFile.equals(".txt")) {
             boolean successful = parsePlanFile(nameOfFile);
@@ -417,7 +417,7 @@ public class TicketingSystem extends JFrame{
           }
         }
       });
-
+      
       //Add buttons and repaints the frame
       add(okayButton);
       add(backButton);
@@ -495,7 +495,7 @@ public class TicketingSystem extends JFrame{
         return false;
       }
     }
-
+    
     private void resetInteractions() {
       //Resets the interactions
       removeAll();
@@ -531,7 +531,7 @@ public class TicketingSystem extends JFrame{
     MainScreen() {
       super();
       this.setLayout(null);
-
+      
       //addStudent button
       addStudentButton = new JButton("Add Student");
       addStudentButton.setForeground(Color.WHITE);
@@ -545,7 +545,7 @@ public class TicketingSystem extends JFrame{
           setScreen("StudentForm");
         }
       });
-
+      
       //search Button
       searchButton = new JButton("Search");
       searchButton.setForeground(Color.WHITE);
@@ -559,7 +559,7 @@ public class TicketingSystem extends JFrame{
           setScreen("Search");
         }
       });
-
+      
       //arrangeTables button
       arrangeTablesButton = new JButton("Arrange Tables");
       arrangeTablesButton.setForeground(Color.WHITE);
@@ -574,7 +574,7 @@ public class TicketingSystem extends JFrame{
           floorPlan.generateFloorPlan(listOfTables);
         }
       });
-
+      
       //save button
       saveButton = new JButton("Save");
       saveButton.setForeground(Color.WHITE);
@@ -587,7 +587,7 @@ public class TicketingSystem extends JFrame{
           saveData();
         }
       });
-
+      
       //back button
       backButton = new JButton("Back");
       backButton.setForeground(Color.WHITE);
@@ -602,7 +602,7 @@ public class TicketingSystem extends JFrame{
           resetInformation();
         }
       });
-
+      
       //displayTables button
       displayTablesButton = new JButton("Display Tables");
       displayTablesButton.setForeground(Color.WHITE);
@@ -620,7 +620,7 @@ public class TicketingSystem extends JFrame{
           }
         }
       });
-
+      
       //Information button
       displayInformationButton = new JButton("Display Event Information");
       displayInformationButton.setForeground(Color.WHITE);
@@ -633,7 +633,7 @@ public class TicketingSystem extends JFrame{
           setScreen("InformationScreen");
         }
       });
-
+      
       //Add buttons to the frame
       add(addStudentButton);
       add(searchButton);
@@ -643,12 +643,12 @@ public class TicketingSystem extends JFrame{
       add(saveButton);
       add(backButton);
     }
-
+    
     /*
-    *
-    * Writes the information in the TicketingSystem class into a .txt file
-    *
-    */
+     *
+     * Writes the information in the TicketingSystem class into a .txt file
+     *
+     */
     private void saveData() {
       try {
         File saveFile = new File(eventName + ".txt");
@@ -1036,7 +1036,7 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           search();
-
+          
           display();
         }
       });
@@ -1115,8 +1115,8 @@ public class TicketingSystem extends JFrame{
     //Background image
     Image infoScreenBackground;
     ArrayList<ArrayList> pageList;
-
-
+    
+    
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -1148,7 +1148,7 @@ public class TicketingSystem extends JFrame{
     private void displayInformation(int page) {
       resetScreen();
       add(backButton);
-
+      
       JLabel eventNameLabel, numberOfPeoplePerTableLabel, numberOfTablesLabel;
       eventNameLabel = new JLabel("Event Name: " + eventName);
       eventNameLabel.setFont(generalButtonFont);
@@ -1165,19 +1165,20 @@ public class TicketingSystem extends JFrame{
       add(eventNameLabel);
       add(numberOfPeoplePerTableLabel);
       add(numberOfTablesLabel);
-
+      
       JButton previousPage, nextPage;
       previousPage = new JButton("Previous Page");
       previousPage.setFont(generalButtonFont);
       previousPage.setForeground(Color.WHITE);
       previousPage.setBackground(new Color(13,77,0));
-      previousPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),100,50);
+      previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-100),200,50);
+      int newPagePrev = page - 1;
       previousPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          int newPage = page - 1;
-          if (newPage >= 0) {
-            displayInformation(newPage);
+          //int newPage = page - 1;
+          if (newPagePrev >= 0) {
+            displayInformation(newPagePrev);
           } else {
             warningBox.setSize(100,200);
             JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
@@ -1188,64 +1189,82 @@ public class TicketingSystem extends JFrame{
       nextPage.setFont(generalButtonFont);
       nextPage.setForeground(Color.WHITE);
       nextPage.setBackground(new Color(13,77,0));
-      nextPage.setBounds((int)(screenSize.getWidth()/2-105),(int)(screenSize.getHeight()-100),100,50)
+      nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),200,50);
+      int newPageNext = page +1;
       nextPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          int newPage = page + 1;
-          if (newPage < pageList.size()) {
-            displayInformation(newPage);
+          //int newPage = page + 1;
+          if (newPageNext < pageList.size()) {
+            displayInformation(newPageNext);
           } else {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!", "Error!", JOptionPane.ERROR_MESSAGE);
           }
         }
       });
-
-
+      
       add(previousPage);
       add(nextPage);
-
+      
       int displayHeight = 250;
-      for (int i=0; i<pageList.get(page).size(); i++) {
-        JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
-        JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
-        JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
-        JButton modifyThisStudentButton = new JButton("Modify");
-        //Format
-        firstNameLabel.setFont(generalButtonFont);
-        firstNameLabel.setForeground(Color.WHITE);
-        firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
-        lastNameLabel.setFont(generalButtonFont);
-        lastNameLabel.setForeground(Color.WHITE);
-        lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
-        studentNumberLabel.setFont(generalButtonFont);
-        studentNumberLabel.setForeground(Color.WHITE);
-        studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
-        modifyThisStudentButton.setFont(generalButtonFont);
-        modifyThisStudentButton.setForeground(Color.WHITE);
-        modifyThisStudentButton.setBackground(new Color(13,77,0));
-        modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
-        displayHeight+=100;
-        if (displayHeight>750){
-          displayHeight = 250;
-        }
-        int arrayIndex = page*6 + i;
-        Student referencedStudent = masterListOfStudents.get(i);
-        modifyThisStudentButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
-            setScreen("StudentForm");
-            modifyStudent(arrayIndex, referencedStudent);
+      try{
+        for (int i=0; i<pageList.get(page).size(); i++) {
+          JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
+          JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
+          JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
+          JButton modifyThisStudentButton = new JButton("Modify");
+          JButton removeStudent = new JButton("Remove");
+          //Format
+          firstNameLabel.setFont(generalButtonFont);
+          firstNameLabel.setForeground(Color.WHITE);
+          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+          lastNameLabel.setFont(generalButtonFont);
+          lastNameLabel.setForeground(Color.WHITE);
+          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+          studentNumberLabel.setFont(generalButtonFont);
+          studentNumberLabel.setForeground(Color.WHITE);
+          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+          modifyThisStudentButton.setFont(generalButtonFont);
+          modifyThisStudentButton.setForeground(Color.WHITE);
+          modifyThisStudentButton.setBackground(new Color(13,77,0));
+          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,100,50);
+          removeStudent.setFont(generalButtonFont);
+          removeStudent.setForeground(Color.WHITE);
+          removeStudent.setBackground(new Color(13,77,0));
+          removeStudent.setBounds((int)(screenSize.getWidth()/2+200),displayHeight+20,150,50);
+          displayHeight+=100;
+          if (displayHeight>750){
+            displayHeight = 250;
           }
-        });
-        add(firstNameLabel);
-        add(lastNameLabel);
-        add(studentNumberLabel);
-        add(modifyThisStudentButton);
+          int arrayIndex = page*6 + i;
+          Student referencedStudent = masterListOfStudents.get(i);
+          modifyThisStudentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              setScreen("StudentForm");
+              modifyStudent(arrayIndex, referencedStudent);
+            }
+          });
+          removeStudent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              masterListOfStudents.remove(arrayIndex);
+              initializeInformation();
+              displayInformation(page);
+            }
+          });
+          add(firstNameLabel);
+          add(lastNameLabel);
+          add(studentNumberLabel);
+          add(modifyThisStudentButton);
+          add(removeStudent);
+        }
+      }catch(ArrayIndexOutOfBoundsException exception) {
+        page-=1;
       }
     }
-
+    
     private void initializeInformation() {
       for (int i=0; i<(int)Math.ceil((double)masterListOfStudents.size()/6); i++) {
         ArrayList<Student> page = new ArrayList<>();
