@@ -498,7 +498,6 @@ public class TicketingSystem extends JFrame{
   //Main screen of the program
   private class MainScreen extends JPanel {
     //Initialize buttons for panel
-    JLabel menuTitle;
     JButton addStudentButton;
     JButton arrangeTablesButton;
     JButton saveButton;
@@ -523,17 +522,12 @@ public class TicketingSystem extends JFrame{
       super();
       this.setLayout(null);
       
-      menuTitle = new JLabel("Menu");
-      menuTitle.setForeground(Color.WHITE);
-      menuTitle.setFont(welcomeMessageFont);
-      menuTitle.setBounds((int)(screenSize.getWidth()/2-150),100,300,100);
-      
       //addStudent button
       addStudentButton = new JButton("Add Student");
       addStudentButton.setForeground(Color.WHITE);
       addStudentButton.setBackground(new Color(68,102,0));
       addStudentButton.setFont(generalButtonFont);
-      addStudentButton.setBounds((int)(screenSize.getWidth()/2-150),250,300,50);
+      addStudentButton.setBounds((int)(screenSize.getWidth()-350),200,300,50);
       //Adds a new student to the plan
       addStudentButton.addActionListener(new ActionListener() {
         @Override
@@ -547,7 +541,7 @@ public class TicketingSystem extends JFrame{
       searchButton.setForeground(Color.WHITE);
       searchButton.setBackground(new Color(68,102,0));
       searchButton.setFont(generalButtonFont);
-      searchButton.setBounds((int)(screenSize.getWidth()/2-150),310,300,50);
+      searchButton.setBounds((int)(screenSize.getWidth()-350),260,300,50);
       //Searches for student
       searchButton.addActionListener(new ActionListener() {
         @Override
@@ -561,7 +555,7 @@ public class TicketingSystem extends JFrame{
       arrangeTablesButton.setForeground(Color.WHITE);
       arrangeTablesButton.setBackground(new Color(68,102,0));
       arrangeTablesButton.setFont(generalButtonFont);
-      arrangeTablesButton.setBounds((int)(screenSize.getWidth()/2-150),370,300,50);
+      arrangeTablesButton.setBounds((int)(screenSize.getWidth()-350),320,300,50);
       //Arranges tables
       arrangeTablesButton.addActionListener(new ActionListener() {
         @Override
@@ -576,7 +570,7 @@ public class TicketingSystem extends JFrame{
       saveButton.setForeground(Color.WHITE);
       saveButton.setBackground(new Color(68,102,0));
       saveButton.setFont(generalButtonFont);
-      saveButton.setBounds((int)(screenSize.getWidth()/2-150),550,300,50);
+      saveButton.setBounds((int)(screenSize.getWidth()-350),500,300,50);
       saveButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -589,7 +583,7 @@ public class TicketingSystem extends JFrame{
       backButton.setForeground(Color.WHITE);
       backButton.setBackground(new Color(68,102,0));
       backButton.setFont(generalButtonFont);
-      backButton.setBounds((int)(screenSize.getWidth()/2-150),610,300,50);
+      backButton.setBounds((int)(screenSize.getWidth()-350),560,300,50);
       backButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -604,7 +598,7 @@ public class TicketingSystem extends JFrame{
       displayTablesButton.setForeground(Color.WHITE);
       displayTablesButton.setBackground(new Color(68,102,0));
       displayTablesButton.setFont(generalButtonFont);
-      displayTablesButton.setBounds((int)(screenSize.getWidth()/2-150),490,300,50);
+      displayTablesButton.setBounds((int)(screenSize.getWidth()-350),440,300,50);
       displayTablesButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -622,7 +616,7 @@ public class TicketingSystem extends JFrame{
       displayInformationButton.setForeground(Color.WHITE);
       displayInformationButton.setBackground(new Color(68,102,0));
       displayInformationButton.setFont(generalButtonFont);
-      displayInformationButton.setBounds((int)(screenSize.getWidth()/2-150),430,300,50);
+      displayInformationButton.setBounds((int)(screenSize.getWidth()-350),380,300,50);
       displayInformationButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -631,7 +625,6 @@ public class TicketingSystem extends JFrame{
       });
       
       //Add buttons to the frame
-      add(menuTitle);
       add(addStudentButton);
       add(searchButton);
       add(arrangeTablesButton);
@@ -726,18 +719,18 @@ public class TicketingSystem extends JFrame{
       firstNameLabel.setBounds((int)(screenSize.getWidth())/5,100,firstNameLabel.getPreferredSize().width,firstNameLabel.getPreferredSize().height);
       lastNameLabel = new JLabel("Last Name:");
       lastNameLabel.setForeground(Color.WHITE);
-      lastNameLabel.setBounds((int)(screenSize.getWidth())/5,250,firstNameLabel.getPreferredSize().width,lastNameLabel.getPreferredSize().height);
+      lastNameLabel.setBounds((int)(screenSize.getWidth())/5,250,lastNameLabel.getPreferredSize().width,lastNameLabel.getPreferredSize().height);
       lastNameLabel.setFont(generalButtonFont);
       studentNumberLabel = new JLabel("Student Number:");
       studentNumberLabel.setForeground(Color.WHITE);
       studentNumberLabel.setFont(generalButtonFont);
       studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);
       
-      allergiesLabel = new JLabel("Allergies:");
+      allergiesLabel = new JLabel("Allergies");
       allergiesLabel.setForeground(Color.WHITE);
       allergiesLabel.setFont(generalButtonFont);
       allergiesLabel.setBounds(((int)(screenSize.getWidth())/5)*3,450,allergiesLabel.getPreferredSize().width,allergiesLabel.getPreferredSize().height);
-      friendPreferencesLabel = new JLabel("Friend Student Numbers:");
+      friendPreferencesLabel = new JLabel("Friend Student Numbers");
       friendPreferencesLabel.setForeground(Color.WHITE);
       friendPreferencesLabel.setFont(generalButtonFont);
       friendPreferencesLabel.setBounds(((int)(screenSize.getWidth())/5)*3,100,friendPreferencesLabel.getPreferredSize().width,friendPreferencesLabel.getPreferredSize().height);
@@ -884,14 +877,14 @@ public class TicketingSystem extends JFrame{
     }
     
     private void resetInteractions() {
-      firstNameTextField.setText(null);
-      lastNameTextField.setText(null);
-      studentNumberTextField.setText(null);
+      firstNameTextField.setText("");
+      lastNameTextField.setText("");
+      studentNumberTextField.setText("");
       for (int i=0;i<8;i++) {
         checkOfAllergies[i].setSelected(false);
       }
       for (int i=0;i<9;i++) {
-        this.friendsTextField[i].setText(null);
+        this.friendsTextField[i].setText("");
       }
       saveButton.removeActionListener(updateStudent);
       saveButton.addActionListener(newStudent);
