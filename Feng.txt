@@ -6,16 +6,15 @@ Feng
 Feng Two
 Guo
 123
-{Halal,Kosher}
-{23,231,233}
+{Halal}
+{23,231}
 Feng
 Guo
 073271215
-{Vegetarian,Vegan,Peanut Allergy}
-{12,123,1234,12345}
+{Vegetarian,Vegan}
+{12,123,1234}
 Shi Han
 Qin
 1234
-{Vegetarian,Vegan,Peanut Allergy}
-{12,073271215}
-
+{Vegetarian,Vegan}
+{12}
