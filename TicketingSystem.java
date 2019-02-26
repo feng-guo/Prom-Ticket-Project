@@ -197,6 +197,10 @@ public class TicketingSystem extends JFrame{
     studentForm.modifyStudent(arrayIndex, student);
   }
   
+  public void updateStudent(int arrayIndex, Student updatedStudent){
+    masterListOfStudents.set(arrayIndex, updatedStudent);
+  }
+  
   //Creates the Starting Screen, the first screen that shows up on the program
   private class StartScreen extends JPanel {
     //Components for the panel
@@ -896,7 +900,9 @@ public class TicketingSystem extends JFrame{
       for (int i=0;i<9;i++) {
         this.friendsTextField[i].setText(null);
       }
+      saveButton.addActionListener(newStudent);
     }
+    
     public void modifyStudent(int arrayIndex, Student student) {
       resetInteractions();
       firstNameTextField.setText(student.getFirstName());
@@ -928,10 +934,12 @@ public class TicketingSystem extends JFrame{
       updateStudent = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          searchScreen.updateStudent(arrayIndex, makeStudent());
+          Student intermediate = makeStudent();
+          if (!intermediate.equals(null)) {
+            updateStudent(arrayIndex, intermediate);
+          }
           resetInteractions();
-          setScreen("MainScreen");
-          saveButton.addActionListener(newStudent);
+          setScreen("MainScreen"); 
         }
       };
       saveButton.addActionListener(updateStudent);
@@ -976,7 +984,8 @@ public class TicketingSystem extends JFrame{
         return new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers);
       } else {
         //Change this to a proper label later
-        System.out.println("You left something blank");
+        warningBox.setSize(100,200);
+        JOptionPane.showMessageDialog(warningBox, "You left something blank", "Error!", JOptionPane.ERROR_MESSAGE);
         return null;
       }
     }
@@ -1095,9 +1104,7 @@ public class TicketingSystem extends JFrame{
       }
       repaintFrame();
     }
-    public void updateStudent(int arrayIndex, Student updatedStudent){
-      masterListOfStudents.set(arrayIndex, updatedStudent);
-    }
+    
     private void resetInteractions() {
       removeAll();
       for (int i=0; i<listOfResults.size();i++){
@@ -1106,6 +1113,7 @@ public class TicketingSystem extends JFrame{
       }
       add(search);
       add(searchField);
+      add(searchButton);
       add(backButton);
     }
   }//End of search screen class
@@ -1158,7 +1166,7 @@ public class TicketingSystem extends JFrame{
       numberOfPeoplePerTableLabel.setFont(generalButtonFont);
       numberOfPeoplePerTableLabel.setForeground(Color.WHITE);
       numberOfPeoplePerTableLabel.setBounds((int)(screenSize.getWidth()/2-numberOfPeoplePerTableLabel.getPreferredSize().width/2),90,numberOfPeoplePerTableLabel.getPreferredSize().width,numberOfPeoplePerTableLabel.getPreferredSize().height);
-      numberOfTablesLabel = new JLabel("Number of tables: " + Integer.toString(peoplePerTable));
+      numberOfTablesLabel = new JLabel("Number of tables: " + Integer.toString(numberOfTables));
       numberOfTablesLabel.setFont(generalButtonFont);
       numberOfTablesLabel.setForeground(Color.WHITE);
       numberOfTablesLabel.setBounds((int)(screenSize.getWidth()/2-numberOfTablesLabel.getPreferredSize().width/2),130,numberOfTablesLabel.getPreferredSize().width,numberOfTablesLabel.getPreferredSize().height);
@@ -1188,7 +1196,7 @@ public class TicketingSystem extends JFrame{
       nextPage.setFont(generalButtonFont);
       nextPage.setForeground(Color.WHITE);
       nextPage.setBackground(new Color(13,77,0));
-      nextPage.setBounds((int)(screenSize.getWidth()/2-105),(int)(screenSize.getHeight()-100),100,50)
+      nextPage.setBounds((int)(screenSize.getWidth()/2-105),(int)(screenSize.getHeight()-100),100,50);
       nextPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -1207,46 +1215,53 @@ public class TicketingSystem extends JFrame{
       add(nextPage);
 
       int displayHeight = 250;
-      for (int i=0; i<pageList.get(page).size(); i++) {
-        JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
-        JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
-        JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
-        JButton modifyThisStudentButton = new JButton("Modify");
-        //Format
-        firstNameLabel.setFont(generalButtonFont);
-        firstNameLabel.setForeground(Color.WHITE);
-        firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
-        lastNameLabel.setFont(generalButtonFont);
-        lastNameLabel.setForeground(Color.WHITE);
-        lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
-        studentNumberLabel.setFont(generalButtonFont);
-        studentNumberLabel.setForeground(Color.WHITE);
-        studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
-        modifyThisStudentButton.setFont(generalButtonFont);
-        modifyThisStudentButton.setForeground(Color.WHITE);
-        modifyThisStudentButton.setBackground(new Color(13,77,0));
-        modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
-        displayHeight+=100;
-        if (displayHeight>750){
-          displayHeight = 250;
-        }
-        int arrayIndex = page*6 + i;
-        Student referencedStudent = masterListOfStudents.get(i);
-        modifyThisStudentButton.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
-            setScreen("StudentForm");
-            modifyStudent(arrayIndex, referencedStudent);
+      if (pageList.size() > 0) {
+        for (int i=0; i<pageList.get(page).size(); i++) {
+          JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
+          JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
+          JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
+          JButton modifyThisStudentButton = new JButton("Modify");
+          //Format
+          firstNameLabel.setFont(generalButtonFont);
+          firstNameLabel.setForeground(Color.WHITE);
+          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+          lastNameLabel.setFont(generalButtonFont);
+          lastNameLabel.setForeground(Color.WHITE);
+          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+          studentNumberLabel.setFont(generalButtonFont);
+          studentNumberLabel.setForeground(Color.WHITE);
+          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+          modifyThisStudentButton.setFont(generalButtonFont);
+          modifyThisStudentButton.setForeground(Color.WHITE);
+          modifyThisStudentButton.setBackground(new Color(13,77,0));
+          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
+          displayHeight+=100;
+          if (displayHeight>750){
+            displayHeight = 250;
           }
-        });
-        add(firstNameLabel);
-        add(lastNameLabel);
-        add(studentNumberLabel);
-        add(modifyThisStudentButton);
+          int arrayIndex = page*6 + i;
+          Student referencedStudent = masterListOfStudents.get(i);
+          modifyThisStudentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              setScreen("StudentForm");
+              modifyStudent(arrayIndex, referencedStudent);
+            }
+          });
+          add(firstNameLabel);
+          add(lastNameLabel);
+          add(studentNumberLabel);
+          add(modifyThisStudentButton);
+        }
       }
     }
 
     private void initializeInformation() {
+      if (pageList.size() > 0) {
+        for (int i=0; i<pageList.size(); i++) {
+          pageList.remove(i);
+        }
+      }
       for (int i=0; i<(int)Math.ceil((double)masterListOfStudents.size()/6); i++) {
         ArrayList<Student> page = new ArrayList<>();
         for (int j=0; j<6; j++) {
