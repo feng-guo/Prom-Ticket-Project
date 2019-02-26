@@ -1168,7 +1168,10 @@ public class TicketingSystem extends JFrame{
 
       JButton previousPage, nextPage;
       previousPage = new JButton("Previous Page");
-      nextPage = new JButton("Next Page");
+      previousPage.setFont(generalButtonFont);
+      previousPage.setForeground(Color.WHITE);
+      previousPage.setBackground(new Color(13,77,0));
+      previousPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),100,50);
       previousPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -1181,6 +1184,11 @@ public class TicketingSystem extends JFrame{
           }
         }
       });
+      nextPage = new JButton("Next Page");
+      nextPage.setFont(generalButtonFont);
+      nextPage.setForeground(Color.WHITE);
+      nextPage.setBackground(new Color(13,77,0));
+      nextPage.setBounds((int)(screenSize.getWidth()/2-105),(int)(screenSize.getHeight()-100),100,50)
       nextPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -1193,16 +1201,36 @@ public class TicketingSystem extends JFrame{
           }
         }
       });
+
+
       add(previousPage);
       add(nextPage);
 
-
+      int displayHeight = 250;
       for (int i=0; i<pageList.get(page).size(); i++) {
-        JLabel firstNameLabel = new JLabel(masterListOfStudents.get(i).getFirstName());
-        JLabel lastNameLabel = new JLabel(masterListOfStudents.get(i).getLastName());
-        JLabel studentNumberLabel = new JLabel(masterListOfStudents.get(i).getStudentNumber());
-        JButton modifyThisStudentButton = new JButton("Modify Information");
-        int arrayIndex = page*10 + i;
+        JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
+        JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
+        JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
+        JButton modifyThisStudentButton = new JButton("Modify");
+        //Format
+        firstNameLabel.setFont(generalButtonFont);
+        firstNameLabel.setForeground(Color.WHITE);
+        firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+        lastNameLabel.setFont(generalButtonFont);
+        lastNameLabel.setForeground(Color.WHITE);
+        lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+        studentNumberLabel.setFont(generalButtonFont);
+        studentNumberLabel.setForeground(Color.WHITE);
+        studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+        modifyThisStudentButton.setFont(generalButtonFont);
+        modifyThisStudentButton.setForeground(Color.WHITE);
+        modifyThisStudentButton.setBackground(new Color(13,77,0));
+        modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+150),displayHeight+20,100,50);
+        displayHeight+=100;
+        if (displayHeight>750){
+          displayHeight = 250;
+        }
+        int arrayIndex = page*6 + i;
         Student referencedStudent = masterListOfStudents.get(i);
         modifyThisStudentButton.addActionListener(new ActionListener() {
           @Override

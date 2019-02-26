@@ -24,13 +24,15 @@ public class Student {
         this.friendStudentNumbers = friendStudentNumbers;
     }
     
+    //Constructor that follows UML
     Student(String fullName, String studentNumber, ArrayList<String> dietaryRestrictions, ArrayList<String> friendStudentNumbers) {
         String[] name = fullName.split(" ");
+        if (name.length > 1) {
+          this.firstName = name[0];
+          this.lastName = name[1];
+        }
         this.fullName = fullName;
-        this.firstName = name[0];
-        this.lastName = name[1];
         this.studentNumber = studentNumber;
-        this.fullName = fixName(firstName, lastName);
         this.dietaryRestrictions = dietaryRestrictions;
         this.friendStudentNumbers = friendStudentNumbers;
     }
@@ -43,12 +45,36 @@ public class Student {
      * @return fullName the new full name
      */
     private String fixName(String firstName, String lastName) {
-        //Fix method later
         String newName;
         newName = firstName + " " + lastName;
         return newName;
     }
 
+    /** 
+     * fixName
+     * Concatenates the changed name into the first and last names
+     * @param fullName
+     */
+    private void fixName(String name) {
+        String[] nameArray = name.split(" ");
+        if (nameArray.length == 1) {
+          this.firstName = nameArray[0];
+          this.lastName = "";
+        } else if (nameArray.length == 2) {
+          this.firstName = nameArray[0];
+          this.lastName = nameArray[1];
+        } else {
+          firstName = "";
+          for (int i=0; i<nameArray.length-1; i++) {
+            if (i == nameArray.length-2) {
+              firstName = firstName + nameArray[i];
+            } else {
+              firstName = firstName + nameArray[i] + " ";
+            }
+          }
+        }
+    }
+    
     /** 
      * getFirstName
      * Gets the first name of the student
@@ -121,6 +147,7 @@ public class Student {
      */
     public void setName(String name) {
         this.fullName = name;
+        fixName(name);
     }
 
     /** 
