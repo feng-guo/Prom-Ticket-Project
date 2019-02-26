@@ -461,30 +461,16 @@ public class TicketingSystem extends JFrame{
             tempFriends = fileReader.nextLine();
             if (tempFriends.length() > 2) {
               tempFriends = tempFriends.substring(1, tempFriends.length() - 1);
-            } else {
-              tempFriends = "";
-            }
+              String[] toAdd = tempFriends.split(",");
+              for (int i=0; i<toAdd.length; i++) {
+                friends.add(toAdd[i]);
+              }
+            } 
             if (tempRestrictions.length() > 2) {
               tempRestrictions = tempRestrictions.substring(1, tempRestrictions.length() - 1);
-            } else {
-              tempRestrictions = "";
-            }
-            String add = "";
-            for (int i = 0; i < tempRestrictions.length(); i++) {
-              if (!tempRestrictions.substring(i, i + 1).equals(",")) {
-                add = add + tempRestrictions.substring(i, i + 1);
-              } else {
-                restrictions.add(add);
-                add = "";
-              }
-            }
-            add = "";
-            for (int i = 0; i < tempFriends.length(); i++) {
-              if (!tempFriends.substring(i, i + 1).equals(",")) {
-                add = add + tempFriends.substring(i, i + 1);
-              } else {
-                friends.add(add);
-                add = "";
+              String[] toAdd = tempRestrictions.split(",");
+              for (int i=0; i<toAdd.length; i++) {
+                restrictions.add(toAdd[i]);
               }
             }
             masterListOfStudents.add(new Student(firstName, lastName, studentNumber, restrictions, friends));
@@ -900,6 +886,7 @@ public class TicketingSystem extends JFrame{
       for (int i=0;i<9;i++) {
         this.friendsTextField[i].setText(null);
       }
+      saveButton.removeActionListener(updateStudent);
       saveButton.addActionListener(newStudent);
     }
     
@@ -1263,6 +1250,7 @@ public class TicketingSystem extends JFrame{
                 masterListOfStudents.remove(arrayIndex);
                 initializeInformation();
                 displayInformation(finalPage);
+                repaintFrame();
               }
             });
             add(firstNameLabel);
