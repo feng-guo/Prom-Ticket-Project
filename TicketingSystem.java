@@ -748,7 +748,7 @@ public class TicketingSystem extends JFrame{
       studentNumberLabel.setFont(generalButtonFont);
       studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);
       
-      allergiesLabel = new JLabel("Allergies:");
+      allergiesLabel = new JLabel("Dietary Restrictions:");
       allergiesLabel.setForeground(Color.WHITE);
       allergiesLabel.setFont(generalButtonFont);
       allergiesLabel.setBounds(((int)(screenSize.getWidth())/5)*3,450,allergiesLabel.getPreferredSize().width,allergiesLabel.getPreferredSize().height);
@@ -1262,7 +1262,6 @@ public class TicketingSystem extends JFrame{
     //Background image
     Image infoScreenBackground;
     ArrayList<ArrayList> pageList;
-    
     
     @Override
     protected void paintComponent(Graphics g) {
