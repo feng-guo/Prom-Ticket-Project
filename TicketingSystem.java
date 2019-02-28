@@ -229,7 +229,6 @@ public class TicketingSystem extends JFrame{
    * Inner class StartScreen
    * Creates starting screen panels
    */
-  
   private class StartScreen extends JPanel {
     //Components for the panel
     JButton openExistingPlan;
@@ -244,7 +243,6 @@ public class TicketingSystem extends JFrame{
     
     //Background image
     Image startScreenBackground = Toolkit.getDefaultToolkit().createImage("StartScreen.png");
-    
     /*
      * paintComponent
      * Paint on the background image
@@ -324,7 +322,7 @@ public class TicketingSystem extends JFrame{
             eventName = eventNameTextField.getText(); //get event name
             numberOfTables = Integer.parseInt(numTablesTextField.getText()); //get # of tables
             peoplePerTable = Integer.parseInt(peopleTablesTextField.getText()); //get people per table
-            //if no inputs are detected:
+            //if all inputs are detected:
             if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
               setScreen("MainScreen");
             } else { //if some fields are left blank
@@ -337,6 +335,7 @@ public class TicketingSystem extends JFrame{
           }  
         }
       });
+      
       
       backToStartButton.addActionListener(new ActionListener() {
         /*
@@ -359,7 +358,7 @@ public class TicketingSystem extends JFrame{
      * Sets up start screen
      */
     StartScreen() {
-      super(); //create the panel
+      super(); //creates the panel
       this.setLayout(null);
       
       //Welcome message
@@ -409,7 +408,8 @@ public class TicketingSystem extends JFrame{
       add(openExistingPlan);
       add(openNewPlan);
       add(welcomeMessage);
-    }  
+    }
+    
     
     /*
      * openExistingPlan
@@ -442,7 +442,7 @@ public class TicketingSystem extends JFrame{
       okayButton.setForeground(Color.WHITE);
       okayButton.setBackground(new Color(0,77,13));
       okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
-      
+
       backButton.addActionListener(new ActionListener() {
         /*
          * actionPerformed
@@ -589,7 +589,6 @@ public class TicketingSystem extends JFrame{
     
     //Background image
     Image mainScreenBackground = Toolkit.getDefaultToolkit().createImage("MainScreen.jpg");
-    
     /*
      * paintComponent
      * Paint on the background image
@@ -608,6 +607,7 @@ public class TicketingSystem extends JFrame{
     MainScreen() {
       super();
       this.setLayout(null);
+      
       //Menu title label
       menuTitle = new JLabel("Menu");
       menuTitle.setForeground(Color.WHITE);
@@ -620,7 +620,6 @@ public class TicketingSystem extends JFrame{
       addStudentButton.setBackground(new Color(68,102,0));
       addStudentButton.setFont(generalButtonFont);
       addStudentButton.setBounds((int)(screenSize.getWidth()/2-150),250,300,50);
-      
       addStudentButton.addActionListener(new ActionListener() {
         /*
          * actionPerformed
@@ -639,7 +638,6 @@ public class TicketingSystem extends JFrame{
       searchButton.setBackground(new Color(68,102,0));
       searchButton.setFont(generalButtonFont);
       searchButton.setBounds((int)(screenSize.getWidth()/2-150),310,300,50);
-     
       searchButton.addActionListener(new ActionListener() {
         /*
          * actionPerformed
@@ -658,7 +656,6 @@ public class TicketingSystem extends JFrame{
       arrangeTablesButton.setBackground(new Color(68,102,0));
       arrangeTablesButton.setFont(generalButtonFont);
       arrangeTablesButton.setBounds((int)(screenSize.getWidth()/2-150),370,300,50);
-      
       arrangeTablesButton.addActionListener(new ActionListener() {
         /*
          * actionPerformed
@@ -705,7 +702,7 @@ public class TicketingSystem extends JFrame{
          */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          if (!hasSaved) { //Check if user has saved 
+          if (!hasSaved) { //checks if the user has saved
             warningBox.setSize(100,200);
             int decision = JOptionPane.showConfirmDialog(warningBox, "You have unsaved information! Do you want to save?");
             if (decision == 0) {
@@ -820,7 +817,6 @@ public class TicketingSystem extends JFrame{
    * Creates panels for the student form
    */ 
   private class StudentForm extends JPanel {
-    //Components for panel
     JLabel firstNameLabel;
     JLabel lastNameLabel;
     JLabel studentNumberLabel;
@@ -843,7 +839,7 @@ public class TicketingSystem extends JFrame{
     
     //Background image for student form
     Image studentFormBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
-    /*
+     /*
      * paintComponent
      * Paint on the background image
      * @param Graphics g
@@ -874,7 +870,7 @@ public class TicketingSystem extends JFrame{
       studentNumberLabel = new JLabel("Student Number:");
       studentNumberLabel.setForeground(Color.WHITE);
       studentNumberLabel.setFont(generalButtonFont);
-      studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);
+      studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);     
       allergiesLabel = new JLabel("Dietary Restrictions:");
       allergiesLabel.setForeground(Color.WHITE);
       allergiesLabel.setFont(generalButtonFont);
@@ -907,7 +903,7 @@ public class TicketingSystem extends JFrame{
         allergiesY+=30;
       }
       
-      //add to panel
+      //Add to panel
       add(firstNameLabel);
       add(firstNameTextField);
       add(lastNameLabel);
@@ -932,13 +928,13 @@ public class TicketingSystem extends JFrame{
         friendsTextField[i].getText();
         yheight+=30;
       }
+      
       //Save button
       saveButton = new JButton("Save");
       saveButton.setFont(generalButtonFont);
       saveButton.setForeground(Color.WHITE);
       saveButton.setBackground(Color.BLACK);
       saveButton.setBounds((int)(screenSize.getWidth()/2-230),800,100,50);
-      
       newStudent = new ActionListener() {
         /*
          * actionPerformed
@@ -995,14 +991,13 @@ public class TicketingSystem extends JFrame{
       addAnotherButton.addActionListener(addAnotherButtonListener);
       add(addAnotherButton);
       
-      //back button
+      //Back button
       backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
       backButton.setBackground(Color.BLACK);
       backButton.setBounds((int)(screenSize.getWidth()/2+130),800,100,50);
       backButton.addActionListener(new ActionListener() {
-        
         /*
          * actionPerformed
          * Navigates back to main screen
@@ -1030,7 +1025,6 @@ public class TicketingSystem extends JFrame{
       String lastName = lastNameTextField.getText();
       String studentNumber = studentNumberTextField.getText();
       ArrayList<String> dietaryRestrictions = new ArrayList<>();
-      
       //Check allergies
       if (checkOfAllergies[0].isSelected()) {
         dietaryRestrictions.add("Vegetarian");
@@ -1056,9 +1050,8 @@ public class TicketingSystem extends JFrame{
       if (checkOfAllergies[7].isSelected()) {
         dietaryRestrictions.add("Peanut Allergy");
       }
-      
+      //Check friends
       ArrayList<String> friendStudentNumbers = new ArrayList<>();
-      //Check friend student numbers
       for (int i = 0; i < 9; i++) {
         if (!friendsTextField[i].getText().equals("")) {
           friendStudentNumbers.add(friendsTextField[i].getText());
@@ -1207,7 +1200,7 @@ public class TicketingSystem extends JFrame{
   /**
    * SearchScreen inner class
    * Creates search screen panels
-   */ 
+   */
   private class SearchScreen extends JPanel {
     ArrayList<Student> listOfResults;
     ArrayList<ArrayList> pageList;
@@ -1327,93 +1320,6 @@ public class TicketingSystem extends JFrame{
       add(searchField);
       add(searchButton);
       add(backButton);
-<<<<<<< HEAD
-      if (pageList.get(page).size() > 0) {
-        int displayHeight = 250;
-        for (int i = 0; i < pageList.get(page).size(); i++) {
-          JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
-          JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
-          JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
-          JButton modifyThisStudentButton = new JButton("Modify");
-          JButton removeStudent = new JButton("Remove");
-          
-          Student referencedStudent = ((Student)pageList.get(page).get(i));
-          int arrayIndex = (int)resultsMap.get(referencedStudent);
-          
-          modifyThisStudentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              modifyStudent(arrayIndex);
-              setScreen("StudentForm");
-            }
-          });
-          //Button formatting
-          firstNameLabel.setFont(generalButtonFont);
-          firstNameLabel.setForeground(Color.WHITE);
-          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
-          lastNameLabel.setFont(generalButtonFont);
-          lastNameLabel.setForeground(Color.WHITE);
-          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
-          studentNumberLabel.setFont(generalButtonFont);
-          studentNumberLabel.setForeground(Color.WHITE);
-          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
-          modifyThisStudentButton.setFont(generalButtonFont);
-          modifyThisStudentButton.setForeground(Color.WHITE);
-          modifyThisStudentButton.setBackground(new Color(13,77,0));
-          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
-          removeStudent.setFont(generalButtonFont);
-          removeStudent.setForeground(Color.WHITE);
-          removeStudent.setBackground(new Color(13,77,0));
-          removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
-          displayHeight+=100;
-          if (displayHeight>750){
-            displayHeight = 250;
-          }
-          int finalPage = page;
-          int loopIndex = i;
-          removeStudent.addActionListener(new ActionListener() {
-            /*
-             * actionPerformed
-             * Removes student from masterlist
-             * @param ActionEvent actionEvent
-             */
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              masterListOfStudents.remove(arrayIndex);
-              pageList.get(page).remove(loopIndex);
-              initializeInformation();
-              display(finalPage);
-              repaintFrame();
-            }
-          });
-          add(firstNameLabel);
-          add(lastNameLabel);
-          add(studentNumberLabel);
-          add(modifyThisStudentButton);
-          add(removeStudent);
-          
-          JButton previousPage, nextPage;
-          previousPage = new JButton("Previous Page");
-          previousPage.setFont(generalButtonFont);
-          previousPage.setForeground(Color.WHITE);
-          previousPage.setBackground(new Color(13,77,0));
-          previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
-          int newPagePrev = page - 1;
-          previousPage.addActionListener(new ActionListener() {
-            /*
-             * actionPerformed
-             * Navigates to previous info page
-             * @param ActionEvent actionEvent
-             */
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              if (newPagePrev >= 0) {
-                display(newPagePrev);
-                repaintFrame();
-              } else {
-                warningBox.setSize(100,200);
-                JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
-=======
       if (pageList.size() > 0) {
         if (pageList.get(page).size() > 0) {
           int displayHeight = 250;
@@ -1433,7 +1339,6 @@ public class TicketingSystem extends JFrame{
                 hasSaved = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
->>>>>>> 758c042052161fab951aa0828e8b12b4bb506eb4
               }
             });
             firstNameLabel.setFont(generalButtonFont);
@@ -1457,44 +1362,14 @@ public class TicketingSystem extends JFrame{
             if (displayHeight>750){
               displayHeight = 250;
             }
-<<<<<<< HEAD
-          });
-          nextPage = new JButton("Next Page");
-          nextPage.setFont(generalButtonFont);
-          nextPage.setForeground(Color.WHITE);
-          nextPage.setBackground(new Color(13,77,0));
-          nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
-          int newPageNext = page + 1;
-          nextPage.addActionListener(new ActionListener() {
-            /*
-             * actionPerformed
-             * Navigates to next info page
-             * @param ActionEvent actionEvent
-             */
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              if (newPageNext < pageList.size()) {
-                display(newPageNext);
-                repaintFrame();
-              } else {
-                warningBox.setSize(100, 200);
-                JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!", "Error!", JOptionPane.ERROR_MESSAGE);
-              }
-            }
-          });
-          add(previousPage);
-          add(nextPage);
-        }
-      } else { //If there are no search results
-        JLabel noResultsLabel = new JLabel("No results found!");
-        noResultsLabel.setFont(generalButtonFont);
-        noResultsLabel.setForeground(Color.WHITE);
-        noResultsLabel.setBounds((int)(screenSize.getWidth()/2-200),160,400,30);
-        add(noResultsLabel);
-=======
             int finalPage = page;
             int loopIndex = i;
             removeStudent.addActionListener(new ActionListener() {
+              /*
+               * actionPerformed
+               * Removes student from masterlist
+               * @param ActionEvent actionEvent
+               */
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
@@ -1523,6 +1398,11 @@ public class TicketingSystem extends JFrame{
             previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
             int newPagePrev = page - 1;
             previousPage.addActionListener(new ActionListener() {
+              /*
+               * actionPerformed
+               * Navigates to previous info page
+               * @param ActionEvent actionEvent
+               */
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 if (newPagePrev >= 0) {
@@ -1541,6 +1421,11 @@ public class TicketingSystem extends JFrame{
             nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
             int newPageNext = page + 1;
             nextPage.addActionListener(new ActionListener() {
+              /*
+               * actionPerformed
+               * Navigates to next info page
+               * @param ActionEvent actionEvent
+               */
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 if (newPageNext < pageList.size()) {
@@ -1557,13 +1442,12 @@ public class TicketingSystem extends JFrame{
             add(nextPage);
           }
         } 
-      } else {
+      } else { //If there are no search results
           JLabel noResultsLabel = new JLabel("No results found!");
           noResultsLabel.setFont(generalButtonFont);
           noResultsLabel.setForeground(Color.WHITE);
           noResultsLabel.setBounds((int)(screenSize.getWidth()/2-75),250,150,30);
           add(noResultsLabel);
->>>>>>> 758c042052161fab951aa0828e8b12b4bb506eb4
       }
       repaintFrame();
     }
@@ -1628,10 +1512,9 @@ public class TicketingSystem extends JFrame{
    */
   private class InformationScreen extends JPanel {
     JButton backButton;
-    ArrayList<ArrayList> pageList;
-    
     //Background image
     Image infoScreenBackground;
+    ArrayList<ArrayList> pageList;
     
     /*
      * paintComponent
