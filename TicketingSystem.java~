@@ -1,7 +1,7 @@
 /* TicketingSystem.java
  * Purpose: User interface that gets information from the reader
  * Creators: Shi Han Qin and Feng Guo
- * Date: 2019-02-14
+ * Date: 2019-02-27
  */
 
 //Imports
@@ -47,7 +47,6 @@ public class TicketingSystem extends JFrame{
   private FloorPlan floorPlan;
   private JFrame warningBox;
   private boolean hasSaved;
-  
   
   /** 
    * getNumberOfTables
@@ -748,7 +747,7 @@ public class TicketingSystem extends JFrame{
       studentNumberLabel.setFont(generalButtonFont);
       studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);
       
-      allergiesLabel = new JLabel("Allergies:");
+      allergiesLabel = new JLabel("Dietary Restrictions:");
       allergiesLabel.setForeground(Color.WHITE);
       allergiesLabel.setFont(generalButtonFont);
       allergiesLabel.setBounds(((int)(screenSize.getWidth())/5)*3,450,allergiesLabel.getPreferredSize().width,allergiesLabel.getPreferredSize().height);
@@ -1068,7 +1067,6 @@ public class TicketingSystem extends JFrame{
       search.setBounds((int)(screenSize.getWidth()/2-search.getPreferredSize().width/2),50,search.getPreferredSize().width,search.getPreferredSize().height);
       results = new JLabel("Results");
       searchField = new JTextField();
-      searchField.setFont(generalButtonFont);
       searchField.setBounds((int)(screenSize.getWidth()/2-150),100,300,25);
       searchButton = new JButton("Search");
       searchButton.setFont(generalButtonFont);
@@ -1138,21 +1136,21 @@ public class TicketingSystem extends JFrame{
           });
           firstNameLabel.setFont(generalButtonFont);
           firstNameLabel.setForeground(Color.WHITE);
-          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
           lastNameLabel.setFont(generalButtonFont);
           lastNameLabel.setForeground(Color.WHITE);
-          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
           studentNumberLabel.setFont(generalButtonFont);
           studentNumberLabel.setForeground(Color.WHITE);
-          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
           modifyThisStudentButton.setFont(generalButtonFont);
           modifyThisStudentButton.setForeground(Color.WHITE);
           modifyThisStudentButton.setBackground(new Color(13,77,0));
-          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,100,50);
+          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
           removeStudent.setFont(generalButtonFont);
           removeStudent.setForeground(Color.WHITE);
           removeStudent.setBackground(new Color(13,77,0));
-          removeStudent.setBounds((int)(screenSize.getWidth()/2+200),displayHeight+20,150,50);
+          removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
           displayHeight+=100;
           if (displayHeight>750){
             displayHeight = 250;
@@ -1180,12 +1178,11 @@ public class TicketingSystem extends JFrame{
           previousPage.setFont(generalButtonFont);
           previousPage.setForeground(Color.WHITE);
           previousPage.setBackground(new Color(13,77,0));
-          previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-100),200,50);
+          previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
           int newPagePrev = page - 1;
           previousPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-              //int newPage = page - 1;
               if (newPagePrev >= 0) {
                 display(newPagePrev);
                 repaintFrame();
@@ -1199,7 +1196,7 @@ public class TicketingSystem extends JFrame{
           nextPage.setFont(generalButtonFont);
           nextPage.setForeground(Color.WHITE);
           nextPage.setBackground(new Color(13,77,0));
-          nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),200,50);
+          nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
           int newPageNext = page + 1;
           nextPage.addActionListener(new ActionListener() {
             @Override
@@ -1263,7 +1260,6 @@ public class TicketingSystem extends JFrame{
     Image infoScreenBackground;
     ArrayList<ArrayList> pageList;
     
-    
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -1318,12 +1314,11 @@ public class TicketingSystem extends JFrame{
       previousPage.setFont(generalButtonFont);
       previousPage.setForeground(Color.WHITE);
       previousPage.setBackground(new Color(13,77,0));
-      previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-100),200,50);
+      previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
       int newPagePrev = page - 1;
       previousPage.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          //int newPage = page - 1;
           if (newPagePrev >= 0) {
             displayInformation(newPagePrev);
             repaintFrame();
@@ -1337,7 +1332,7 @@ public class TicketingSystem extends JFrame{
       nextPage.setFont(generalButtonFont);
       nextPage.setForeground(Color.WHITE);
       nextPage.setBackground(new Color(13,77,0));
-      nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-100),200,50);
+      nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
       int newPageNext = page + 1;
       nextPage.addActionListener(new ActionListener() {
         @Override
@@ -1363,27 +1358,26 @@ public class TicketingSystem extends JFrame{
             JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
             JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
             JButton modifyThisStudentButton = new JButton("Modify");
-            
             JButton removeStudent = new JButton("Remove");
             
             //Format
             firstNameLabel.setFont(generalButtonFont);
             firstNameLabel.setForeground(Color.WHITE);
-            firstNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight,400,30);          
+            firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
             lastNameLabel.setFont(generalButtonFont);
             lastNameLabel.setForeground(Color.WHITE);
-            lastNameLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+30,400,30);          
+            lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
             studentNumberLabel.setFont(generalButtonFont);
             studentNumberLabel.setForeground(Color.WHITE);
-            studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-200),displayHeight+60,400,30);
+            studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
             modifyThisStudentButton.setFont(generalButtonFont);
             modifyThisStudentButton.setForeground(Color.WHITE);
             modifyThisStudentButton.setBackground(new Color(13,77,0));
-            modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,100,50);
+            modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
             removeStudent.setFont(generalButtonFont);
             removeStudent.setForeground(Color.WHITE);
             removeStudent.setBackground(new Color(13,77,0));
-            removeStudent.setBounds((int)(screenSize.getWidth()/2+200),displayHeight+20,150,50);
+            removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
             displayHeight+=100;
             if (displayHeight>750){
               displayHeight = 250;
