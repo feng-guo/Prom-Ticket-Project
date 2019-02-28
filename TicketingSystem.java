@@ -1076,6 +1076,7 @@ public class TicketingSystem extends JFrame{
       searchButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+          clearSearch();
           search();
           initializeInformation();
           display(0);
@@ -1250,6 +1251,18 @@ public class TicketingSystem extends JFrame{
           }
         }
         pageList.add(page);
+      }
+    }
+    
+    private void clearSearch() {
+      if (resultsMap.size() > 0) {
+        resultsMap.clear();
+      }
+      if (listOfResults.size() > 0) {
+        listOfResults.clear();
+      }
+      if (pageList.size() > 0) {
+        pageList.clear();
       }
     }
   }//End of search screen class
