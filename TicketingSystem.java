@@ -225,7 +225,11 @@ public class TicketingSystem extends JFrame{
     masterListOfStudents.set(arrayIndex, updatedStudent);
   }
   
-  //Creates the Starting Screen, the first screen that shows up on the program
+  /**
+   * Inner class StartScreen
+   * Creates starting screen panels
+   */
+  
   private class StartScreen extends JPanel {
     //Components for the panel
     JButton openExistingPlan;
@@ -240,13 +244,22 @@ public class TicketingSystem extends JFrame{
     
     //Background image
     Image startScreenBackground = Toolkit.getDefaultToolkit().createImage("StartScreen.png");
+    
+    /*
+     * paintComponent
+     * Paint on the background image
+     * @param Graphics g
+     */
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
       g.drawImage(startScreenBackground, 0, 0, this.getWidth(), this.getHeight() + 100, this);
     }
     
-    //Method run when start plan is clicked
+    /*
+     * clickedStartPlan
+     * Run when the "Start New Plan" button is clicked on the main page
+     */
     private void clickedStartPlan() {
       //Done button
       JButton doneButton = new JButton("Submit");
@@ -300,26 +313,37 @@ public class TicketingSystem extends JFrame{
       
       //Action when submit button is clicked
       doneButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Store user inputs
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            eventName = eventNameTextField.getText();
-            numberOfTables = Integer.parseInt(numTablesTextField.getText());
-            peoplePerTable = Integer.parseInt(peopleTablesTextField.getText());
+            eventName = eventNameTextField.getText(); //get event name
+            numberOfTables = Integer.parseInt(numTablesTextField.getText()); //get # of tables
+            peoplePerTable = Integer.parseInt(peopleTablesTextField.getText()); //get people per table
+            //if no inputs are detected:
             if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
               setScreen("MainScreen");
-            } else {
+            } else { //if some fields are left blank
               warningBox.setSize(100,200);
               JOptionPane.showMessageDialog(warningBox, "Not all of the fields were filled!", "Error!", JOptionPane.ERROR_MESSAGE);
             }
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException e) { //warning for improper data entry
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Numbers were not entered properly!", "Error!", JOptionPane.ERROR_MESSAGE);
           }  
         }
       });
-      //Action when back button is clicked
+      
       backToStartButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Brings user back to the start screen when "Back" is clicked
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("StartScreen");  
@@ -335,7 +359,7 @@ public class TicketingSystem extends JFrame{
      * Sets up start screen
      */
     StartScreen() {
-      super();
+      super(); //create the panel
       this.setLayout(null);
       
       //Welcome message
@@ -349,8 +373,13 @@ public class TicketingSystem extends JFrame{
       openExistingPlan.setFont(generalButtonFont);
       openExistingPlan.setBackground(new Color(38, 77, 0));
       openExistingPlan.setForeground(new Color(255, 255, 255));
-      //Opens an existing plan when the "Open Existing Plan" button is clicked
+      
       openExistingPlan.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Opens an existing plan when the "Open Existing Plan" button is clicked
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           openExistingPlan();
@@ -364,6 +393,11 @@ public class TicketingSystem extends JFrame{
       openNewPlan.setBackground(new Color(38, 77, 0));
       openNewPlan.setForeground(new Color(255, 255, 255));
       openNewPlan.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Opens form to start new plan when the "Start New Plan" button is clicked
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           clickedStartPlan();
@@ -375,8 +409,7 @@ public class TicketingSystem extends JFrame{
       add(openExistingPlan);
       add(openNewPlan);
       add(welcomeMessage);
-    }
-    
+    }  
     
     /*
      * openExistingPlan
@@ -410,8 +443,12 @@ public class TicketingSystem extends JFrame{
       okayButton.setBackground(new Color(0,77,13));
       okayButton.setBounds((int)(screenSize.getWidth()/2),200,100,50);
       
-      //Brings back to starting screen
       backButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Brings back to starting screen when "Back" is pressed
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("StartScreen");  
@@ -424,8 +461,12 @@ public class TicketingSystem extends JFrame{
       add(planNamePrompt);
       add(planNameTextField);
       
-      //Loads name of the file to be parsed
       okayButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Loads name of the file to be parsed
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           String nameOfFile = planNameTextField.getText();
@@ -548,6 +589,12 @@ public class TicketingSystem extends JFrame{
     
     //Background image
     Image mainScreenBackground = Toolkit.getDefaultToolkit().createImage("MainScreen.jpg");
+    
+    /*
+     * paintComponent
+     * Paint on the background image
+     * @param Graphics g
+     */
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -561,7 +608,7 @@ public class TicketingSystem extends JFrame{
     MainScreen() {
       super();
       this.setLayout(null);
-      
+      //Menu title label
       menuTitle = new JLabel("Menu");
       menuTitle.setForeground(Color.WHITE);
       menuTitle.setFont(welcomeMessageFont);
@@ -573,8 +620,13 @@ public class TicketingSystem extends JFrame{
       addStudentButton.setBackground(new Color(68,102,0));
       addStudentButton.setFont(generalButtonFont);
       addStudentButton.setBounds((int)(screenSize.getWidth()/2-150),250,300,50);
-      //Adds a new student to the plan
+      
       addStudentButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Loads the student form so user can add a student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("StudentForm");
@@ -587,8 +639,13 @@ public class TicketingSystem extends JFrame{
       searchButton.setBackground(new Color(68,102,0));
       searchButton.setFont(generalButtonFont);
       searchButton.setBounds((int)(screenSize.getWidth()/2-150),310,300,50);
-      //Searches for student
+     
       searchButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Searches for a student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("Search");
@@ -601,8 +658,13 @@ public class TicketingSystem extends JFrame{
       arrangeTablesButton.setBackground(new Color(68,102,0));
       arrangeTablesButton.setFont(generalButtonFont);
       arrangeTablesButton.setBounds((int)(screenSize.getWidth()/2-150),370,300,50);
-      //Arranges tables
+      
       arrangeTablesButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Arranges tables
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
@@ -617,6 +679,11 @@ public class TicketingSystem extends JFrame{
       saveButton.setFont(generalButtonFont);
       saveButton.setBounds((int)(screenSize.getWidth()/2-150),550,300,50);
       saveButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Saves data
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           saveData();
@@ -631,9 +698,14 @@ public class TicketingSystem extends JFrame{
       backButton.setFont(generalButtonFont);
       backButton.setBounds((int)(screenSize.getWidth()/2-150),610,300,50);
       backButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Navigates back to Start screen 
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          if (!hasSaved) {
+          if (!hasSaved) { //Check if user has saved 
             warningBox.setSize(100,200);
             int decision = JOptionPane.showConfirmDialog(warningBox, "You have unsaved information! Do you want to save?");
             if (decision == 0) {
@@ -655,6 +727,11 @@ public class TicketingSystem extends JFrame{
       displayTablesButton.setFont(generalButtonFont);
       displayTablesButton.setBounds((int)(screenSize.getWidth()/2-150),490,300,50);
       displayTablesButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Displays tables in another frame
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
@@ -673,6 +750,11 @@ public class TicketingSystem extends JFrame{
       displayInformationButton.setFont(generalButtonFont);
       displayInformationButton.setBounds((int)(screenSize.getWidth()/2-150),430,300,50);
       displayInformationButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Displays the event information
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("InformationScreen");
@@ -733,7 +815,12 @@ public class TicketingSystem extends JFrame{
     }
   }//End of main screen class
   
+  /**
+   * StudentForm
+   * Creates panels for the student form
+   */ 
   private class StudentForm extends JPanel {
+    //Components for panel
     JLabel firstNameLabel;
     JLabel lastNameLabel;
     JLabel studentNumberLabel;
@@ -754,7 +841,13 @@ public class TicketingSystem extends JFrame{
     ActionListener addAnotherButtonListener;
     ActionListener tempDisabled;
     
+    //Background image for student form
     Image studentFormBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
+    /*
+     * paintComponent
+     * Paint on the background image
+     * @param Graphics g
+     */
     @Override
     protected void paintComponent(Graphics g){
       super.paintComponent(g);
@@ -768,8 +861,8 @@ public class TicketingSystem extends JFrame{
     StudentForm() {
       super();  
       this.setLayout(null);
-      //int col1=(int)(screenSize.getWidth())/4-firstNameLabel.getPreferredSize().width/2;
       
+      //Labels
       firstNameLabel = new JLabel("First Name:");
       firstNameLabel.setForeground(Color.WHITE);
       firstNameLabel.setFont(generalButtonFont);
@@ -782,7 +875,6 @@ public class TicketingSystem extends JFrame{
       studentNumberLabel.setForeground(Color.WHITE);
       studentNumberLabel.setFont(generalButtonFont);
       studentNumberLabel.setBounds((int)(screenSize.getWidth())/5,400,studentNumberLabel.getPreferredSize().width,studentNumberLabel.getPreferredSize().height);
-      
       allergiesLabel = new JLabel("Dietary Restrictions:");
       allergiesLabel.setForeground(Color.WHITE);
       allergiesLabel.setFont(generalButtonFont);
@@ -792,6 +884,7 @@ public class TicketingSystem extends JFrame{
       friendPreferencesLabel.setFont(generalButtonFont);
       friendPreferencesLabel.setBounds(((int)(screenSize.getWidth())/5)*3,100,friendPreferencesLabel.getPreferredSize().width,friendPreferencesLabel.getPreferredSize().height);
       
+      //Text fields
       firstNameTextField = new JTextField();
       firstNameTextField.setBounds((int)(screenSize.getWidth())/5,150,300,25);
       lastNameTextField = new JTextField();
@@ -814,6 +907,7 @@ public class TicketingSystem extends JFrame{
         allergiesY+=30;
       }
       
+      //add to panel
       add(firstNameLabel);
       add(firstNameTextField);
       add(lastNameLabel);
@@ -833,18 +927,24 @@ public class TicketingSystem extends JFrame{
       int yheight = 150;
       for (int i=0;i<9;i++) {
         friendsTextField[i] = new JTextField();
-        //friendsTextField[i].setFont(generalButtonFont);
         friendsTextField[i].setBounds(((int)(screenSize.getWidth())/5)*3,yheight, 300,25);
         add(friendsTextField[i]);
         friendsTextField[i].getText();
         yheight+=30;
       }
+      //Save button
       saveButton = new JButton("Save");
       saveButton.setFont(generalButtonFont);
       saveButton.setForeground(Color.WHITE);
       saveButton.setBackground(Color.BLACK);
       saveButton.setBounds((int)(screenSize.getWidth()/2-230),800,100,50);
+      
       newStudent = new ActionListener() {
+        /*
+         * actionPerformed
+         * Saves student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           boolean completed = saveStudent();
@@ -858,6 +958,11 @@ public class TicketingSystem extends JFrame{
       };
       saveButton.addActionListener(newStudent);
       addAnotherButtonListener = new ActionListener() {
+        /*
+         * actionPerformed
+         * Saves student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           boolean completed = saveStudent();
@@ -870,6 +975,11 @@ public class TicketingSystem extends JFrame{
         }
       };
       tempDisabled = new ActionListener() {
+        /*
+         * actionPerformed
+         * When modifying a student, the "Add Another Student" button is disabled
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           warningBox.setSize(100,200);
@@ -884,12 +994,20 @@ public class TicketingSystem extends JFrame{
       addAnotherButton.setBounds((int)(screenSize.getWidth()/2-125),800,250,50);
       addAnotherButton.addActionListener(addAnotherButtonListener);
       add(addAnotherButton);
+      
+      //back button
       backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
       backButton.setBackground(Color.BLACK);
       backButton.setBounds((int)(screenSize.getWidth()/2+130),800,100,50);
       backButton.addActionListener(new ActionListener() {
+        
+        /*
+         * actionPerformed
+         * Navigates back to main screen
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           addAnotherButton.removeActionListener(tempDisabled);
@@ -912,6 +1030,8 @@ public class TicketingSystem extends JFrame{
       String lastName = lastNameTextField.getText();
       String studentNumber = studentNumberTextField.getText();
       ArrayList<String> dietaryRestrictions = new ArrayList<>();
+      
+      //Check allergies
       if (checkOfAllergies[0].isSelected()) {
         dietaryRestrictions.add("Vegetarian");
       }
@@ -936,7 +1056,9 @@ public class TicketingSystem extends JFrame{
       if (checkOfAllergies[7].isSelected()) {
         dietaryRestrictions.add("Peanut Allergy");
       }
+      
       ArrayList<String> friendStudentNumbers = new ArrayList<>();
+      //Check friend student numbers
       for (int i = 0; i < 9; i++) {
         if (!friendsTextField[i].getText().equals("")) {
           friendStudentNumbers.add(friendsTextField[i].getText());
@@ -1009,6 +1131,11 @@ public class TicketingSystem extends JFrame{
       }
       saveButton.removeActionListener(newStudent);
       updateStudent = new ActionListener() {
+        /*
+         * actionPerformed
+         * Makes a student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           Student intermediate = makeStudent();
@@ -1077,6 +1204,10 @@ public class TicketingSystem extends JFrame{
     }
   }//End of student form class
   
+  /**
+   * SearchScreen inner class
+   * Creates search screen panels
+   */ 
   private class SearchScreen extends JPanel {
     ArrayList<Student> listOfResults;
     ArrayList<ArrayList> pageList;
@@ -1088,6 +1219,11 @@ public class TicketingSystem extends JFrame{
     
     //Background image
     Image searchScreenBackground = Toolkit.getDefaultToolkit().createImage("StudentForm.png");
+    /*
+     * paintComponent
+     * Paint on the background image
+     * @param Graphics g
+     */
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -1108,6 +1244,11 @@ public class TicketingSystem extends JFrame{
       backButton.setBackground(new Color(13,77,0));
       backButton.setBounds((int)(screenSize.getWidth()/2-100),150,100,50);
       backButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Navigates to main screen
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           setScreen("MainScreen");
@@ -1129,6 +1270,11 @@ public class TicketingSystem extends JFrame{
       searchButton.setBackground(new Color(13,77,0));
       searchButton.setBounds((int)(screenSize.getWidth()/2),150,100,50);
       searchButton.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Searches for student
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           clearSearch();
@@ -1198,6 +1344,7 @@ public class TicketingSystem extends JFrame{
               setScreen("StudentForm");
             }
           });
+          //Button formatting
           firstNameLabel.setFont(generalButtonFont);
           firstNameLabel.setForeground(Color.WHITE);
           firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
@@ -1222,6 +1369,11 @@ public class TicketingSystem extends JFrame{
           int finalPage = page;
           int loopIndex = i;
           removeStudent.addActionListener(new ActionListener() {
+            /*
+             * actionPerformed
+             * Removes student from masterlist
+             * @param ActionEvent actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
               masterListOfStudents.remove(arrayIndex);
@@ -1245,6 +1397,11 @@ public class TicketingSystem extends JFrame{
           previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
           int newPagePrev = page - 1;
           previousPage.addActionListener(new ActionListener() {
+            /*
+             * actionPerformed
+             * Navigates to previous info page
+             * @param ActionEvent actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
               if (newPagePrev >= 0) {
@@ -1263,6 +1420,11 @@ public class TicketingSystem extends JFrame{
           nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
           int newPageNext = page + 1;
           nextPage.addActionListener(new ActionListener() {
+            /*
+             * actionPerformed
+             * Navigates to next info page
+             * @param ActionEvent actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
               if (newPageNext < pageList.size()) {
@@ -1274,11 +1436,10 @@ public class TicketingSystem extends JFrame{
               }
             }
           });
-          
           add(previousPage);
           add(nextPage);
         }
-      } else {
+      } else { //If there are no search results
         JLabel noResultsLabel = new JLabel("No results found!");
         noResultsLabel.setFont(generalButtonFont);
         noResultsLabel.setForeground(Color.WHITE);
@@ -1325,6 +1486,10 @@ public class TicketingSystem extends JFrame{
       }
     }
     
+    /*
+     * clearSearch
+     * Clears searches
+     */
     private void clearSearch() {
       if (resultsMap.size() > 0) {
         resultsMap.clear();
@@ -1338,12 +1503,22 @@ public class TicketingSystem extends JFrame{
     }
   }//End of search screen class
   
+  /**
+   * InformationScreen
+   * Creates panels for information screen
+   */
   private class InformationScreen extends JPanel {
     JButton backButton;
-    //Background image
-    Image infoScreenBackground;
     ArrayList<ArrayList> pageList;
     
+    //Background image
+    Image infoScreenBackground;
+    
+    /*
+     * paintComponent
+     * Paint on the background image
+     * @param Graphics g
+     */
     @Override
     protected void paintComponent(Graphics g) {
       super.paintComponent(g);
@@ -1393,6 +1568,8 @@ public class TicketingSystem extends JFrame{
       numberOfTablesLabel.setFont(generalButtonFont);
       numberOfTablesLabel.setForeground(Color.WHITE);
       numberOfTablesLabel.setBounds((int)(screenSize.getWidth()/2-numberOfTablesLabel.getPreferredSize().width/2),130,numberOfTablesLabel.getPreferredSize().width,numberOfTablesLabel.getPreferredSize().height);
+      
+      //Add components
       add(eventNameLabel);
       add(numberOfPeoplePerTableLabel);
       add(numberOfTablesLabel);
@@ -1405,6 +1582,11 @@ public class TicketingSystem extends JFrame{
       previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
       int newPagePrev = page - 1;
       previousPage.addActionListener(new ActionListener() {
+        /*
+         * actionPerformed
+         * Navigates to previous page
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           if (newPagePrev >= 0) {
@@ -1423,6 +1605,11 @@ public class TicketingSystem extends JFrame{
       nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
       int newPageNext = page + 1;
       nextPage.addActionListener(new ActionListener() {
+        /**
+         * actionPerformed
+         * Navigates to to next page
+         * @param ActionEvent actionEvent
+         */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           if (newPageNext < pageList.size()) {
