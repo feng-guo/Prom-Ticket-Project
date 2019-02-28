@@ -1150,6 +1150,8 @@ public class TicketingSystem extends JFrame{
      */
     private void search() {
       String searchQuery = searchField.getText();
+      listOfResults.clear();
+      resultsMap.clear();
       if (searchQuery.substring(searchQuery.length()-1, searchQuery.length()).equals(" ")){
         searchQuery = searchQuery.substring(0, searchQuery.length()-1);
       }
@@ -1179,111 +1181,114 @@ public class TicketingSystem extends JFrame{
       add(searchField);
       add(searchButton);
       add(backButton);
-      if (pageList.get(page).size() > 0) {
-        int displayHeight = 250;
-        for (int i = 0; i < pageList.get(page).size(); i++) {
-          JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
-          JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
-          JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
-          JButton modifyThisStudentButton = new JButton("Modify");
-          JButton removeStudent = new JButton("Remove");
-          
-          Student referencedStudent = ((Student)pageList.get(page).get(i));
-          int arrayIndex = (int)resultsMap.get(referencedStudent);
-          
-          modifyThisStudentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              modifyStudent(arrayIndex);
-              setScreen("StudentForm");
+      if (pageList.size() > 0) {
+        if (pageList.get(page).size() > 0) {
+          int displayHeight = 250;
+          for (int i = 0; i < pageList.get(page).size(); i++) {
+            JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
+            JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
+            JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
+            JButton modifyThisStudentButton = new JButton("Modify");
+            JButton removeStudent = new JButton("Remove");
+            
+            Student referencedStudent = ((Student)pageList.get(page).get(i));
+            int arrayIndex = (int)resultsMap.get(referencedStudent);
+            
+            modifyThisStudentButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                modifyStudent(arrayIndex);
+                setScreen("StudentForm");
+              }
+            });
+            firstNameLabel.setFont(generalButtonFont);
+            firstNameLabel.setForeground(Color.WHITE);
+            firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
+            lastNameLabel.setFont(generalButtonFont);
+            lastNameLabel.setForeground(Color.WHITE);
+            lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
+            studentNumberLabel.setFont(generalButtonFont);
+            studentNumberLabel.setForeground(Color.WHITE);
+            studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
+            modifyThisStudentButton.setFont(generalButtonFont);
+            modifyThisStudentButton.setForeground(Color.WHITE);
+            modifyThisStudentButton.setBackground(new Color(13,77,0));
+            modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
+            removeStudent.setFont(generalButtonFont);
+            removeStudent.setForeground(Color.WHITE);
+            removeStudent.setBackground(new Color(13,77,0));
+            removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
+            displayHeight+=100;
+            if (displayHeight>750){
+              displayHeight = 250;
             }
-          });
-          firstNameLabel.setFont(generalButtonFont);
-          firstNameLabel.setForeground(Color.WHITE);
-          firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
-          lastNameLabel.setFont(generalButtonFont);
-          lastNameLabel.setForeground(Color.WHITE);
-          lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
-          studentNumberLabel.setFont(generalButtonFont);
-          studentNumberLabel.setForeground(Color.WHITE);
-          studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
-          modifyThisStudentButton.setFont(generalButtonFont);
-          modifyThisStudentButton.setForeground(Color.WHITE);
-          modifyThisStudentButton.setBackground(new Color(13,77,0));
-          modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
-          removeStudent.setFont(generalButtonFont);
-          removeStudent.setForeground(Color.WHITE);
-          removeStudent.setBackground(new Color(13,77,0));
-          removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
-          displayHeight+=100;
-          if (displayHeight>750){
-            displayHeight = 250;
+            int finalPage = page;
+            int loopIndex = i;
+            removeStudent.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                pageList.get(page).remove(loopIndex);
+                masterListOfStudents.remove(arrayIndex);
+                search();
+                initializeInformation();
+                display(finalPage);
+                repaintFrame();
+              }
+            });
+            add(firstNameLabel);
+            add(lastNameLabel);
+            add(studentNumberLabel);
+            add(modifyThisStudentButton);
+            add(removeStudent);
+            
+            JButton previousPage, nextPage;
+            previousPage = new JButton("Previous Page");
+            previousPage.setFont(generalButtonFont);
+            previousPage.setForeground(Color.WHITE);
+            previousPage.setBackground(new Color(13,77,0));
+            previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
+            int newPagePrev = page - 1;
+            previousPage.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                if (newPagePrev >= 0) {
+                  display(newPagePrev);
+                  repaintFrame();
+                } else {
+                  warningBox.setSize(100,200);
+                  JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
+                }
+              }
+            });
+            nextPage = new JButton("Next Page");
+            nextPage.setFont(generalButtonFont);
+            nextPage.setForeground(Color.WHITE);
+            nextPage.setBackground(new Color(13,77,0));
+            nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
+            int newPageNext = page + 1;
+            nextPage.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                if (newPageNext < pageList.size()) {
+                  display(newPageNext);
+                  repaintFrame();
+                } else {
+                  warningBox.setSize(100, 200);
+                  JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+              }
+            });
+            
+            add(previousPage);
+            add(nextPage);
           }
-          int finalPage = page;
-          int loopIndex = i;
-          removeStudent.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              masterListOfStudents.remove(arrayIndex);
-              pageList.get(page).remove(loopIndex);
-              initializeInformation();
-              display(finalPage);
-              repaintFrame();
-            }
-          });
-          add(firstNameLabel);
-          add(lastNameLabel);
-          add(studentNumberLabel);
-          add(modifyThisStudentButton);
-          add(removeStudent);
-          
-          JButton previousPage, nextPage;
-          previousPage = new JButton("Previous Page");
-          previousPage.setFont(generalButtonFont);
-          previousPage.setForeground(Color.WHITE);
-          previousPage.setBackground(new Color(13,77,0));
-          previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
-          int newPagePrev = page - 1;
-          previousPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              if (newPagePrev >= 0) {
-                display(newPagePrev);
-                repaintFrame();
-              } else {
-                warningBox.setSize(100,200);
-                JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
-              }
-            }
-          });
-          nextPage = new JButton("Next Page");
-          nextPage.setFont(generalButtonFont);
-          nextPage.setForeground(Color.WHITE);
-          nextPage.setBackground(new Color(13,77,0));
-          nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
-          int newPageNext = page + 1;
-          nextPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              if (newPageNext < pageList.size()) {
-                display(newPageNext);
-                repaintFrame();
-              } else {
-                warningBox.setSize(100, 200);
-                JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!", "Error!", JOptionPane.ERROR_MESSAGE);
-              }
-            }
-          });
-          
-          add(previousPage);
-          add(nextPage);
-        }
+        } 
       } else {
-        JLabel noResultsLabel = new JLabel("No results found!");
-        noResultsLabel.setFont(generalButtonFont);
-        noResultsLabel.setForeground(Color.WHITE);
-        noResultsLabel.setBounds((int)(screenSize.getWidth()/2-200),160,400,30);
-        add(noResultsLabel);
+          JLabel noResultsLabel = new JLabel("No results found!");
+          noResultsLabel.setFont(generalButtonFont);
+          noResultsLabel.setForeground(Color.WHITE);
+          noResultsLabel.setBounds((int)(screenSize.getWidth()/2-75),250,150,30);
+          add(noResultsLabel);
       }
       repaintFrame();
     }

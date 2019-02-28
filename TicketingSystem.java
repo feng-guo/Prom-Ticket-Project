@@ -182,7 +182,7 @@ public class TicketingSystem extends JFrame{
     floorPlan = new FloorPlan();
     alg = new SeatingAlg();
     warningBox = new JFrame();
-    listOfTables = new ArrayList(); //Hi
+    listOfTables = new ArrayList<>(); //Hi
   }
   
   /*
@@ -1237,7 +1237,7 @@ public class TicketingSystem extends JFrame{
     SearchScreen(){
       super();
       this.setLayout(null);
-      resultsMap = new HashMap();
+      resultsMap = new HashMap<>();
       backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
@@ -1296,6 +1296,8 @@ public class TicketingSystem extends JFrame{
      */
     private void search() {
       String searchQuery = searchField.getText();
+      listOfResults.clear();
+      resultsMap.clear();
       if (searchQuery.substring(searchQuery.length()-1, searchQuery.length()).equals(" ")){
         searchQuery = searchQuery.substring(0, searchQuery.length()-1);
       }
@@ -1325,6 +1327,7 @@ public class TicketingSystem extends JFrame{
       add(searchField);
       add(searchButton);
       add(backButton);
+<<<<<<< HEAD
       if (pageList.get(page).size() > 0) {
         int displayHeight = 250;
         for (int i = 0; i < pageList.get(page).size(); i++) {
@@ -1410,8 +1413,51 @@ public class TicketingSystem extends JFrame{
               } else {
                 warningBox.setSize(100,200);
                 JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
+=======
+      if (pageList.size() > 0) {
+        if (pageList.get(page).size() > 0) {
+          int displayHeight = 250;
+          for (int i = 0; i < pageList.get(page).size(); i++) {
+            JLabel firstNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getFirstName());
+            JLabel lastNameLabel = new JLabel(((Student)pageList.get(page).get(i)).getLastName());
+            JLabel studentNumberLabel = new JLabel(((Student)pageList.get(page).get(i)).getStudentNumber());
+            JButton modifyThisStudentButton = new JButton("Modify");
+            JButton removeStudent = new JButton("Remove");
+            
+            Student referencedStudent = ((Student)pageList.get(page).get(i));
+            int arrayIndex = (int)resultsMap.get(referencedStudent);
+            
+            modifyThisStudentButton.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                hasSaved = false;
+                modifyStudent(arrayIndex);
+                setScreen("StudentForm");
+>>>>>>> 758c042052161fab951aa0828e8b12b4bb506eb4
               }
+            });
+            firstNameLabel.setFont(generalButtonFont);
+            firstNameLabel.setForeground(Color.WHITE);
+            firstNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight,400,30);          
+            lastNameLabel.setFont(generalButtonFont);
+            lastNameLabel.setForeground(Color.WHITE);
+            lastNameLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+30,400,30);          
+            studentNumberLabel.setFont(generalButtonFont);
+            studentNumberLabel.setForeground(Color.WHITE);
+            studentNumberLabel.setBounds((int)(screenSize.getWidth()/2-300),displayHeight+60,400,30);
+            modifyThisStudentButton.setFont(generalButtonFont);
+            modifyThisStudentButton.setForeground(Color.WHITE);
+            modifyThisStudentButton.setBackground(new Color(13,77,0));
+            modifyThisStudentButton.setBounds((int)(screenSize.getWidth()/2+100),displayHeight+20,125,50);
+            removeStudent.setFont(generalButtonFont);
+            removeStudent.setForeground(Color.WHITE);
+            removeStudent.setBackground(new Color(13,77,0));
+            removeStudent.setBounds((int)(screenSize.getWidth()/2+225),displayHeight+20,125,50);
+            displayHeight+=100;
+            if (displayHeight>750){
+              displayHeight = 250;
             }
+<<<<<<< HEAD
           });
           nextPage = new JButton("Next Page");
           nextPage.setFont(generalButtonFont);
@@ -1445,6 +1491,79 @@ public class TicketingSystem extends JFrame{
         noResultsLabel.setForeground(Color.WHITE);
         noResultsLabel.setBounds((int)(screenSize.getWidth()/2-200),160,400,30);
         add(noResultsLabel);
+=======
+            int finalPage = page;
+            int loopIndex = i;
+            removeStudent.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
+                if (decision == 0) {
+                  hasSaved = false;
+                  pageList.get(page).remove(loopIndex);
+                  masterListOfStudents.remove(arrayIndex);
+                  search();
+                  initializeInformation();
+                  display(finalPage);
+                  repaintFrame();
+                }
+              }
+            });
+            add(firstNameLabel);
+            add(lastNameLabel);
+            add(studentNumberLabel);
+            add(modifyThisStudentButton);
+            add(removeStudent);
+            
+            JButton previousPage, nextPage;
+            previousPage = new JButton("Previous Page");
+            previousPage.setFont(generalButtonFont);
+            previousPage.setForeground(Color.WHITE);
+            previousPage.setBackground(new Color(13,77,0));
+            previousPage.setBounds((int)(screenSize.getWidth()/2-205),(int)(screenSize.getHeight()-175),200,50);
+            int newPagePrev = page - 1;
+            previousPage.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                if (newPagePrev >= 0) {
+                  display(newPagePrev);
+                  repaintFrame();
+                } else {
+                  warningBox.setSize(100,200);
+                  JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!","Error!", JOptionPane.ERROR_MESSAGE);
+                }
+              }
+            });
+            nextPage = new JButton("Next Page");
+            nextPage.setFont(generalButtonFont);
+            nextPage.setForeground(Color.WHITE);
+            nextPage.setBackground(new Color(13,77,0));
+            nextPage.setBounds((int)(screenSize.getWidth()/2+5),(int)(screenSize.getHeight()-175),200,50);
+            int newPageNext = page + 1;
+            nextPage.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent actionEvent) {
+                if (newPageNext < pageList.size()) {
+                  display(newPageNext);
+                  repaintFrame();
+                } else {
+                  warningBox.setSize(100, 200);
+                  JOptionPane.showMessageDialog(warningBox, "Page index out of bounds!", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+              }
+            });
+            
+            add(previousPage);
+            add(nextPage);
+          }
+        } 
+      } else {
+          JLabel noResultsLabel = new JLabel("No results found!");
+          noResultsLabel.setFont(generalButtonFont);
+          noResultsLabel.setForeground(Color.WHITE);
+          noResultsLabel.setBounds((int)(screenSize.getWidth()/2-75),250,150,30);
+          add(noResultsLabel);
+>>>>>>> 758c042052161fab951aa0828e8b12b4bb506eb4
       }
       repaintFrame();
     }
@@ -1663,6 +1782,7 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 //Modifies a student based on its array index
+                hasSaved = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1672,10 +1792,14 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 //Removes the student and returns to page 1 
-                masterListOfStudents.remove(arrayIndex);
-                initializeInformation();
-                displayInformation(finalPage);
-                repaintFrame();
+                int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
+                if (decision == 0) {
+                  hasSaved = false;
+                  masterListOfStudents.remove(arrayIndex);
+                  initializeInformation();
+                  displayInformation(finalPage);
+                  repaintFrame();
+                }
               }
             });
             add(firstNameLabel);
