@@ -182,7 +182,7 @@ public class TicketingSystem extends JFrame{
     floorPlan = new FloorPlan();
     alg = new SeatingAlg();
     warningBox = new JFrame();
-    listOfTables = new ArrayList(); //Hi
+    listOfTables = new ArrayList<>(); //Hi
   }
   
   /*
@@ -1101,7 +1101,7 @@ public class TicketingSystem extends JFrame{
     SearchScreen(){
       super();
       this.setLayout(null);
-      resultsMap = new HashMap();
+      resultsMap = new HashMap<>();
       backButton = new JButton("Back");
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
@@ -1197,6 +1197,7 @@ public class TicketingSystem extends JFrame{
             modifyThisStudentButton.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
+                hasSaved = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1227,12 +1228,16 @@ public class TicketingSystem extends JFrame{
             removeStudent.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
-                pageList.get(page).remove(loopIndex);
-                masterListOfStudents.remove(arrayIndex);
-                search();
-                initializeInformation();
-                display(finalPage);
-                repaintFrame();
+                int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
+                if (decision == 0) {
+                  hasSaved = false;
+                  pageList.get(page).remove(loopIndex);
+                  masterListOfStudents.remove(arrayIndex);
+                  search();
+                  initializeInformation();
+                  display(finalPage);
+                  repaintFrame();
+                }
               }
             });
             add(firstNameLabel);
@@ -1481,6 +1486,7 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 //Modifies a student based on its array index
+                hasSaved = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1490,10 +1496,14 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 //Removes the student and returns to page 1 
-                masterListOfStudents.remove(arrayIndex);
-                initializeInformation();
-                displayInformation(finalPage);
-                repaintFrame();
+                int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
+                if (decision == 0) {
+                  hasSaved = false;
+                  masterListOfStudents.remove(arrayIndex);
+                  initializeInformation();
+                  displayInformation(finalPage);
+                  repaintFrame();
+                }
               }
             });
             add(firstNameLabel);
