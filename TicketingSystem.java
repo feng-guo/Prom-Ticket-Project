@@ -139,7 +139,11 @@ public class TicketingSystem extends JFrame{
     setScreen("StartScreen");
   }
   
-  //Sets the specified screen that is called
+  /*
+   * setScreen
+   * Sets the specified screen that is called
+   * @param String screen
+   */
   private void setScreen(String screen) {
     //Clears screen 
     remove(studentForm);
@@ -165,7 +169,10 @@ public class TicketingSystem extends JFrame{
     setVisible(true);
   }
   
-  //Initializes the different screens
+  /*
+   * init
+   * Initializes the different screens, programs, and lists
+   */
   private void init() {
     mainScreen = new MainScreen();
     studentForm = new StudentForm();
@@ -178,27 +185,42 @@ public class TicketingSystem extends JFrame{
     listOfTables = new ArrayList(); //Hi
   }
   
-  //Clears information
+  /*
+   * resetInformation
+   * Clears the event information
+   */
   private void resetInformation() {
     eventName = "";
     numberOfTables = 0;
     peoplePerTable = 0;
-    for (int i=0;i<masterListOfStudents.size();i++){
-      masterListOfStudents.remove(i);
-    }
+    masterListOfStudents.clear();
   }
   
+  /*
+   * repaintFrame
+   * Catch-all to repaint the frame
+   */
   private void repaintFrame() {
     repaint();
     setVisible(true);
   }
   
-  //Used to modify student information
+  /*
+   * modifyStudent
+   * Takes the student from the list of students given the index
+   * @param int arrayIndex the index of the student 
+   */
   private void modifyStudent(int arrayIndex){
     studentForm.modifyStudent(arrayIndex);
     repaintFrame();
   }
   
+  /*
+   * updateStudent
+   * Replaces a student with an modified one
+   * @param int arrayIndex array index of the student to be updated
+   * @param Student updatedStudent 
+   */
   public void updateStudent(int arrayIndex, Student updatedStudent){
     masterListOfStudents.set(arrayIndex, updatedStudent);
   }
@@ -355,6 +377,11 @@ public class TicketingSystem extends JFrame{
       add(welcomeMessage);
     }
     
+    
+    /*
+     * openExistingPlan
+     * Displays the required components to open an existing plan 
+     */
     private void openExistingPlan() {
       //Remove existing components
       remove(openExistingPlan);
@@ -430,6 +457,12 @@ public class TicketingSystem extends JFrame{
       repaintFrame();
     }
     
+    /*
+     * parsePlanFile
+     * Parses a .txt file to create an event dictated by the file
+     * @param String fileName The name of the file
+     * @return boolean whether this was successful or not
+     */
     private boolean parsePlanFile(String fileName) {
       try {
         //Reads the file and adds the information to the TicketingSystem class
@@ -488,6 +521,10 @@ public class TicketingSystem extends JFrame{
       }
     }
     
+    /*
+     * resetInteractions
+     * Removes all components of the StartScreen and has the welcome shown instead
+     */
     private void resetInteractions() {
       //Resets the interactions
       removeAll();
@@ -654,9 +691,8 @@ public class TicketingSystem extends JFrame{
     }
     
     /*
-     *
-     * Writes the information in the TicketingSystem class into a .txt file
-     *
+     * saveData
+     * Writes the information in the TicketingSystem class into a .txt file in a standard format
      */
     private void saveData() {
       try {
@@ -866,6 +902,11 @@ public class TicketingSystem extends JFrame{
       add(backButton);
     }
     
+    /*
+     * saveStudent
+     * Creates a student object based on inputs of the user and adds it to the master ArrayList
+     * @return boolean whether this was successful or not
+     */
     private boolean saveStudent() {
       String firstName = firstNameTextField.getText();
       String lastName = lastNameTextField.getText();
@@ -912,6 +953,10 @@ public class TicketingSystem extends JFrame{
       }
     }
     
+    /*
+     * resetInteractions
+     * Resets the fields + checkboxes of the form and removes all button listeners for saveButton and adding the default one or else the button has 7 of the same ActionListeners 
+     */
     private void resetInteractions() {
       firstNameTextField.setText(null);
       lastNameTextField.setText(null);
@@ -927,6 +972,11 @@ public class TicketingSystem extends JFrame{
       saveButton.addActionListener(newStudent);
     }
     
+    /*
+     * modifyStudent
+     * Displays the saved student information with intent to modify the information
+     * @param int arrayIndex the index of the student in the masterListOfStudents ArrayList
+     */
     public void modifyStudent(int arrayIndex) {
       addAnotherButton.removeActionListener(addAnotherButtonListener);
       addAnotherButton.addActionListener(tempDisabled);
@@ -976,6 +1026,11 @@ public class TicketingSystem extends JFrame{
       hasSaved = false;
     }
     
+    /*
+     * makeStudent
+     * Creates a student object to be swapped when modifying a student
+     * @return Student
+     */
     private Student makeStudent() {
       String firstName = firstNameTextField.getText();
       String lastName = lastNameTextField.getText();
@@ -1089,6 +1144,10 @@ public class TicketingSystem extends JFrame{
       pageList = new ArrayList<>();
     }
     
+    /*
+     * search
+     * Performs a certain search for students based on their first name, last name, and student number, saving the student in an array and using a hashmap to remember the arraylist index values of a student 
+     */
     private void search() {
       String searchQuery = searchField.getText();
       if (searchQuery.substring(searchQuery.length()-1, searchQuery.length()).equals(" ")){
@@ -1110,6 +1169,10 @@ public class TicketingSystem extends JFrame{
       }
     }
     
+    /*
+     * display
+     * Displays the search results with options to modify/remove the student
+     */
     private void display(int page) {
       removeAll();
       add(search);
@@ -1225,6 +1288,10 @@ public class TicketingSystem extends JFrame{
       repaintFrame();
     }
     
+    /*
+     * resetInteractions
+     * Resets the interactions by removing all componenents, adding the default ones back and clears the results
+     */
     private void resetInteractions() {
       removeAll();
       searchField.setText("");
@@ -1237,6 +1304,10 @@ public class TicketingSystem extends JFrame{
       add(backButton);
     }
     
+    /*
+     * initializeInformation
+     * Clears the list of pages and then adds new search results to a page
+     */
     private void initializeInformation() {
       if (pageList.size() > 0) {
         pageList.clear();
@@ -1301,6 +1372,10 @@ public class TicketingSystem extends JFrame{
       pageList = new ArrayList<>();
     }
     
+    /*
+     * displayInformation
+     * Displays the event information, along with pages of students, showing their first name, last name, and student number in the order that they were added to the program
+     */
     private void displayInformation(int page) {
       resetScreen();
       add(backButton);
@@ -1400,6 +1475,7 @@ public class TicketingSystem extends JFrame{
             modifyThisStudentButton.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
+                //Modifies a student based on its array index
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1408,6 +1484,7 @@ public class TicketingSystem extends JFrame{
             removeStudent.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
+                //Removes the student and returns to page 1 
                 masterListOfStudents.remove(arrayIndex);
                 initializeInformation();
                 displayInformation(finalPage);
@@ -1426,6 +1503,10 @@ public class TicketingSystem extends JFrame{
       }
     }
    
+    /*
+     * initializeInformation
+     * Clears the ArrayList of pages and adds new pages from the list of students in the program
+     */
     private void initializeInformation() {
       if (pageList.size() > 0) {
         pageList.clear();
@@ -1436,13 +1517,17 @@ public class TicketingSystem extends JFrame{
           if ((i*6 + j) < masterListOfStudents.size()) {
             page.add(masterListOfStudents.get(i*6 + j));
           } else {
-            j = 10;
+            j = 10; //Breaks the loop
           }
         }
         pageList.add(page);
       }
     }
     
+    /*
+     * resetScreen
+     * Removes all components from the InformationScreen JPanel
+     */
     private void resetScreen() {
       removeAll();
     }
