@@ -280,15 +280,15 @@ public class TicketingSystem extends JFrame{
       
       //Create labels
       eventNameLabel = new JLabel("Please enter the name of the event below:");
-      eventNameLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 200,400,eventNameLabel.getPreferredSize().height);
+      eventNameLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 200,400,25);
       eventNameLabel.setFont(generalButtonFont);
       eventNameLabel.setForeground(Color.WHITE);
       numTablesLabel = new JLabel("How many tables are at the event venue?");
-      numTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 350,400,numTablesLabel.getPreferredSize().height);
+      numTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 350,400,25);
       numTablesLabel.setFont(generalButtonFont);
       numTablesLabel.setForeground(Color.WHITE);
       peopleTablesLabel = new JLabel("How many seats are available at each table?");
-      peopleTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 500,400,peopleTablesLabel.getPreferredSize().height);
+      peopleTablesLabel.setBounds((int) (screenSize.getWidth() / 2 - 200), 500,400,25);
       peopleTablesLabel.setFont(generalButtonFont);
       peopleTablesLabel.setForeground(Color.WHITE);
       
