@@ -1,11 +1,14 @@
-0
+3
 20.0
 20.0
 1000.0
 1000.0
-<<<<<<< HEAD
 0.0
 0.0
-1:F G:|
-=======
->>>>>>> 4ffa4f53e7ae53e86567d4d372f8401a623c8c3b
+121212121212:Shi Han Qin:Salmon|5:Feng Guo:|9:Feng Guo:|4:Feng Guo:|6:Feng Guo:|
+0.08
+0.0
+7:Feng Guo:|10:Feng Guo:|2:Feng Guo:|1:Feng Guo:|8:Feng Guo:|
+0.16
+0.0
+3:Feng Guo:|

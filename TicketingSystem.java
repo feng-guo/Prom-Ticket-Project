@@ -1,7 +1,7 @@
 /* TicketingSystem.java
  * Purpose: User interface that gets information from the reader
  * Creators: Shi Han Qin and Feng Guo
- * Date: 2019-02-27
+ * Date: 2019-02-28
  */
 
 //Imports
@@ -47,7 +47,6 @@ public class TicketingSystem extends JFrame{
   private FloorPlan floorPlan;
   private JFrame warningBox;
   private boolean hasSaved;
-  private boolean hasArranged;
   
   /** 
    * getNumberOfTables
@@ -183,7 +182,7 @@ public class TicketingSystem extends JFrame{
     floorPlan = new FloorPlan();
     alg = new SeatingAlg();
     warningBox = new JFrame();
-    listOfTables = new ArrayList<>(); //Hi
+    listOfTables = new ArrayList<>(); 
   }
   
   /*
@@ -294,11 +293,11 @@ public class TicketingSystem extends JFrame{
       
       //Create fields
       eventNameTextField = new JTextField();
-      eventNameTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 250, 300, 25);
+      eventNameTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 250, 300, 40);
       numTablesTextField = new JTextField();
-      numTablesTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 400, 300, 25);
+      numTablesTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 400, 300, 40);
       peopleTablesTextField = new JTextField();
-      peopleTablesTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 550, 300, 25);
+      peopleTablesTextField.setBounds((int) (screenSize.getWidth() / 2 - 150), 550, 300, 40);
       
       //Add components to panel
       add(eventNameTextField);
@@ -324,7 +323,7 @@ public class TicketingSystem extends JFrame{
             numberOfTables = Integer.parseInt(numTablesTextField.getText()); //get # of tables
             peoplePerTable = Integer.parseInt(peopleTablesTextField.getText()); //get people per table
             //if all inputs are detected:
-            if (!eventName.equals("") && numberOfTables != 0 && peoplePerTable != 0) {
+            if ((!eventName.equals("")) && (numberOfTables != 0) && (peoplePerTable != 0)) {
               setScreen("MainScreen");
             } else { //if some fields are left blank
               warningBox.setSize(100,200);
@@ -336,7 +335,6 @@ public class TicketingSystem extends JFrame{
           }  
         }
       });
-      
       
       backToStartButton.addActionListener(new ActionListener() {
         /*
@@ -388,7 +386,7 @@ public class TicketingSystem extends JFrame{
       });
       //openNewPlan Button
       openNewPlan = new JButton("Start New Plan");
-      openNewPlan.setBounds((int) (screenSize.getWidth() / 2 + 25), (int) (screenSize.getHeight() / 2 + 25), 200, 50);
+      openNewPlan.setBounds((int)(screenSize.getWidth()/2 + 25), (int) (screenSize.getHeight() / 2 + 25), 200, 50);
       openNewPlan.setFont(generalButtonFont);
       openNewPlan.setBackground(new Color(38, 77, 0));
       openNewPlan.setForeground(new Color(255, 255, 255));
@@ -481,7 +479,7 @@ public class TicketingSystem extends JFrame{
           }
           
           //Sends file name to parse the file
-          if (!nameOfFile.equals("") && !nameOfFile.equals(".txt")) {
+          if ((!nameOfFile.equals("")) && (!nameOfFile.equals(".txt"))) {
             boolean successful = parsePlanFile(nameOfFile);
             if (successful) {
               setScreen("MainScreen");
@@ -665,14 +663,8 @@ public class TicketingSystem extends JFrame{
          */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          if (masterListOfStudents.size() > 0) {
-            listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
-            floorPlan.generateFloorPlan(listOfTables);
-            hasArranged = true;
-          } else {
-            warningBox.setSize(100, 200);
-            JOptionPane.showMessageDialog(warningBox, "You have no students to arrange!", "Error!", 0);
-          }
+          listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+          floorPlan.generateFloorPlan(listOfTables);
         }
       });
       
@@ -739,29 +731,7 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            if (hasArranged) {
-              floorPlan.displayFloorPlan();
-            } else {
-              if (masterListOfStudents.size() > 0) {
-                int decision = JOptionPane.showConfirmDialog(warningBox, "Your arrangement is outdated! Would you like to arrange again?");
-                if (decision == 0) {
-                  listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
-                  floorPlan.generateFloorPlan(listOfTables);
-                  hasArranged = true;
-                  floorPlan.displayFloorPlan();
-                } else {
-                  if (listOfTables.size() == 0){
-                    warningBox.setSize(100, 200);
-                    JOptionPane.showMessageDialog(warningBox, "You have no tables to display!", "Error!", 0);
-                  } else {
-                    floorPlan.displayFloorPlan();
-                  }
-                }
-              } else {
-                warningBox.setSize(100, 200);
-                JOptionPane.showMessageDialog(warningBox, "You have no students to arrange!", "Error!", 0);
-              } 
-            } 
+            floorPlan.displayFloorPlan();
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Arrangement of tables not done!", "Error!", JOptionPane.ERROR_MESSAGE);
@@ -852,7 +822,9 @@ public class TicketingSystem extends JFrame{
     JLabel allergiesLabel;
     JLabel friendPreferencesLabel;
     JLabel[] listOfAllergies = new JLabel[8];
+    JLabel otherAllergyLabel;
     JCheckBox[] checkOfAllergies = new JCheckBox[8];
+    JTextField otherAllergyField;
     JTextField firstNameTextField;
     JTextField lastNameTextField;
     JTextField studentNumberTextField;
@@ -916,6 +888,9 @@ public class TicketingSystem extends JFrame{
       lastNameTextField.setBounds((int)(screenSize.getWidth())/5,300,300,25);
       studentNumberTextField = new JTextField();
       studentNumberTextField.setBounds((int)(screenSize.getWidth())/5,450,300,25);
+      otherAllergyField = new JTextField();
+      otherAllergyField.setBounds(((int)(screenSize.getWidth())/5)*3+85,740,200,25);
+      
       listOfAllergies[0] = new JLabel("Vegetarian");
       listOfAllergies[1] = new JLabel("Vegan");
       listOfAllergies[2] = new JLabel("Lactose Intolerant");
@@ -931,7 +906,10 @@ public class TicketingSystem extends JFrame{
         listOfAllergies[i].setBounds(((int)(screenSize.getWidth())/5)*3+50,allergiesY,listOfAllergies[i].getPreferredSize().width,listOfAllergies[i].getPreferredSize().height);
         allergiesY+=30;
       }
-      
+      otherAllergyLabel = new JLabel("Other:");
+      otherAllergyLabel.setForeground(Color.WHITE);
+      otherAllergyLabel.setFont(generalButtonFont);
+      otherAllergyLabel.setBounds(((int)(screenSize.getWidth())/5)*3, allergiesY,otherAllergyLabel.getPreferredSize().width,otherAllergyLabel.getPreferredSize().height);
       //Add to panel
       add(firstNameLabel);
       add(firstNameTextField);
@@ -940,6 +918,8 @@ public class TicketingSystem extends JFrame{
       add(studentNumberLabel);
       add(allergiesLabel);
       add(studentNumberTextField);
+      add(otherAllergyLabel);
+      add(otherAllergyField);
       int checkBoxY=500;
       for (int i=0;i<=7;i++) {
         checkOfAllergies[i] = new JCheckBox();
@@ -963,7 +943,7 @@ public class TicketingSystem extends JFrame{
       saveButton.setFont(generalButtonFont);
       saveButton.setForeground(Color.WHITE);
       saveButton.setBackground(Color.BLACK);
-      saveButton.setBounds((int)(screenSize.getWidth()/2-230),800,100,50);
+      saveButton.setBounds((int)(screenSize.getWidth()/2-230),825,100,50);
       newStudent = new ActionListener() {
         /*
          * actionPerformed
@@ -1016,7 +996,7 @@ public class TicketingSystem extends JFrame{
       addAnotherButton.setFont(generalButtonFont);
       addAnotherButton.setForeground(Color.WHITE);
       addAnotherButton.setBackground(Color.BLACK);
-      addAnotherButton.setBounds((int)(screenSize.getWidth()/2-125),800,250,50);
+      addAnotherButton.setBounds((int)(screenSize.getWidth()/2-125),825,250,50);
       addAnotherButton.addActionListener(addAnotherButtonListener);
       add(addAnotherButton);
       
@@ -1025,7 +1005,7 @@ public class TicketingSystem extends JFrame{
       backButton.setFont(generalButtonFont);
       backButton.setForeground(Color.WHITE);
       backButton.setBackground(Color.BLACK);
-      backButton.setBounds((int)(screenSize.getWidth()/2+130),800,100,50);
+      backButton.setBounds((int)(screenSize.getWidth()/2+130),825,100,50);
       backButton.addActionListener(new ActionListener() {
         /*
          * actionPerformed
@@ -1079,6 +1059,9 @@ public class TicketingSystem extends JFrame{
       if (checkOfAllergies[7].isSelected()) {
         dietaryRestrictions.add("Peanut Allergy");
       }
+      if (otherAllergyField.getText()!=""){
+        dietaryRestrictions.add(otherAllergyField.getText());
+      }
       //Check friends
       ArrayList<String> friendStudentNumbers = new ArrayList<>();
       for (int i = 0; i < 9; i++) {
@@ -1086,10 +1069,9 @@ public class TicketingSystem extends JFrame{
           friendStudentNumbers.add(friendsTextField[i].getText());
         }
       }
-      if (!firstName.equals("") && !lastName.equals("") && !studentNumber.equals("")) {
+      if ((!firstName.equals("")) && (!lastName.equals("")) && (!studentNumber.equals(""))) {
         masterListOfStudents.add(new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers));
         hasSaved = false;
-        hasArranged = false;
         return true;
       } else {
         warningBox.setSize(100,200);
@@ -1130,6 +1112,7 @@ public class TicketingSystem extends JFrame{
       firstNameTextField.setText(student.getFirstName());
       lastNameTextField.setText(student.getLastName());
       studentNumberTextField.setText(student.getStudentNumber());
+      otherAllergyField.setText(student.getDietaryRestrictions().get(student.getDietaryRestrictions().size()-1));//check for additional allergy, should be last one added to array
       for (int i=0;i<student.getDietaryRestrictions().size();i++) {
         if (student.getDietaryRestrictions().get(i).equals("Vegetarian")) {
           checkOfAllergies[0].setSelected(true);
@@ -1174,7 +1157,6 @@ public class TicketingSystem extends JFrame{
       saveButton.removeActionListener(newStudent);
       saveButton.addActionListener(updateStudent);
       hasSaved = false;
-      hasArranged = false;
     }
     
     /*
@@ -1211,13 +1193,17 @@ public class TicketingSystem extends JFrame{
       if (checkOfAllergies[7].isSelected()) {
         dietaryRestrictions.add("Peanut Allergy");
       }
+      if (otherAllergyField.getText()!=""){
+        dietaryRestrictions.add(otherAllergyField.getText());
+      }
+      
       ArrayList<String> friendStudentNumbers = new ArrayList<>();
       for (int i = 0; i < 9; i++) {
         if (!friendsTextField[i].getText().equals("")) {
           friendStudentNumbers.add(friendsTextField[i].getText());
         }
       }
-      if (!firstName.equals("") || !lastName.equals("") && !studentNumber.equals("")) {
+      if (((!firstName.equals("")) || (!lastName.equals(""))) && (!studentNumber.equals(""))) {
         return new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers);
       } else {
         //Change this to a proper label later
@@ -1368,7 +1354,6 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 hasSaved = false;
-                hasArranged = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1407,7 +1392,6 @@ public class TicketingSystem extends JFrame{
                 int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
                 if (decision == 0) {
                   hasSaved = false;
-                  hasArranged = false;
                   pageList.get(page).remove(loopIndex);
                   masterListOfStudents.remove(arrayIndex);
                   search();
@@ -1699,7 +1683,6 @@ public class TicketingSystem extends JFrame{
               public void actionPerformed(ActionEvent actionEvent) {
                 //Modifies a student based on its array index
                 hasSaved = false;
-                hasArranged = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1712,7 +1695,6 @@ public class TicketingSystem extends JFrame{
                 int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
                 if (decision == 0) {
                   hasSaved = false;
-                  hasArranged = false;
                   masterListOfStudents.remove(arrayIndex);
                   initializeInformation();
                   displayInformation(finalPage);
