@@ -47,6 +47,7 @@ public class TicketingSystem extends JFrame{
   private FloorPlan floorPlan;
   private JFrame warningBox;
   private boolean hasSaved;
+  private boolean hasArranged;
   
   /** 
    * getNumberOfTables
@@ -664,8 +665,14 @@ public class TicketingSystem extends JFrame{
          */
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-          listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
-          floorPlan.generateFloorPlan(listOfTables);
+          if (masterListOfStudents.size() > 0) {
+            listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+            floorPlan.generateFloorPlan(listOfTables);
+            hasArranged = true;
+          } else {
+            warningBox.setSize(100, 200);
+            JOptionPane.showMessageDialog(warningBox, "You have no students to arrange!", "Error!", 0);
+          }
         }
       });
       
@@ -732,7 +739,29 @@ public class TicketingSystem extends JFrame{
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
           try {
-            floorPlan.displayFloorPlan();
+            if (hasArranged) {
+              floorPlan.displayFloorPlan();
+            } else {
+              if (masterListOfStudents.size() > 0) {
+                int decision = JOptionPane.showConfirmDialog(warningBox, "Your arrangement is outdated! Would you like to arrange again?");
+                if (decision == 0) {
+                  listOfTables = alg.generateTables(masterListOfStudents, peoplePerTable);
+                  floorPlan.generateFloorPlan(listOfTables);
+                  hasArranged = true;
+                  floorPlan.displayFloorPlan();
+                } else {
+                  if (listOfTables.size() == 0){
+                    warningBox.setSize(100, 200);
+                    JOptionPane.showMessageDialog(warningBox, "You have no tables to display!", "Error!", 0);
+                  } else {
+                    floorPlan.displayFloorPlan();
+                  }
+                }
+              } else {
+                warningBox.setSize(100, 200);
+                JOptionPane.showMessageDialog(warningBox, "You have no students to arrange!", "Error!", 0);
+              } 
+            } 
           } catch (NullPointerException e) {
             warningBox.setSize(100, 200);
             JOptionPane.showMessageDialog(warningBox, "Arrangement of tables not done!", "Error!", JOptionPane.ERROR_MESSAGE);
@@ -1060,6 +1089,7 @@ public class TicketingSystem extends JFrame{
       if (!firstName.equals("") && !lastName.equals("") && !studentNumber.equals("")) {
         masterListOfStudents.add(new Student(firstName, lastName, studentNumber, dietaryRestrictions, friendStudentNumbers));
         hasSaved = false;
+        hasArranged = false;
         return true;
       } else {
         warningBox.setSize(100,200);
@@ -1144,6 +1174,7 @@ public class TicketingSystem extends JFrame{
       saveButton.removeActionListener(newStudent);
       saveButton.addActionListener(updateStudent);
       hasSaved = false;
+      hasArranged = false;
     }
     
     /*
@@ -1337,6 +1368,7 @@ public class TicketingSystem extends JFrame{
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
                 hasSaved = false;
+                hasArranged = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1375,6 +1407,7 @@ public class TicketingSystem extends JFrame{
                 int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
                 if (decision == 0) {
                   hasSaved = false;
+                  hasArranged = false;
                   pageList.get(page).remove(loopIndex);
                   masterListOfStudents.remove(arrayIndex);
                   search();
@@ -1666,6 +1699,7 @@ public class TicketingSystem extends JFrame{
               public void actionPerformed(ActionEvent actionEvent) {
                 //Modifies a student based on its array index
                 hasSaved = false;
+                hasArranged = false;
                 modifyStudent(arrayIndex);
                 setScreen("StudentForm");
               }
@@ -1678,6 +1712,7 @@ public class TicketingSystem extends JFrame{
                 int decision = JOptionPane.showConfirmDialog(warningBox, "Are you sure you want to delete this student?");
                 if (decision == 0) {
                   hasSaved = false;
+                  hasArranged = false;
                   masterListOfStudents.remove(arrayIndex);
                   initializeInformation();
                   displayInformation(finalPage);
