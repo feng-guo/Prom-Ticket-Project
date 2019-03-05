@@ -712,6 +712,9 @@ public class TicketingSystem extends JFrame{
               resetInformation();
               setScreen("StartScreen");
             } 
+          } else {
+            resetInformation();
+            setScreen("StartScreen");
           }
         }
       });
